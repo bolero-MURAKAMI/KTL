@@ -1,0 +1,27 @@
+KTL (KiriKiri Trivial Library) DLL
+
+吉里吉里２のための拡張機能ライブラリ KTL の DLL プロジェクト
+
+
+
+*ドキュメント (Documents)
+
+KTLWiki http://www.boleros.x0.com/doc/ktlwiki/index.php?KTLWiki
+
+
+
+*作者 (Author)
+
+Bolero MURAKAMI
+Blog: http://d.hatena.ne.jp/boleros/
+Twitter: http://twitter.com/#!/bolero_MURAKAMI
+Mail: contact-lib@boleros.x0.com
+
+
+
+*著作権等 (Copyrights)
+
+このライブラリは Boost Software License の元で公開されています。
+
+Copyright (C) 2011-2012 Bolero MURAKAMI.
+Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
