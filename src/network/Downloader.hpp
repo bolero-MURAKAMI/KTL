@@ -1909,8 +1909,7 @@ namespace ktl {
 			*timeout_timers2_.error_code()
 			);
 		if (*timeout_timers2_.error_code()) {
-			timeout_timers_.error_code() = timeout_timers2_.error_code();
-			timeout_timers2_.reset();
+			NetworkUtils::moveErrorCode(timeout_timers_, timeout_timers2_);
 			return false;
 		}
 		cancelImpl();
@@ -1937,8 +1936,7 @@ namespace ktl {
 			*timeout_timers2_.error_code()
 			);
 		if (*timeout_timers2_.error_code()) {
-			timeout_timers_.error_code() = timeout_timers2_.error_code();
-			timeout_timers2_.reset();
+			NetworkUtils::moveErrorCode(timeout_timers_, timeout_timers2_);
 			return false;
 		}
 		cancelImpl();
