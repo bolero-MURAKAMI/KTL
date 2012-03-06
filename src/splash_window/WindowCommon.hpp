@@ -158,7 +158,8 @@ namespace ktl {
 		typedef WindowUtils::bits_type bits_type;
 	protected:
 		HWND window_handle_;
-		WNDCLASS window_class_;
+		WNDCLASSEX window_class_;
+		ATOM atom_;
 		int_type x_;
 		int_type y_;
 		size_type width_;
@@ -171,6 +172,7 @@ namespace ktl {
 	protected:
 		WindowBase()
 			: window_handle_(0)
+			, atom_(0)
 			, x_(0)
 			, y_(0)
 			, width_(0)
@@ -179,6 +181,7 @@ namespace ktl {
 			, visible_(false)
 			, topMost_(false)
 		{
+			window_class_.cbSize = sizeof(WNDCLASSEX);				// 構造体のサイズ
 			window_class_.style = CS_VREDRAW | CS_HREDRAW;			// クラススタイル
 			window_class_.lpfnWndProc = 0;							// ウィンドウプロシージャ
 			window_class_.cbClsExtra = 0;							// 補足メモリブロックのサイズ
@@ -189,6 +192,7 @@ namespace ktl {
 			window_class_.hbrBackground = (HBRUSH)COLOR_WINDOW + 1;	// 背景色
 			window_class_.lpszMenuName = 0;							// メニュー名
 			window_class_.lpszClassName = 0;						// クラス名
+			window_class_.hIconSm = 0;								// 小さいアイコン
 			{
 				BITMAPINFOHEADER& header = bitmap_info_.bmiHeader;
 				header.biSize = sizeof(BITMAPINFOHEADER);
@@ -217,12 +221,15 @@ namespace ktl {
 						);
 				}
 				window_handle_ = 0;
-				if (!::UnregisterClass(window_class_.lpszClassName, 0)) {
+			}
+			if (atom_) {
+				if (!::UnregisterClass(reinterpret_cast<LPCTSTR>(MAKELONG(atom_, 0)), 0)) {
 					KTL_ERROR_NOTHROW(
 						KTL_ERROR_SECTION,
 						SPRIG_KRKR_TJS_W("ウインドウクラスの登録解除に失敗しました")
 						);
 				}
+				atom_ = 0;
 			}
 		}
 		void initialize(
@@ -256,7 +263,7 @@ namespace ktl {
 				: sprig::str_cast<string_type>(boost::uuids::random_generator()())
 				;
 			window_class_.lpszClassName = identity_.c_str();
-			if (!::RegisterClass(&window_class_)) {
+			if (!(atom_ = ::RegisterClassEx(&window_class_))) {
 				KTL_ERROR(
 					KTL_ERROR_SECTION,
 					SPRIG_KRKR_TJS_W("ウインドウクラスの登録に失敗しました"),
@@ -265,18 +272,18 @@ namespace ktl {
 				return;
 			}
 			window_handle_ = ::CreateWindowEx(
-				ex_style,						// 拡張ウィンドウスタイル
-				window_class_.lpszClassName,	// クラス名
-				window_class_.lpszClassName,	// ウィンドウタイトル
-				WS_POPUP,						// ウィンドウスタイル
-				x,								// ウィンドウ位置
-				y,								// ウィンドウ位置
-				width,							// ウィンドウサイズ
-				height,							// ウィンドウサイズ
-				0,								// 親ウィンドウ
-				0,								// メニュー
-				window_class_.hInstance,		// インスタンス
-				0								// ウィンドウ作成データのアドレス
+				ex_style,										// 拡張ウィンドウスタイル
+				reinterpret_cast<LPCTSTR>(MAKELONG(atom_, 0)),	// クラス名
+				window_class_.lpszClassName,					// ウィンドウタイトル
+				WS_POPUP,										// ウィンドウスタイル
+				x,												// ウィンドウ位置
+				y,												// ウィンドウ位置
+				width,											// ウィンドウサイズ
+				height,											// ウィンドウサイズ
+				0,												// 親ウィンドウ
+				0,												// メニュー
+				window_class_.hInstance,						// インスタンス
+				0												// ウィンドウ作成データのアドレス
 				);
 			if (!window_handle_) {
 				KTL_ERROR(
