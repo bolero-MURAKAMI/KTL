@@ -1,0 +1,14 @@
+
+*.user
+*.suo
+*.res
+*.pdb
+*.obj
+*.ncb
+*.manifest
+*.lib
+*.idb
+*.htm
+*.exp
+*.dll
+*.dep

@@ -9,6 +9,7 @@
 #include <sprig/krkr/ncb.hpp>
 #include <ktl/config.hpp>
 #include <ktl/information.hpp>
+#include <ktl/thread_callback.hpp>
 
 #include "Downloader.hpp"
 
@@ -297,6 +298,9 @@ static void unregist_ktl_downloader() {
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_downloader);
 NCB_PRE_UNREGIST_CALLBACK(unregist_ktl_downloader);
+
+NCB_PRE_REGIST_CALLBACK(ktl_thread_callback_setup);
+NCB_POST_UNREGIST_CALLBACK(ktl_thread_callback_teardown);
 
 //
 // information
