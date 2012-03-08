@@ -3,7 +3,9 @@
 #include <cstddef>
 #include <cstdlib>
 #include <algorithm>
+#include <iterator>
 #include <iostream>
+#include <fstream>
 #include <boost/ref.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
@@ -24,8 +26,6 @@
 #include <sprig/external/tp_stub.hpp>
 #include <sprig/numeric/conversion/cast.hpp>
 #include <sprig/str_cast.hpp>
-#include <sprig/com_ptr.hpp>
-#include <sprig/com_ptr/unknown.hpp>
 #include <sprig/parser/http_header.hpp>
 #include <sprig/krkr/exception.hpp>
 #include <sprig/krkr/tjs.hpp>
@@ -66,6 +66,27 @@ namespace ktl {
 	}
 	KTL_INLINE boost::iterator_range<char const*> NativeDownloader::bufferRange(boost::asio::streambuf const& buffer) {
 		return boost::iterator_range<char const*>(bufferData(buffer), bufferEnd(buffer));
+	}
+	void NativeDownloader::callOnFinished() {
+		scoped_lock_type lock(mutex_);
+		if (on_finished_ && on_finished_->Type() == tvtObject) {
+			tTJSVariantClosure closure(on_finished_->AsObjectClosureNoAddRef());
+			sprig::krkr::tjs::FuncObjectCall(
+				closure.Object,
+				0,
+				0,
+				0,
+				closure.ObjThis
+				);
+			on_finished_.reset();
+		}
+	}
+	KTL_INLINE void NativeDownloader::postOnFinished() {
+		if (on_finished_) {
+			ktl::thread_callback::post(
+				boost::bind(&NativeDownloader::callOnFinished, this)
+				);
+		}
 	}
 	void NativeDownloader::handleResolove(
 		boost::system::error_code const& error,
@@ -328,8 +349,11 @@ namespace ktl {
 			return;
 		}
 		if (storage_) {
-			storage_out_.reset(::TVPCreateIStream(*storage_, TJS_BS_WRITE));
-			if (!storage_out_) {
+			storage_out_ = boost::make_shared<std::ofstream>(
+				storage_->c_str(),
+				std::ios_base::out | std::ios_base::binary
+				);
+			if (!*storage_out_) {
 				KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ファイルオープンに失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
 				cleanupOnProcessFailed();
 				return;
@@ -1345,13 +1369,11 @@ namespace ktl {
 	}
 	KTL_INLINE bool NativeDownloader::updateBuffer(size_type bytes_transferred) {
 		if (storage_) {
-			ULONG io_size = 0;
-			if (FAILED(storage_out_->Write(bufferData(*reading_streambuf_), bytes_transferred, &io_size))) {
-				reading_streambuf_->consume(io_size);
-				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ書込に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-				return false;
-			}
-			reading_streambuf_->consume(io_size);
+			std::copy(
+				std::istreambuf_iterator<char>(reading_streambuf_.get()),
+				std::istreambuf_iterator<char>(),
+				std::ostreambuf_iterator<char>(*storage_out_)
+				);
 		} else {
 			std::istream reading_istream(reading_streambuf_.get());
 			if (bytes_transferred) {
@@ -1414,6 +1436,7 @@ namespace ktl {
 		cancelTimeoutImplNoErrorHandling();
 		is_processing_ = false;
 		failed_ = true;
+		postOnFinished();
 	}
 	KTL_INLINE void NativeDownloader::cleanupOnProcessSucceeded() {
 		resetWorkingBuffer();
@@ -1421,6 +1444,7 @@ namespace ktl {
 		cancelTimeoutImplNoErrorHandling();
 		is_processing_ = false;
 		failed_ = false;
+		postOnFinished();
 	}
 	KTL_INLINE bool NativeDownloader::downloadHTTPImpl(
 		tjs_char const* url,
@@ -1444,7 +1468,13 @@ namespace ktl {
 			return false;
 		}
 		if (!to_buffer) {
-			storage_ = boost::make_shared<tTJSString>(storage);
+			tTJSString localized = ::TVPNormalizeStorageName(storage);
+			::TVPGetLocalName(localized);
+			if (localized.IsEmpty()) {
+				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ローカルファイル名の取得に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
+				return false;
+			}
+			storage_ = boost::make_shared<std::string>(sprig::str_cast<std::string>(localized));
 		}
 		if (!resolve(url_info_.host_name(), url_info_.service_name())) {
 			cleanupOnProcessFailed();
@@ -1483,9 +1513,18 @@ namespace ktl {
 			return false;
 		}
 		if (storage_) {
-			storage_out_.reset(::TVPCreateIStream(*storage_, TJS_BS_WRITE));
-			if (!storage_out_) {
-				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ファイルオープンに失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
+			//storage_out_.reset(::TVPCreateIStream(*storage_, TJS_BS_WRITE));
+			//if (!storage_out_) {
+			//	SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ファイルオープンに失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
+			//	cleanupOnProcessFailed();
+			//	return false;
+			//}
+			storage_out_ = boost::make_shared<std::ofstream>(
+				storage_->c_str(),
+				std::ios_base::out | std::ios_base::binary
+				);
+			if (!*storage_out_) {
+				KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ファイルオープンに失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
 				cleanupOnProcessFailed();
 				return false;
 			}
@@ -1544,7 +1583,13 @@ namespace ktl {
 			return false;
 		}
 		if (!to_buffer) {
-			storage_ = boost::make_shared<tTJSString>(storage);
+			tTJSString localized = ::TVPNormalizeStorageName(storage);
+			::TVPGetLocalName(localized);
+			if (localized.IsEmpty()) {
+				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ローカルファイル名の取得に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
+				return false;
+			}
+			storage_ = boost::make_shared<std::string>(sprig::str_cast<std::string>(localized));
 		}
 		//
 		// 名前解決開始
@@ -2029,6 +2074,22 @@ namespace ktl {
 		scoped_lock_type lock(mutex_);
 		return url_info_.content_path();
 	}
+	KTL_INLINE NativeDownloader::impl_string_type NativeDownloader::URL() const {
+		scoped_lock_type lock(mutex_);
+		if (url_info_.host_name().empty()) {
+			return impl_string_type();
+		}
+		std::basic_ostringstream<impl_string_type::value_type, impl_string_type::traits_type> os;
+		os << url_info_.service_name() << "://" << url_info_.host_name() << url_info_.content_path();
+		return os.str();
+	}
+	KTL_INLINE std::string NativeDownloader::storageLocalName() const {
+		scoped_lock_type lock(mutex_);
+		return storage_
+			? *storage_
+			: std::string()
+			;
+	}
 	//
 	//	SUMMARY: HTTPレスポンス系メソッド
 	//
@@ -2054,6 +2115,24 @@ namespace ktl {
 			return tTJSVariant();
 		}
 		return tTJSVariant(found->second.c_str());
+	}
+	//
+	//	SUMMARY: コールバック系メソッド
+	//
+	KTL_INLINE tTJSVariant NativeDownloader::getOnFinished() const {
+		scoped_lock_type lock(mutex_);
+		return on_finished_
+			? *on_finished_
+			: tTJSVariant()
+			;
+	}
+	KTL_INLINE void NativeDownloader::setOnFinished(tTJSVariant const& func) {
+		scoped_lock_type lock(mutex_);
+		if (func.Type() == tvtObject) {
+			on_finished_ = boost::make_shared<tTJSVariant>(func);
+		} else {
+			on_finished_.reset();
+		}
 	}
 
 	//
@@ -2254,6 +2333,12 @@ namespace ktl {
 	KTL_INLINE tTJSString Downloader::contentPath() const {
 		return instance_->contentPath().c_str();
 	}
+	KTL_INLINE tTJSString Downloader::URL() const {
+		return instance_->URL().c_str();
+	}
+	KTL_INLINE tTJSString Downloader::storageLocalName() const {
+		return instance_->storageLocalName().c_str();
+	}
 	//
 	//	SUMMARY: HTTPレスポンス系メソッド
 	//
@@ -2270,6 +2355,15 @@ namespace ktl {
 		return instance_->getField(
 			sprig::krkr::tjs::as_c_str(name)
 			);
+	}
+	//
+	//	SUMMARY: コールバック系メソッド
+	//
+	KTL_INLINE tTJSVariant Downloader::getOnFinished() const {
+		return instance_->getOnFinished();
+	}
+	KTL_INLINE void Downloader::setOnFinished(tTJSVariant const& func) {
+		instance_->setOnFinished(func);
 	}
 }	// namespace ktl
 

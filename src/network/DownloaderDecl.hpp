@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <fstream>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/thread.hpp>
@@ -10,8 +11,6 @@
 #include <boost/range/iterator_range.hpp>
 #include <sprig/config/lib/openssl.hpp>
 #include <sprig/external/tp_stub.hpp>
-#include <sprig/com_ptr.hpp>
-#include <sprig/com_ptr/unknown.hpp>
 #include <sprig/krkr/tjs.hpp>
 
 #include "NetworkCommon.hpp"
@@ -31,7 +30,7 @@ namespace ktl {
 		typedef NetworkUtils::milliseconds_type milliseconds_type;
 		typedef boost::int_fast32_t int_type;
 		typedef std::vector<char> buffer_type;
-		typedef boost::mutex mutex_type;
+		typedef boost::recursive_mutex mutex_type;
 		typedef mutex_type::scoped_lock scoped_lock_type;
 	private:
 		static size_type getEnableSize(size_type length, size_type spos);
@@ -72,20 +71,24 @@ namespace ktl {
 		HTTPHeader http_header2_;
 		//
 		flag_type flag_;
-		boost::shared_ptr<tTJSString> storage_;
+		boost::shared_ptr<std::string> storage_;
 		size_type transferred_size_;
 		size_type content_length_;
 		bool chunked_;
 		//
-		sprig::com_ptr<IStream> storage_out_;
+		boost::shared_ptr<std::ofstream> storage_out_;
 		boost::shared_ptr<buffer_type> buffer_;
 		//
 		bool is_processing_;
 		bool failed_;
 		bool cancelled_;
 		//
+		boost::shared_ptr<tTJSVariant> on_finished_;
+		//
 		mutable mutex_type mutex_;
 	private:
+		void callOnFinished();
+		void postOnFinished();
 		void handleResolove(
 			boost::system::error_code const& error,
 			boost::asio::ip::tcp::resolver::iterator endpoint_iterator
@@ -246,6 +249,8 @@ namespace ktl {
 		impl_string_type const& hostName() const;
 		impl_string_type const& serviceName() const;
 		impl_string_type const& contentPath() const;
+		impl_string_type URL() const;
+		std::string storageLocalName() const;
 		//
 		//	SUMMARY: HTTPレスポンス系メソッド
 		//
@@ -253,6 +258,11 @@ namespace ktl {
 		impl_string_type const& statusCode() const;
 		impl_string_type const& reasonPhrase() const;
 		tTJSVariant getField(tjs_char const* name) const;
+		//
+		//	SUMMARY: コールバック系メソッド
+		//
+		tTJSVariant getOnFinished() const;
+		void setOnFinished(tTJSVariant const& func);
 	};
 
 	//
@@ -347,6 +357,8 @@ namespace ktl {
 		tTJSString hostName() const;
 		tTJSString serviceName() const;
 		tTJSString contentPath() const;
+		tTJSString URL() const;
+		tTJSString storageLocalName() const;
 		//
 		//	SUMMARY: HTTPレスポンス系メソッド
 		//
@@ -354,5 +366,10 @@ namespace ktl {
 		tTJSString statusCode() const;
 		tTJSString reasonPhrase() const;
 		tTJSVariant getField(tTJSVariantString const* name) const;
+		//
+		//	SUMMARY: コールバック系メソッド
+		//
+		tTJSVariant getOnFinished() const;
+		void setOnFinished(tTJSVariant const& func);
 	};
 }	// namespace ktl

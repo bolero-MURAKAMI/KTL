@@ -31,7 +31,7 @@ namespace ktl {
 		typedef NetworkUtils::rep_type rep_type;
 		typedef NetworkUtils::milliseconds_type milliseconds_type;
 		typedef boost::int_fast32_t int_type;
-		typedef boost::mutex mutex_type;
+		typedef boost::recursive_mutex mutex_type;
 		typedef mutex_type::scoped_lock scoped_lock_type;
 	private:
 		//
@@ -88,8 +88,12 @@ namespace ktl {
 		bool is_processing_;
 		bool cancelled_;
 		//
+		boost::shared_ptr<tTJSVariant> on_finished_;
+		//
 		mutable mutex_type mutex_;
 	private:
+		void callOnFinished();
+		void postOnFinished();
 		void handleResolove(
 			boost::system::error_code const& error,
 			boost::asio::ip::tcp::resolver::iterator endpoint_iterator
@@ -349,6 +353,11 @@ namespace ktl {
 		bool isProcessing() const;
 		bool isOpen() const;
 		bool isSSL() const;
+		//
+		//	SUMMARY: コールバック系メソッド
+		//
+		tTJSVariant getOnFinished() const;
+		void setOnFinished(tTJSVariant const& func);
 	};
 
 	//
@@ -544,6 +553,11 @@ namespace ktl {
 		bool isProcessing() const;
 		bool isOpen() const;
 		bool isSSL() const;
+		//
+		//	SUMMARY: コールバック系メソッド
+		//
+		tTJSVariant getOnFinished() const;
+		void setOnFinished(tTJSVariant const& func);
 	};
 }	// namespace ktl
 

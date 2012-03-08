@@ -12,6 +12,7 @@
 #include <sprig/krkr/macro.hpp>
 #include <ktl/config.hpp>
 #include <ktl/error.hpp>
+#include <ktl/thread_callback.hpp>
 
 #include "NetworkCommon.hpp"
 #include "SocketDecl.hpp"
@@ -24,6 +25,27 @@ namespace ktl {
 	//
 	// NativeAcceptor
 	//
+	void NativeAcceptor::callOnFinished() {
+		scoped_lock_type lock(mutex_);
+		if (on_finished_ && on_finished_->Type() == tvtObject) {
+			tTJSVariantClosure closure(on_finished_->AsObjectClosureNoAddRef());
+			sprig::krkr::tjs::FuncObjectCall(
+				closure.Object,
+				0,
+				0,
+				0,
+				closure.ObjThis
+				);
+			on_finished_.reset();
+		}
+	}
+	KTL_INLINE void NativeAcceptor::postOnFinished() {
+		if (on_finished_) {
+			ktl::thread_callback::post(
+				boost::bind(&NativeAcceptor::callOnFinished, this)
+				);
+		}
+	}
 	void NativeAcceptor::handleMonitor(
 		boost::system::error_code const& error
 		)
@@ -165,10 +187,12 @@ namespace ktl {
 	KTL_INLINE void NativeAcceptor::cleanupOnProcessFailed() {
 		cancelTimeoutImplNoErrorHandling();
 		is_processing_ = false;
+		postOnFinished();
 	}
 	KTL_INLINE void NativeAcceptor::cleanupOnProcessSucceeded() {
 		cancelTimeoutImplNoErrorHandling();
 		is_processing_ = false;
+		postOnFinished();
 	}
 	KTL_INLINE bool NativeAcceptor::setupAcceptor() {
 		element_.acceptors.acceptor()->open(
@@ -373,6 +397,24 @@ namespace ktl {
 		scoped_lock_type lock(mutex_);
 		return accepted_list_.size();
 	}
+	//
+	//	SUMMARY: コールバック系メソッド
+	//
+	KTL_INLINE tTJSVariant NativeAcceptor::getOnFinished() const {
+		scoped_lock_type lock(mutex_);
+		return on_finished_
+			? *on_finished_
+			: tTJSVariant()
+			;
+	}
+	KTL_INLINE void NativeAcceptor::setOnFinished(tTJSVariant const& func) {
+		scoped_lock_type lock(mutex_);
+		if (func.Type() == tvtObject) {
+			on_finished_ = boost::make_shared<tTJSVariant>(func);
+		} else {
+			on_finished_.reset();
+		}
+	}
 
 	//
 	// Acceptor::AliveHandler
@@ -451,6 +493,15 @@ namespace ktl {
 	}
 	KTL_INLINE tTVInteger Acceptor::acceptedCount() const {
 		return instance_->acceptedCount();
+	}
+	//
+	//	SUMMARY: コールバック系メソッド
+	//
+	KTL_INLINE tTJSVariant Acceptor::getOnFinished() const {
+		return instance_->getOnFinished();
+	}
+	KTL_INLINE void Acceptor::setOnFinished(tTJSVariant const& func) {
+		instance_->setOnFinished(func);
 	}
 }	// namespace ktl
 

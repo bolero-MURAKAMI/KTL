@@ -256,6 +256,8 @@ namespace ktl {
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, hostName, hostName);
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, serviceName, serviceName);
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, contentPath, contentPath);
+	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, URL, URL);
+	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, storageLocalName, storageLocalName);
 	//
 	//	SUMMARY: HTTPレスポンス系メソッド
 	//
@@ -273,6 +275,10 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(getField);
+	//
+	//	SUMMARY: コールバック系メソッド
+	//
+	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT(Downloader, onFinished, getOnFinished, setOnFinished);
 
 	SPRIG_KRKR_END_CREATE_NATIVE_CLASS();
 #undef TJS_NATIVE_CLASSID_NAME

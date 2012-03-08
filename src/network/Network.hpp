@@ -80,7 +80,7 @@ namespace ktl {
 		if (error) {
 			return tTJSVariant();
 		}
-		return tTJSVariant(tTVInteger(boost::chrono::duration_cast<milliseconds_type>(time_point.time_since_epoch()).count()));
+		return tTVInteger(boost::chrono::duration_cast<milliseconds_type>(time_point.time_since_epoch()).count());
 	}
 	//
 	//	SUMMARY: 終了時処理系メソッド

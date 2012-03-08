@@ -27,6 +27,7 @@
 #include <sprig/krkr/macro.hpp>
 #include <ktl/config.hpp>
 #include <ktl/error.hpp>
+#include <ktl/thread_callback.hpp>
 
 #include "NetworkCommon.hpp"
 #include "SocketDecl.hpp"
@@ -184,6 +185,27 @@ namespace ktl {
 			0
 			);
 		return sprig::krkr::tjs::object_type(result_obj, false);
+	}
+	void NativeSocket::callOnFinished() {
+		scoped_lock_type lock(mutex_);
+		if (on_finished_ && on_finished_->Type() == tvtObject) {
+			tTJSVariantClosure closure(on_finished_->AsObjectClosureNoAddRef());
+			sprig::krkr::tjs::FuncObjectCall(
+				closure.Object,
+				0,
+				0,
+				0,
+				closure.ObjThis
+				);
+			on_finished_.reset();
+		}
+	}
+	KTL_INLINE void NativeSocket::postOnFinished() {
+		if (on_finished_) {
+			ktl::thread_callback::post(
+				boost::bind(&NativeSocket::callOnFinished, this)
+				);
+		}
 	}
 	void NativeSocket::handleResolove(
 		boost::system::error_code const& error,
@@ -619,10 +641,12 @@ namespace ktl {
 	KTL_INLINE void NativeSocket::cleanupOnProcessFailed() {
 		cancelTimeoutImplNoErrorHandling();
 		is_processing_ = false;
+		postOnFinished();
 	}
 	KTL_INLINE void NativeSocket::cleanupOnProcessSucceeded() {
 		cancelTimeoutImplNoErrorHandling();
 		is_processing_ = false;
+		postOnFinished();
 	}
 	KTL_INLINE bool NativeSocket::setupAcceptor() {
 		acceptors2_.acceptor()->open(
@@ -2490,6 +2514,24 @@ namespace ktl {
 		scoped_lock_type lock(mutex_);
 		return ssl_socket_ && NetworkUtils::asSocket(*ssl_socket_).is_open();
 	}
+	//
+	//	SUMMARY: コールバック系メソッド
+	//
+	KTL_INLINE tTJSVariant NativeSocket::getOnFinished() const {
+		scoped_lock_type lock(mutex_);
+		return on_finished_
+			? *on_finished_
+			: tTJSVariant()
+			;
+	}
+	KTL_INLINE void NativeSocket::setOnFinished(tTJSVariant const& func) {
+		scoped_lock_type lock(mutex_);
+		if (func.Type() == tvtObject) {
+			on_finished_ = boost::make_shared<tTJSVariant>(func);
+		} else {
+			on_finished_.reset();
+		}
+	}
 
 	//
 	// Socket::AliveHandler
@@ -3023,6 +3065,15 @@ namespace ktl {
 	}
 	KTL_INLINE bool Socket::isSSL() const {
 		return instance_->isSSL();
+	}
+	//
+	//	SUMMARY: コールバック系メソッド
+	//
+	KTL_INLINE tTJSVariant Socket::getOnFinished() const {
+		return instance_->getOnFinished();
+	}
+	KTL_INLINE void Socket::setOnFinished(tTJSVariant const& func) {
+		instance_->setOnFinished(func);
 	}
 }	// namespace ktl
 

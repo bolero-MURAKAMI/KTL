@@ -94,15 +94,15 @@ namespace ktl {
 			thread_callback& self = get_mutable_instance();
 			self.dispose();
 		}
-		static void post(callback_type const& callback) {
+		static bool post(callback_type const& callback) {
 			if (is_destroyed()) {
-				return;
+				return false;
 			}
 			scoped_lock_type lock(mutex());
 			thread_callback& self = get_mutable_instance();
 			self.initialize();
 			self.callback_list_.push_back(callback);
-			::PostMessage(self.window_handle_, KTL_WM_THREAD_CALLBACK, 0, 0);
+			return ::PostMessage(self.window_handle_, KTL_WM_THREAD_CALLBACK, 0, 0) != 0;
 		}
 	private:
 		void initialize() {

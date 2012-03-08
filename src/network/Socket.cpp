@@ -9,6 +9,7 @@
 #include <sprig/krkr/ncb.hpp>
 #include <ktl/config.hpp>
 #include <ktl/information.hpp>
+#include <ktl/thread_callback.hpp>
 
 #include "Socket.hpp"
 
@@ -835,6 +836,10 @@ namespace ktl {
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Socket, isProcessing, isProcessing);
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Socket, isOpen, isOpen);
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Socket, isSSL, isSSL);
+	//
+	//	SUMMARY: コールバック系メソッド
+	//
+	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT(Socket, onFinished, getOnFinished, setOnFinished);
 
 	SPRIG_KRKR_END_CREATE_NATIVE_CLASS();
 #undef TJS_NATIVE_CLASSID_NAME
@@ -860,6 +865,9 @@ static void unregist_ktl_socket() {
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_socket);
 NCB_PRE_UNREGIST_CALLBACK(unregist_ktl_socket);
+
+NCB_PRE_REGIST_CALLBACK(ktl_thread_callback_setup);
+NCB_POST_UNREGIST_CALLBACK(ktl_thread_callback_teardown);
 
 //
 // information
