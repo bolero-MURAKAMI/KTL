@@ -36,14 +36,14 @@ namespace ktl {
 	//
 	KTL_INLINE bool NativeEncoding::encodeAsBuffer(
 		binary_type& buffer,
-		tjs_char const* to,
+		tjs_char const* charset,
 		tjs_char const* source
 		)
 	{
 		//	COMMENT: コンバータ作成
 		UErrorCode error = U_ZERO_ERROR;
 		boost::shared_ptr<UConverter> converter(
-			::ucnv_openU(to, &error),
+			::ucnv_openU(charset, &error),
 			&::ucnv_close
 			);
 		if (U_FAILURE(error)) {
@@ -99,16 +99,25 @@ namespace ktl {
 	}
 	KTL_INLINE bool NativeEncoding::encodeAsBuffer(
 		binary_type& buffer,
-		tjs_char const* to,
+		tjs_char const* charset,
 		tjs_uint8 const* source_data,
 		tjs_uint source_length,
-		tjs_char const* from
+		tjs_char const* source_charset
 		)
 	{
+		if (sameCharsetAlias(source_charset, charset)) {
+			buffer.clear();
+			std::copy(
+				source_data,
+				source_data + source_length,
+				std::back_inserter(buffer)
+				);
+			return true;
+		}
 		//	COMMENT: Unicodeへのコンバータ作成
 		UErrorCode error = U_ZERO_ERROR;
 		boost::shared_ptr<UConverter> from_converter(
-			::ucnv_openU(from, &error),
+			::ucnv_openU(source_charset, &error),
 			&::ucnv_close
 			);
 		if (U_FAILURE(error)) {
@@ -162,7 +171,7 @@ namespace ktl {
 		//	COMMENT: Unicodeからのコンバータ作成
 		error = U_ZERO_ERROR;
 		boost::shared_ptr<UConverter> to_converter(
-			::ucnv_openU(to, &error),
+			::ucnv_openU(charset, &error),
 			&::ucnv_close
 			);
 		if (U_FAILURE(error)) {
@@ -215,13 +224,13 @@ namespace ktl {
 		string_type& string,
 		tjs_uint8 const* source_data,
 		tjs_uint source_length,
-		tjs_char const* from
+		tjs_char const* source_charset
 		)
 	{
 		//	COMMENT: コンバータ作成
 		UErrorCode error = U_ZERO_ERROR;
 		boost::shared_ptr<UConverter> converter(
-			::ucnv_openU(from, &error),
+			::ucnv_openU(source_charset, &error),
 			&::ucnv_close
 			);
 		if (U_FAILURE(error)) {
@@ -292,6 +301,17 @@ namespace ktl {
 	KTL_INLINE bool NativeEncoding::URLDecodeAsBuffer(
 		binary_type& dest,
 		binary_type const& src
+		)
+	{
+		dest.clear();
+		return sprig::url_decode(
+			src,
+			std::back_inserter(dest)
+			);
+	}
+	KTL_INLINE bool NativeEncoding::URLDecodeAsBuffer(
+		binary_type& dest,
+		narrow_string_type const& src
 		)
 	{
 		dest.clear();
@@ -449,14 +469,14 @@ namespace ktl {
 	//
 	//	SUMMARY: URLエンコード系メソッド
 	//
-	KTL_INLINE tTJSVariant NativeEncoding::URLEncodeToOctet(
-		tjs_char const* to,
+	KTL_INLINE tTJSVariant NativeEncoding::URLEncodeToAsciiOctet(
+		tjs_char const* charset,
 		tjs_char const* source,
 		flag_type flag
 		)
 	{
 		binary_type src;
-		if (!encodeAsBuffer(src, to, source)) {
+		if (!encodeAsBuffer(src, charset, source)) {
 			return tTJSVariant();
 		}
 		binary_type dest;
@@ -471,17 +491,35 @@ namespace ktl {
 			dest.size()
 			);
 	}
-	KTL_INLINE tTJSVariant NativeEncoding::URLEncodeToOctet(
-		tjs_char const* to,
+	KTL_INLINE tTJSVariant NativeEncoding::URLEncodeToAsciiOctet(
+		tjs_char const* charset,
 		tTJSVariantOctet const* source,
-		tjs_char const* from,
+		tjs_char const* source_charset,
 		flag_type flag
 		)
 	{
 		binary_type src;
-		if (!encodeAsBuffer(src, to, source->GetData(), source->GetLength(), from)) {
+		if (!encodeAsBuffer(src, charset, source->GetData(), source->GetLength(), source_charset)) {
 			return tTJSVariant();
 		}
+		binary_type dest;
+		if (!URLEncodeAsBuffer(dest, src, flag)) {
+			return tTJSVariant();
+		}
+		return tTJSVariant(
+			dest.size()
+				? &dest[0]
+				: 0
+				,
+			dest.size()
+			);
+	}
+	KTL_INLINE tTJSVariant NativeEncoding::URLEncodeToAsciiOctet(
+		tTJSVariantOctet const* source,
+		flag_type flag
+		)
+	{
+		binary_type src(source->GetData(), source->GetData() + source->GetLength());
 		binary_type dest;
 		if (!URLEncodeAsBuffer(dest, src, flag)) {
 			return tTJSVariant();
@@ -495,63 +533,59 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE tTJSVariant NativeEncoding::URLEncodeToString(
-		tjs_char const* to,
+		tjs_char const* charset,
 		tjs_char const* source,
 		flag_type flag
 		)
 	{
 		binary_type src;
-		if (!encodeAsBuffer(src, to, source)) {
+		if (!encodeAsBuffer(src, charset, source)) {
 			return tTJSVariant();
 		}
 		binary_type dest;
 		if (!URLEncodeAsBuffer(dest, src, flag)) {
 			return tTJSVariant();
 		}
-		string_type string;
-		if (dest.empty()) {
-			return tTJSVariant(string.c_str());
-		}
-		if (!encodeAsString(string, &dest[0], dest.size(), to)) {
-			return tTJSVariant();
-		}
-		return tTJSVariant(string.c_str());
+		dest.push_back('\0');
+		return tTJSVariant(reinterpret_cast<tjs_nchar const*>(&dest[0]));
 	}
 	KTL_INLINE tTJSVariant NativeEncoding::URLEncodeToString(
-		tjs_char const* to,
+		tjs_char const* charset,
 		tTJSVariantOctet const* source,
-		tjs_char const* from,
+		tjs_char const* source_charset,
 		flag_type flag
 		)
 	{
 		binary_type src;
-		if (!encodeAsBuffer(src, to, source->GetData(), source->GetLength(), from)) {
+		if (!encodeAsBuffer(src, charset, source->GetData(), source->GetLength(), source_charset)) {
 			return tTJSVariant();
 		}
 		binary_type dest;
 		if (!URLEncodeAsBuffer(dest, src, flag)) {
 			return tTJSVariant();
 		}
-		string_type string;
-		if (dest.empty()) {
-			return tTJSVariant(string.c_str());
-		}
-		if (!encodeAsString(string, &dest[0], dest.size(), to)) {
+		dest.push_back('\0');
+		return tTJSVariant(reinterpret_cast<tjs_nchar const*>(&dest[0]));
+	}
+	KTL_INLINE tTJSVariant NativeEncoding::URLEncodeToString(
+		tTJSVariantOctet const* source,
+		flag_type flag
+		)
+	{
+		binary_type src(source->GetData(), source->GetData() + source->GetLength());
+		binary_type dest;
+		if (!URLEncodeAsBuffer(dest, src, flag)) {
 			return tTJSVariant();
 		}
-		return tTJSVariant(string.c_str());
+		dest.push_back('\0');
+		return tTJSVariant(reinterpret_cast<tjs_nchar const*>(&dest[0]));
 	}
-	KTL_INLINE tTJSVariant NativeEncoding::URLDecodeToOctet(
-		tjs_char const* to,
+	KTL_INLINE tTJSVariant NativeEncoding::URLDecodeToOctetData(
 		tjs_char const* source
 		)
 	{
-		binary_type src;
-		if (!encodeAsBuffer(src, to, source)) {
-			return tTJSVariant();
-		}
 		binary_type dest;
-		if (!URLDecodeAsBuffer(dest, src)) {
+		if (!URLDecodeAsBuffer(dest, sprig::str_cast<narrow_string_type>(source))) {
 			return tTJSVariant();
 		}
 		return tTJSVariant(
@@ -562,16 +596,32 @@ namespace ktl {
 			dest.size()
 			);
 	}
-	KTL_INLINE tTJSVariant NativeEncoding::URLDecodeToOctet(
-		tjs_char const* to,
+	KTL_INLINE tTJSVariant NativeEncoding::URLDecodeToOctetData(
 		tTJSVariantOctet const* source,
-		tjs_char const* from
+		tjs_char const* source_charset
 		)
 	{
-		binary_type src;
-		if (!encodeAsBuffer(src, to, source->GetData(), source->GetLength(), from)) {
+		string_type src;
+		if (!encodeAsString(src, source->GetData(), source->GetLength(), source_charset)) {
 			return tTJSVariant();
 		}
+		binary_type dest;
+		if (!URLDecodeAsBuffer(dest, sprig::str_cast<narrow_string_type>(src))) {
+			return tTJSVariant();
+		}
+		return tTJSVariant(
+			dest.size()
+				? &dest[0]
+				: 0
+				,
+			dest.size()
+			);
+	}
+	KTL_INLINE tTJSVariant NativeEncoding::URLDecodeToOctetData(
+		tTJSVariantOctet const* source
+		)
+	{
+		binary_type src(source->GetData(), source->GetData() + source->GetLength());
 		binary_type dest;
 		if (!URLDecodeAsBuffer(dest, src)) {
 			return tTJSVariant();
@@ -585,37 +635,52 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE tTJSVariant NativeEncoding::URLDecodeToString(
-		tjs_char const* to,
+		tjs_char const* charset,
 		tjs_char const* source
 		)
 	{
-		binary_type src;
-		if (!encodeAsBuffer(src, to, source)) {
-			return tTJSVariant();
-		}
 		binary_type dest;
-		if (!URLDecodeAsBuffer(dest, src)) {
+		if (!URLDecodeAsBuffer(dest, sprig::str_cast<narrow_string_type>(source))) {
 			return tTJSVariant();
 		}
 		string_type string;
 		if (dest.empty()) {
 			return tTJSVariant(string.c_str());
 		}
-		if (!encodeAsString(string, &dest[0], dest.size(), to)) {
+		if (!encodeAsString(string, &dest[0], dest.size(), charset)) {
 			return tTJSVariant();
 		}
 		return tTJSVariant(string.c_str());
 	}
 	KTL_INLINE tTJSVariant NativeEncoding::URLDecodeToString(
-		tjs_char const* to,
+		tjs_char const* charset,
 		tTJSVariantOctet const* source,
-		tjs_char const* from
+		tjs_char const* source_charset
 		)
 	{
-		binary_type src;
-		if (!encodeAsBuffer(src, to, source->GetData(), source->GetLength(), from)) {
+		string_type src;
+		if (!encodeAsString(src, source->GetData(), source->GetLength(), source_charset)) {
 			return tTJSVariant();
 		}
+		binary_type dest;
+		if (!URLDecodeAsBuffer(dest, sprig::str_cast<narrow_string_type>(src))) {
+			return tTJSVariant();
+		}
+		string_type string;
+		if (dest.empty()) {
+			return tTJSVariant(string.c_str());
+		}
+		if (!encodeAsString(string, &dest[0], dest.size(), charset)) {
+			return tTJSVariant();
+		}
+		return tTJSVariant(string.c_str());
+	}
+	KTL_INLINE tTJSVariant NativeEncoding::URLDecodeToString(
+		tjs_char const* charset,
+		tTJSVariantOctet const* source
+		)
+	{
+		binary_type src(source->GetData(), source->GetData() + source->GetLength());
 		binary_type dest;
 		if (!URLDecodeAsBuffer(dest, src)) {
 			return tTJSVariant();
@@ -624,7 +689,7 @@ namespace ktl {
 		if (dest.empty()) {
 			return tTJSVariant(string.c_str());
 		}
-		if (!encodeAsString(string, &dest[0], dest.size(), to)) {
+		if (!encodeAsString(string, &dest[0], dest.size(), charset)) {
 			return tTJSVariant();
 		}
 		return tTJSVariant(string.c_str());
@@ -632,7 +697,7 @@ namespace ktl {
 	//
 	//	SUMMARY: Base64エンコード系メソッド
 	//
-	KTL_INLINE tTJSVariant NativeEncoding::base64EncodeToOctet(
+	KTL_INLINE tTJSVariant NativeEncoding::base64EncodeToAsciiOctet(
 		tTJSVariantOctet const* source,
 		size_type line_max_length
 		)
@@ -677,7 +742,7 @@ namespace ktl {
 			reinterpret_cast<tjs_nchar const*>(&dest[0])
 			);
 	}
-	KTL_INLINE tTJSVariant NativeEncoding::base64DecodeToOctet(
+	KTL_INLINE tTJSVariant NativeEncoding::base64DecodeToOctetData(
 		tjs_char const* source
 		)
 	{
@@ -698,7 +763,7 @@ namespace ktl {
 			dest.size()
 			);
 	}
-	KTL_INLINE tTJSVariant NativeEncoding::base64DecodeToOctet(
+	KTL_INLINE tTJSVariant NativeEncoding::base64DecodeToOctetData(
 		tTJSVariantOctet const* source
 		)
 	{
@@ -724,12 +789,12 @@ namespace ktl {
 	//	SUMMARY: エンコード系メソッド
 	//
 	KTL_INLINE tTJSVariant NativeEncoding::encodeToOctet(
-		tjs_char const* to,
+		tjs_char const* charset,
 		tjs_char const* source
 		)
 	{
 		binary_type buffer;
-		return encodeAsBuffer(buffer, to, source)
+		return encodeAsBuffer(buffer, charset, source)
 			? tTJSVariant(
 				buffer.size()
 					? &buffer[0]
@@ -741,13 +806,13 @@ namespace ktl {
 			;
 	}
 	KTL_INLINE tTJSVariant NativeEncoding::encodeToOctet(
-		tjs_char const* to,
+		tjs_char const* charset,
 		tTJSVariantOctet const* source,
-		tjs_char const* from
+		tjs_char const* source_charset
 		)
 	{
 		binary_type buffer;
-		return encodeAsBuffer(buffer, to, source->GetData(), source->GetLength(), from)
+		return encodeAsBuffer(buffer, charset, source->GetData(), source->GetLength(), source_charset)
 			? tTJSVariant(
 				buffer.size()
 					? &buffer[0]
@@ -760,11 +825,11 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant NativeEncoding::encodeToString(
 		tTJSVariantOctet const* source,
-		tjs_char const* from
+		tjs_char const* source_charset
 		)
 	{
 		string_type string;
-		return encodeAsString(string, source->GetData(), source->GetLength(), from)
+		return encodeAsString(string, source->GetData(), source->GetLength(), source_charset)
 			? tTJSVariant(string.c_str())
 			: tTJSVariant()
 			;
@@ -964,111 +1029,145 @@ namespace ktl {
 	//
 	//	SUMMARY: URLエンコード系メソッド
 	//
-	KTL_INLINE tTJSVariant Encoding::URLEncodeToOctet(
-		tTJSVariantString const* to,
+	KTL_INLINE tTJSVariant Encoding::URLEncodeToAsciiOctet(
+		tTJSVariantString const* charset,
 		tTJSVariantString const* source,
 		tTVInteger flag
 		)
 	{
-		return NativeEncoding::URLEncodeToOctet(
-			sprig::krkr::tjs::as_c_str(to),
+		return NativeEncoding::URLEncodeToAsciiOctet(
+			sprig::krkr::tjs::as_c_str(charset),
 			sprig::krkr::tjs::as_c_str(source),
 			sprig::numeric::bit_cast<NativeEncoding::flag_type>(flag)
 			);
 	}
-	KTL_INLINE tTJSVariant Encoding::URLEncodeToOctet(
-		tTJSVariantString const* to,
+	KTL_INLINE tTJSVariant Encoding::URLEncodeToAsciiOctet(
+		tTJSVariantString const* charset,
 		tTJSVariantOctet const* source,
-		tTJSVariantString const* from,
+		tTJSVariantString const* source_charset,
 		tTVInteger flag
 		)
 	{
-		return NativeEncoding::URLEncodeToOctet(
-			sprig::krkr::tjs::as_c_str(to),
+		return NativeEncoding::URLEncodeToAsciiOctet(
+			sprig::krkr::tjs::as_c_str(charset),
 			source,
-			sprig::krkr::tjs::as_c_str(from),
+			sprig::krkr::tjs::as_c_str(source_charset),
+			sprig::numeric::bit_cast<NativeEncoding::flag_type>(flag)
+			);
+	}
+	KTL_INLINE tTJSVariant Encoding::URLEncodeToAsciiOctet(
+		tTJSVariantOctet const* source,
+		tTVInteger flag
+		)
+	{
+		return NativeEncoding::URLEncodeToAsciiOctet(
+			source,
 			sprig::numeric::bit_cast<NativeEncoding::flag_type>(flag)
 			);
 	}
 	KTL_INLINE tTJSVariant Encoding::URLEncodeToString(
-		tTJSVariantString const* to,
+		tTJSVariantString const* charset,
 		tTJSVariantString const* source,
 		tTVInteger flag
 		)
 	{
 		return NativeEncoding::URLEncodeToString(
-			sprig::krkr::tjs::as_c_str(to),
+			sprig::krkr::tjs::as_c_str(charset),
 			sprig::krkr::tjs::as_c_str(source),
 			sprig::numeric::bit_cast<NativeEncoding::flag_type>(flag)
 			);
 	}
 	KTL_INLINE tTJSVariant Encoding::URLEncodeToString(
-		tTJSVariantString const* to,
+		tTJSVariantString const* charset,
 		tTJSVariantOctet const* source,
-		tTJSVariantString const* from,
+		tTJSVariantString const* source_charset,
 		tTVInteger flag
 		)
 	{
 		return NativeEncoding::URLEncodeToString(
-			sprig::krkr::tjs::as_c_str(to),
+			sprig::krkr::tjs::as_c_str(charset),
 			source,
-			sprig::krkr::tjs::as_c_str(from),
+			sprig::krkr::tjs::as_c_str(source_charset),
 			sprig::numeric::bit_cast<NativeEncoding::flag_type>(flag)
 			);
 	}
-	KTL_INLINE tTJSVariant Encoding::URLDecodeToOctet(
-		tTJSVariantString const* to,
+	KTL_INLINE tTJSVariant Encoding::URLEncodeToString(
+		tTJSVariantOctet const* source,
+		tTVInteger flag
+		)
+	{
+		return NativeEncoding::URLEncodeToString(
+			source,
+			sprig::numeric::bit_cast<NativeEncoding::flag_type>(flag)
+			);
+	}
+	KTL_INLINE tTJSVariant Encoding::URLDecodeToOctetData(
 		tTJSVariantString const* source
 		)
 	{
-		return NativeEncoding::URLDecodeToOctet(
-			sprig::krkr::tjs::as_c_str(to),
+		return NativeEncoding::URLDecodeToOctetData(
 			sprig::krkr::tjs::as_c_str(source)
 			);
 	}
-	KTL_INLINE tTJSVariant Encoding::URLDecodeToOctet(
-		tTJSVariantString const* to,
+	KTL_INLINE tTJSVariant Encoding::URLDecodeToOctetData(
 		tTJSVariantOctet const* source,
-		tTJSVariantString const* from
+		tTJSVariantString const* source_charset
 		)
 	{
-		return NativeEncoding::URLDecodeToOctet(
-			sprig::krkr::tjs::as_c_str(to),
+		return NativeEncoding::URLDecodeToOctetData(
 			source,
-			sprig::krkr::tjs::as_c_str(from)
+			sprig::krkr::tjs::as_c_str(source_charset)
+			);
+	}
+	KTL_INLINE tTJSVariant Encoding::URLDecodeToOctetData(
+		tTJSVariantOctet const* source
+		)
+	{
+		return NativeEncoding::URLDecodeToOctetData(
+			source
 			);
 	}
 	KTL_INLINE tTJSVariant Encoding::URLDecodeToString(
-		tTJSVariantString const* to,
+		tTJSVariantString const* charset,
 		tTJSVariantString const* source
 		)
 	{
 		return NativeEncoding::URLDecodeToString(
-			sprig::krkr::tjs::as_c_str(to),
+			sprig::krkr::tjs::as_c_str(charset),
 			sprig::krkr::tjs::as_c_str(source)
 			);
 	}
 	KTL_INLINE tTJSVariant Encoding::URLDecodeToString(
-		tTJSVariantString const* to,
+		tTJSVariantString const* charset,
 		tTJSVariantOctet const* source,
-		tTJSVariantString const* from
+		tTJSVariantString const* source_charset
 		)
 	{
 		return NativeEncoding::URLDecodeToString(
-			sprig::krkr::tjs::as_c_str(to),
+			sprig::krkr::tjs::as_c_str(charset),
 			source,
-			sprig::krkr::tjs::as_c_str(from)
+			sprig::krkr::tjs::as_c_str(source_charset)
+			);
+	}
+	KTL_INLINE tTJSVariant Encoding::URLDecodeToString(
+		tTJSVariantString const* charset,
+		tTJSVariantOctet const* source
+		)
+	{
+		return NativeEncoding::URLDecodeToString(
+			sprig::krkr::tjs::as_c_str(charset),
+			source
 			);
 	}
 	//
 	//	SUMMARY: Base64エンコード系メソッド
 	//
-	KTL_INLINE tTJSVariant Encoding::base64EncodeToOctet(
+	KTL_INLINE tTJSVariant Encoding::base64EncodeToAsciiOctet(
 		tTJSVariantOctet const* source,
 		tTVInteger line_max_length
 		)
 	{
-		return NativeEncoding::base64EncodeToOctet(
+		return NativeEncoding::base64EncodeToAsciiOctet(
 			source,
 			boost::numeric_cast<NativeEncoding::size_type>(line_max_length)
 			);
@@ -1083,19 +1182,19 @@ namespace ktl {
 			boost::numeric_cast<NativeEncoding::size_type>(line_max_length)
 			);
 	}
-	KTL_INLINE tTJSVariant Encoding::base64DecodeToOctet(
+	KTL_INLINE tTJSVariant Encoding::base64DecodeToOctetData(
 		tTJSVariantString const* source
 		)
 	{
-		return NativeEncoding::base64DecodeToOctet(
+		return NativeEncoding::base64DecodeToOctetData(
 			sprig::krkr::tjs::as_c_str(source)
 			);
 	}
-	KTL_INLINE tTJSVariant Encoding::base64DecodeToOctet(
+	KTL_INLINE tTJSVariant Encoding::base64DecodeToOctetData(
 		tTJSVariantOctet const* source
 		)
 	{
-		return NativeEncoding::base64DecodeToOctet(
+		return NativeEncoding::base64DecodeToOctetData(
 			source
 			);
 	}
@@ -1103,35 +1202,35 @@ namespace ktl {
 	//	SUMMARY: エンコード系メソッド
 	//
 	KTL_INLINE tTJSVariant Encoding::encodeToOctet(
-		tTJSVariantString const* to,
+		tTJSVariantString const* charset,
 		tTJSVariantString const* source
 		)
 	{
 		return NativeEncoding::encodeToOctet(
-			sprig::krkr::tjs::as_c_str(to),
+			sprig::krkr::tjs::as_c_str(charset),
 			sprig::krkr::tjs::as_c_str(source)
 			);
 	}
 	KTL_INLINE tTJSVariant Encoding::encodeToOctet(
-		tTJSVariantString const* to,
+		tTJSVariantString const* charset,
 		tTJSVariantOctet const* source,
-		tTJSVariantString const* from
+		tTJSVariantString const* source_charset
 		)
 	{
 		return NativeEncoding::encodeToOctet(
-			sprig::krkr::tjs::as_c_str(to),
+			sprig::krkr::tjs::as_c_str(charset),
 			source,
-			sprig::krkr::tjs::as_c_str(from)
+			sprig::krkr::tjs::as_c_str(source_charset)
 			);
 	}
 	KTL_INLINE tTJSVariant Encoding::encodeToString(
 		tTJSVariantOctet const* source,
-		tTJSVariantString const* from
+		tTJSVariantString const* source_charset
 		)
 	{
 		return NativeEncoding::encodeToString(
 			source,
-			sprig::krkr::tjs::as_c_str(from)
+			sprig::krkr::tjs::as_c_str(source_charset)
 			);
 	}
 	//

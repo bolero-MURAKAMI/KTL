@@ -25,34 +25,107 @@ namespace ktl {
 	//
 	//	SUMMARY:  URLエンコード系メソッド
 	//
-	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLEncodeToOctet)
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLEncodeToAsciiOctet)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
-		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
-		switch (SPRIG_KRKR_ARG_TYPE(1)) {
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
-			if (numparams >= 3) {
-				SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
-				SPRIG_KRKR_RESULT_SET(
-					Encoding::URLEncodeToOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2))
-					);
-			} else {
-				SPRIG_KRKR_RESULT_SET(
-					Encoding::URLEncodeToOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1))
-					);
+			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			switch (SPRIG_KRKR_ARG_TYPE(1)) {
+			case tvtString:
+				if (numparams >= 3) {
+					SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2))
+						);
+				} else {
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1))
+						);
+				}
+				break;
+			case tvtOctet:
+				SPRIG_KRKR_NUMPARAMS_CHECK(3);
+				SPRIG_KRKR_TYPE_CHECK(2, tvtString);
+				if (numparams >= 4) {
+					SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2), SPRIG_KRKR_ARG_VARIANT(3))
+						);
+				} else {
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2))
+						);
+				}
+				break;
+			default:
+				return TJS_E_INVALIDPARAM;
 			}
 			break;
 		case tvtOctet:
-			SPRIG_KRKR_NUMPARAMS_CHECK(3);
-			SPRIG_KRKR_TYPE_CHECK(2, tvtString);
-			if (numparams >= 4) {
-				SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
+			if (numparams >= 2) {
+				SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
 				SPRIG_KRKR_RESULT_SET(
-					Encoding::URLEncodeToOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2), SPRIG_KRKR_ARG_VARIANT(3))
+					Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 					);
 			} else {
 				SPRIG_KRKR_RESULT_SET(
-					Encoding::URLEncodeToOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2))
+					Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0))
+					);
+			}
+			break;
+		default:
+			return TJS_E_INVALIDPARAM;
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLEncodeToAsciiOctet);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLEncodeToOctet)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		switch (SPRIG_KRKR_ARG_TYPE(0)) {
+		case tvtString:
+			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			switch (SPRIG_KRKR_ARG_TYPE(1)) {
+			case tvtString:
+				if (numparams >= 3) {
+					SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2))
+						);
+				} else {
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1))
+						);
+				}
+				break;
+			case tvtOctet:
+				SPRIG_KRKR_NUMPARAMS_CHECK(3);
+				SPRIG_KRKR_TYPE_CHECK(2, tvtString);
+				if (numparams >= 4) {
+					SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2), SPRIG_KRKR_ARG_VARIANT(3))
+						);
+				} else {
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2))
+						);
+				}
+				break;
+			default:
+				return TJS_E_INVALIDPARAM;
+			}
+			break;
+		case tvtOctet:
+			if (numparams >= 2) {
+				SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
+				SPRIG_KRKR_RESULT_SET(
+					Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
+					);
+			} else {
+				SPRIG_KRKR_RESULT_SET(
+					Encoding::URLEncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0))
 					);
 			}
 			break;
@@ -64,32 +137,50 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLEncodeToOctet);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLEncodeToString)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
-		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
-		switch (SPRIG_KRKR_ARG_TYPE(1)) {
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
-			if (numparams >= 3) {
-				SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
-				SPRIG_KRKR_RESULT_SET(
-					Encoding::URLEncodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2))
-					);
-			} else {
-				SPRIG_KRKR_RESULT_SET(
-					Encoding::URLEncodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1))
-					);
+			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			switch (SPRIG_KRKR_ARG_TYPE(1)) {
+			case tvtString:
+				if (numparams >= 3) {
+					SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2))
+						);
+				} else {
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1))
+						);
+				}
+				break;
+			case tvtOctet:
+				SPRIG_KRKR_NUMPARAMS_CHECK(3);
+				SPRIG_KRKR_TYPE_CHECK(2, tvtString);
+				if (numparams >= 4) {
+					SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2), SPRIG_KRKR_ARG_VARIANT(3))
+						);
+				} else {
+					SPRIG_KRKR_RESULT_SET(
+						Encoding::URLEncodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2))
+						);
+				}
+				break;
+			default:
+				return TJS_E_INVALIDPARAM;
 			}
 			break;
 		case tvtOctet:
-			SPRIG_KRKR_NUMPARAMS_CHECK(3);
-			SPRIG_KRKR_TYPE_CHECK(2, tvtString);
-			if (numparams >= 4) {
-				SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
+			if (numparams >= 2) {
+				SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
 				SPRIG_KRKR_RESULT_SET(
-					Encoding::URLEncodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2), SPRIG_KRKR_ARG_VARIANT(3))
+					Encoding::URLEncodeToString(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 					);
 			} else {
 				SPRIG_KRKR_RESULT_SET(
-					Encoding::URLEncodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2))
+					Encoding::URLEncodeToString(SPRIG_KRKR_ARG_OCTET(0))
 					);
 			}
 			break;
@@ -99,22 +190,53 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLEncodeToString);
-	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLDecodeToOctet)
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLDecodeToOctetData)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
-		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
-		switch (SPRIG_KRKR_ARG_TYPE(1)) {
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			SPRIG_KRKR_RESULT_SET(
-				Encoding::URLDecodeToOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_STRING(1))
+				Encoding::URLDecodeToOctetData(SPRIG_KRKR_ARG_STRING(0))
 				);
 			break;
 		case tvtOctet:
-			SPRIG_KRKR_NUMPARAMS_CHECK(3);
-			SPRIG_KRKR_TYPE_CHECK(2, tvtString);
+			if (numparams >= 2) {
+				SPRIG_KRKR_TYPE_CHECK(1, tvtString);
+				SPRIG_KRKR_RESULT_SET(
+					Encoding::URLDecodeToOctetData(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_STRING(1))
+					);
+			} else {
+				SPRIG_KRKR_RESULT_SET(
+					Encoding::URLDecodeToOctetData(SPRIG_KRKR_ARG_OCTET(0))
+					);
+			}
+			break;
+		default:
+			return TJS_E_INVALIDPARAM;
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLDecodeToOctetData);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLDecodeToOctet)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		switch (SPRIG_KRKR_ARG_TYPE(0)) {
+		case tvtString:
 			SPRIG_KRKR_RESULT_SET(
-				Encoding::URLDecodeToOctet(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2))
+				Encoding::URLDecodeToOctetData(SPRIG_KRKR_ARG_STRING(0))
 				);
+			break;
+		case tvtOctet:
+			if (numparams >= 2) {
+				SPRIG_KRKR_TYPE_CHECK(1, tvtString);
+				SPRIG_KRKR_RESULT_SET(
+					Encoding::URLDecodeToOctetData(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_STRING(1))
+					);
+			} else {
+				SPRIG_KRKR_RESULT_SET(
+					Encoding::URLDecodeToOctetData(SPRIG_KRKR_ARG_OCTET(0))
+					);
+			}
 			break;
 		default:
 			return TJS_E_INVALIDPARAM;
@@ -133,11 +255,16 @@ namespace ktl {
 				);
 			break;
 		case tvtOctet:
-			SPRIG_KRKR_NUMPARAMS_CHECK(3);
-			SPRIG_KRKR_TYPE_CHECK(2, tvtString);
-			SPRIG_KRKR_RESULT_SET(
-				Encoding::URLDecodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2))
-				);
+			if (numparams >= 3) {
+				SPRIG_KRKR_TYPE_CHECK(2, tvtString);
+				SPRIG_KRKR_RESULT_SET(
+					Encoding::URLDecodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_STRING(2))
+					);
+			} else {
+				SPRIG_KRKR_RESULT_SET(
+					Encoding::URLDecodeToString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1))
+					);
+			}
 			break;
 		default:
 			return TJS_E_INVALIDPARAM;
@@ -148,17 +275,33 @@ namespace ktl {
 	//
 	//	SUMMARY: Base64エンコード系メソッド
 	//
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64EncodeToAsciiOctet)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
+		if (numparams >= 2) {
+			SPRIG_KRKR_RESULT_SET(
+				Encoding::base64EncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
+				);
+		} else {
+			SPRIG_KRKR_RESULT_SET(
+				Encoding::base64EncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0))
+				);
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(base64EncodeToAsciiOctet);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64EncodeToOctet)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 2) {
 			SPRIG_KRKR_RESULT_SET(
-				Encoding::base64EncodeToOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
+				Encoding::base64EncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else {
 			SPRIG_KRKR_RESULT_SET(
-				Encoding::base64EncodeToOctet(SPRIG_KRKR_ARG_OCTET(0))
+				Encoding::base64EncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0))
 				);
 		}
 		return TJS_S_OK;
@@ -180,18 +323,38 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(base64EncodeToString);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64DecodeToOctetData)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		switch (SPRIG_KRKR_ARG_TYPE(0)) {
+		case tvtString:
+			SPRIG_KRKR_RESULT_SET(
+				Encoding::base64DecodeToOctetData(SPRIG_KRKR_ARG_STRING(0))
+				);
+			break;
+		case tvtOctet:
+			SPRIG_KRKR_RESULT_SET(
+				Encoding::base64DecodeToOctetData(SPRIG_KRKR_ARG_OCTET(0))
+				);
+			break;
+		default:
+			return TJS_E_INVALIDPARAM;
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(base64DecodeToOctetData);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64DecodeToOctet)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			SPRIG_KRKR_RESULT_SET(
-				Encoding::base64DecodeToOctet(SPRIG_KRKR_ARG_STRING(0))
+				Encoding::base64DecodeToOctetData(SPRIG_KRKR_ARG_STRING(0))
 				);
 			break;
 		case tvtOctet:
 			SPRIG_KRKR_RESULT_SET(
-				Encoding::base64DecodeToOctet(SPRIG_KRKR_ARG_OCTET(0))
+				Encoding::base64DecodeToOctetData(SPRIG_KRKR_ARG_OCTET(0))
 				);
 			break;
 		default:

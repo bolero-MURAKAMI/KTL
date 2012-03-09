@@ -19,25 +19,26 @@ namespace ktl {
 		typedef boost::int_fast32_t int_type;
 		typedef std::vector<tjs_uint8> binary_type;
 		typedef std::basic_string<tjs_char> string_type;
+		typedef std::basic_string<tjs_nchar> narrow_string_type;
 		typedef std::size_t size_type;
 	private:
 		static bool encodeAsBuffer(
 			binary_type& buffer,
-			tjs_char const* to,
+			tjs_char const* charset,
 			tjs_char const* source
 			);
 		static bool encodeAsBuffer(
 			binary_type& buffer,
-			tjs_char const* to,
+			tjs_char const* charset,
 			tjs_uint8 const* source_data,
 			tjs_uint source_length,
-			tjs_char const* from
+			tjs_char const* source_charset
 			);
 		static bool encodeAsString(
 			string_type& string,
 			tjs_uint8 const* source_data,
 			tjs_uint source_length,
-			tjs_char const* from
+			tjs_char const* source_charset
 			);
 		static bool URLEncodeAsBuffer(
 			binary_type& dest,
@@ -47,6 +48,10 @@ namespace ktl {
 		static bool URLDecodeAsBuffer(
 			binary_type& dest,
 			binary_type const& src
+			);
+		static bool URLDecodeAsBuffer(
+			binary_type& dest,
+			narrow_string_type const& src
 			);
 		static bool base64EncodeAsBuffer(
 			binary_type& dest,
@@ -83,50 +88,63 @@ namespace ktl {
 		//
 		//	SUMMARY: URLエンコード系メソッド
 		//
-		static tTJSVariant URLEncodeToOctet(
-			tjs_char const* to,
+		static tTJSVariant URLEncodeToAsciiOctet(
+			tjs_char const* charset,
 			tjs_char const* source,
 			flag_type flag = 0x00000000
 			);
-		static tTJSVariant URLEncodeToOctet(
-			tjs_char const* to,
+		static tTJSVariant URLEncodeToAsciiOctet(
+			tjs_char const* charset,
 			tTJSVariantOctet const* source,
-			tjs_char const* from,
+			tjs_char const* source_charset,
+			flag_type flag = 0x00000000
+			);
+		static tTJSVariant URLEncodeToAsciiOctet(
+			tTJSVariantOctet const* source,
 			flag_type flag = 0x00000000
 			);
 		static tTJSVariant URLEncodeToString(
-			tjs_char const* to,
+			tjs_char const* charset,
 			tjs_char const* source,
 			flag_type flag = 0x00000000
 			);
 		static tTJSVariant URLEncodeToString(
-			tjs_char const* to,
+			tjs_char const* charset,
 			tTJSVariantOctet const* source,
-			tjs_char const* from,
+			tjs_char const* source_charset,
 			flag_type flag = 0x00000000
 			);
-		static tTJSVariant URLDecodeToOctet(
-			tjs_char const* to,
+		static tTJSVariant URLEncodeToString(
+			tTJSVariantOctet const* source,
+			flag_type flag = 0x00000000
+			);
+		static tTJSVariant URLDecodeToOctetData(
 			tjs_char const* source
 			);
-		static tTJSVariant URLDecodeToOctet(
-			tjs_char const* to,
+		static tTJSVariant URLDecodeToOctetData(
 			tTJSVariantOctet const* source,
-			tjs_char const* from
+			tjs_char const* source_charset
+			);
+		static tTJSVariant URLDecodeToOctetData(
+			tTJSVariantOctet const* source
 			);
 		static tTJSVariant URLDecodeToString(
-			tjs_char const* to,
+			tjs_char const* charset,
 			tjs_char const* source
 			);
 		static tTJSVariant URLDecodeToString(
-			tjs_char const* to,
+			tjs_char const* charset,
 			tTJSVariantOctet const* source,
-			tjs_char const* from
+			tjs_char const* source_charset
+			);
+		static tTJSVariant URLDecodeToString(
+			tjs_char const* charset,
+			tTJSVariantOctet const* source
 			);
 		//
 		//	SUMMARY: Base64エンコード系メソッド
 		//
-		static tTJSVariant base64EncodeToOctet(
+		static tTJSVariant base64EncodeToAsciiOctet(
 			tTJSVariantOctet const* source,
 			size_type line_max_length = 76
 			);
@@ -134,27 +152,27 @@ namespace ktl {
 			tTJSVariantOctet const* source,
 			size_type line_max_length = 76
 			);
-		static tTJSVariant base64DecodeToOctet(
+		static tTJSVariant base64DecodeToOctetData(
 			tjs_char const* source
 			);
-		static tTJSVariant base64DecodeToOctet(
+		static tTJSVariant base64DecodeToOctetData(
 			tTJSVariantOctet const* source
 			);
 		//
 		//	SUMMARY: エンコード系メソッド
 		//
 		static tTJSVariant encodeToOctet(
-			tjs_char const* to,
+			tjs_char const* charset,
 			tjs_char const* source
 			);
 		static tTJSVariant encodeToOctet(
-			tjs_char const* to,
+			tjs_char const* charset,
 			tTJSVariantOctet const* source,
-			tjs_char const* from
+			tjs_char const* source_charset
 			);
 		static tTJSVariant encodeToString(
 			tTJSVariantOctet const* source,
-			tjs_char const* from
+			tjs_char const* source_charset
 			);
 		//
 		//	SUMMARY: 比較系メソッド
@@ -210,50 +228,63 @@ namespace ktl {
 		//
 		//	SUMMARY: URLエンコード系メソッド
 		//
-		static tTJSVariant URLEncodeToOctet(
-			tTJSVariantString const* to,
+		static tTJSVariant URLEncodeToAsciiOctet(
+			tTJSVariantString const* charset,
 			tTJSVariantString const* source,
 			tTVInteger flag = 0x00000000
 			);
-		static tTJSVariant URLEncodeToOctet(
-			tTJSVariantString const* to,
+		static tTJSVariant URLEncodeToAsciiOctet(
+			tTJSVariantString const* charset,
 			tTJSVariantOctet const* source,
-			tTJSVariantString const* from,
+			tTJSVariantString const* source_charset,
+			tTVInteger flag = 0x00000000
+			);
+		static tTJSVariant URLEncodeToAsciiOctet(
+			tTJSVariantOctet const* source,
 			tTVInteger flag = 0x00000000
 			);
 		static tTJSVariant URLEncodeToString(
-			tTJSVariantString const* to,
+			tTJSVariantString const* charset,
 			tTJSVariantString const* source,
 			tTVInteger flag = 0x00000000
 			);
 		static tTJSVariant URLEncodeToString(
-			tTJSVariantString const* to,
+			tTJSVariantString const* charset,
 			tTJSVariantOctet const* source,
-			tTJSVariantString const* from,
+			tTJSVariantString const* source_charset,
 			tTVInteger flag = 0x00000000
 			);
-		static tTJSVariant URLDecodeToOctet(
-			tTJSVariantString const* to,
+		static tTJSVariant URLEncodeToString(
+			tTJSVariantOctet const* source,
+			tTVInteger flag = 0x00000000
+			);
+		static tTJSVariant URLDecodeToOctetData(
 			tTJSVariantString const* source
 			);
-		static tTJSVariant URLDecodeToOctet(
-			tTJSVariantString const* to,
+		static tTJSVariant URLDecodeToOctetData(
 			tTJSVariantOctet const* source,
-			tTJSVariantString const* from
+			tTJSVariantString const* source_charset
+			);
+		static tTJSVariant URLDecodeToOctetData(
+			tTJSVariantOctet const* source
 			);
 		static tTJSVariant URLDecodeToString(
-			tTJSVariantString const* to,
+			tTJSVariantString const* charset,
 			tTJSVariantString const* source
 			);
 		static tTJSVariant URLDecodeToString(
-			tTJSVariantString const* to,
+			tTJSVariantString const* charset,
 			tTJSVariantOctet const* source,
-			tTJSVariantString const* from
+			tTJSVariantString const* source_charset
+			);
+		static tTJSVariant URLDecodeToString(
+			tTJSVariantString const* charset,
+			tTJSVariantOctet const* source
 			);
 		//
 		//	SUMMARY: Base64エンコード系メソッド
 		//
-		static tTJSVariant base64EncodeToOctet(
+		static tTJSVariant base64EncodeToAsciiOctet(
 			tTJSVariantOctet const* source,
 			tTVInteger line_max_length = 76
 			);
@@ -261,27 +292,27 @@ namespace ktl {
 			tTJSVariantOctet const* source,
 			tTVInteger line_max_length = 76
 			);
-		static tTJSVariant base64DecodeToOctet(
+		static tTJSVariant base64DecodeToOctetData(
 			tTJSVariantString const* source
 			);
-		static tTJSVariant base64DecodeToOctet(
+		static tTJSVariant base64DecodeToOctetData(
 			tTJSVariantOctet const* source
 			);
 		//
 		//	SUMMARY: エンコード系メソッド
 		//
 		static tTJSVariant encodeToOctet(
-			tTJSVariantString const* to,
+			tTJSVariantString const* charset,
 			tTJSVariantString const* source
 			);
 		static tTJSVariant encodeToOctet(
-			tTJSVariantString const* to,
+			tTJSVariantString const* charset,
 			tTJSVariantOctet const* source,
-			tTJSVariantString const* from
+			tTJSVariantString const* source_charset
 			);
 		static tTJSVariant encodeToString(
 			tTJSVariantOctet const* source,
-			tTJSVariantString const* from
+			tTJSVariantString const* source_charset
 			);
 		//
 		//	SUMMARY: 比較系メソッド
