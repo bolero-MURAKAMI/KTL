@@ -67,7 +67,7 @@ namespace ktl {
 		boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket> > ssl_socket2_;
 		boost::shared_ptr<boost::asio::streambuf> writing_streambuf_;
 		boost::shared_ptr<boost::asio::streambuf> reading_streambuf_;
-		boost::shared_ptr<boost::asio::high_resolution_timer> timeout_timer_;
+		boost::shared_ptr<timeout_timer_type> timeout_timer_;
 		//
 		Resolvers resolvers_;
 		Connectors connectors_;

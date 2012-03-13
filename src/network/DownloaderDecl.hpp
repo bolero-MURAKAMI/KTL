@@ -56,6 +56,7 @@ namespace ktl {
 		Writers writers_;
 		Readers readers_;
 		TimeoutTimers timeout_timers_;
+		//
 		Resolvers resolvers2_;
 		Connectors connectors2_;
 		Handshakers handshakers2_;
@@ -78,6 +79,8 @@ namespace ktl {
 		//
 		boost::shared_ptr<std::ofstream> storage_out_;
 		boost::shared_ptr<buffer_type> buffer_;
+		//
+		boost::shared_ptr<buffer_type> upload_buffer_;
 		//
 		bool is_processing_;
 		bool failed_;
@@ -143,8 +146,10 @@ namespace ktl {
 		bool loadBlock();
 		bool loadChunked();
 		bool analyURL(impl_string_type const& url);
+		bool setStorageName(tjs_char const* storage, bool to_buffer);
 		void putHTTPRequest(impl_string_type const& host_name, impl_string_type const& content_path);
-		bool analyHTTPResponse();
+		bool analyHTTPResponse(bool async);
+		bool openBuffer(bool async);
 		bool updateBuffer(size_type bytes_transferred);
 		void resetInfo();
 		void resetWorkers();
@@ -173,6 +178,10 @@ namespace ktl {
 		bool cancelTimeoutImplNoErrorHandling();
 	public:
 		NativeDownloader();
+		boost::shared_ptr<boost::asio::io_service> const& ioService() const;
+		mutex_type& mutex() const;
+		bool unfinished() const;
+		bool doCancel();
 	public:
 		//
 		//	SUMMARY: ダウンロード系フラグ
@@ -271,6 +280,19 @@ namespace ktl {
 	class Downloader
 		: public tTJSNativeInstance
 	{
+	private:
+		//
+		// AliveHandler
+		//
+		class AliveHandler {
+		public:
+			typedef NativeDownloader::scoped_lock_type scoped_lock_type;
+		private:
+			boost::shared_ptr<NativeDownloader> instance_;
+		public:
+			AliveHandler(boost::shared_ptr<NativeDownloader> const& instance);
+			void operator()() const;
+		};
 	private:
 		boost::shared_ptr<NativeDownloader> instance_;
 	public:
