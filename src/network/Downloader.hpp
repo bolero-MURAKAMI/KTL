@@ -14,7 +14,6 @@
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/spirit/include/qi_parse.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/fusion/include/vector_tie.hpp>
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
@@ -1440,7 +1439,15 @@ namespace ktl {
 					chunked_ = true;
 				}
 			} else if ((found = http_header_.field_map().find("Content-Length")) != not_found) {
-				content_length_ = boost::lexical_cast<size_type>(found->second);
+				content_length_ = std::strtol(found->second.c_str(), 0, 10);
+				if (!content_length_) {
+					if (async) {
+						SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("レスポンスのContent-Lengthが不正です"), SPRIG_KRKR_LOG_LEVEL_WARNING);
+					} else {
+						KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("レスポンスのContent-Lengthが不正です"), SPRIG_KRKR_LOG_LEVEL_WARNING);
+					}
+					return false;
+				}
 			}
 		}
 		return true;
