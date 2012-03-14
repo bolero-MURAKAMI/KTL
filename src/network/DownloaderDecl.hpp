@@ -153,8 +153,8 @@ namespace ktl {
 		bool updateBuffer(size_type bytes_transferred);
 		void resetInfo();
 		void resetWorkers();
-		void resetWorkingBuffer();
-		void resetBuffer();
+		void resetWorkingBuffer(bool setup = false);
+		void resetBuffer(bool setup = false);
 		void resetSocket();
 		void enableSocket();
 		void enableSocketSSL();
@@ -252,6 +252,14 @@ namespace ktl {
 		bool isWaitingTimeout() const;
 		rep_type expiresTimeoutFromNow() const;
 		rep_type expiresTimeoutAt() const;
+		//
+		//	SUMMARY: ポスト系メソッド
+		//
+		bool addPostDataEncoded(tjs_char const* source);
+		bool addPostDataEncoded(tTJSVariantOctet const* source);
+		bool clearPostData();
+		bool postDataEnable() const;
+		int_type postDataSize() const;
 		//
 		//	SUMMARY: URL情報系メソッド
 		//
@@ -373,6 +381,14 @@ namespace ktl {
 		bool isWaitingTimeout() const;
 		tTVInteger expiresTimeoutFromNow() const;
 		tTVInteger expiresTimeoutAt() const;
+		//
+		//	SUMMARY: ポスト系メソッド
+		//
+		bool addPostDataEncoded(tTJSVariantString const* source);
+		bool addPostDataEncoded(tTJSVariantOctet const* source);
+		bool clearPostData();
+		bool postDataEnable() const;
+		tTVInteger postDataSize() const;
 		//
 		//	SUMMARY: URL情報系メソッド
 		//

@@ -251,6 +251,41 @@ namespace ktl {
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, expiresTimeoutFromNow, expiresTimeoutFromNow);
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, expiresTimeoutAt, expiresTimeoutAt);
 	//
+	//	SUMMARY: ポスト系メソッド
+	//
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(addPostDataEncoded)
+	{
+		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		switch (SPRIG_KRKR_ARG_TYPE(0)) {
+		case tvtString:
+			SPRIG_KRKR_INVOKE_RESULT_SET(
+				this_->addPostDataEncoded(SPRIG_KRKR_ARG_STRING(0))
+				);
+			break;
+		case tvtOctet:
+			SPRIG_KRKR_INVOKE_RESULT_SET(
+				this_->addPostDataEncoded(SPRIG_KRKR_ARG_OCTET(0))
+				);
+			break;
+		default:
+			return TJS_E_INVALIDPARAM;
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(addPostDataEncoded);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(clearPostData)
+	{
+		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
+		SPRIG_KRKR_INVOKE_RESULT_SET(
+			this_->clearPostData()
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(clearPostData);
+	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, postDataEnable, postDataEnable);
+	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, postDataSize, postDataSize);
+	//
 	//	SUMMARY: URL情報系メソッド
 	//
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, hostName, hostName);

@@ -51,48 +51,52 @@ namespace ktl {
 		)
 	{
 		scoped_lock_type lock(mutex_);
-		element_.acceptors.error_code() = error;
-		if (!restartMonitor()) {
-			return;
-		}
-		NetworkUtils::asSocket(*element_.socket).close(*element_.acceptors.error_code());
-		if (!checkAcceptors()) {
-			return;
-		}
-		element_.acceptors.acceptor()->async_accept(
-			NetworkUtils::asSocket(*element_.socket),
-			strand_->wrap(
-				boost::bind(
-					&NativeAcceptor::handleMonitor,
-					this,
-					boost::asio::placeholders::error
+		SPRIG_KRKR_TRY() {
+			element_.acceptors.error_code() = error;
+			if (!restartMonitor()) {
+				return;
+			}
+			NetworkUtils::asSocket(*element_.socket).close(*element_.acceptors.error_code());
+			if (!checkAcceptors()) {
+				return;
+			}
+			element_.acceptors.acceptor()->async_accept(
+				NetworkUtils::asSocket(*element_.socket),
+				strand_->wrap(
+					boost::bind(
+						&NativeAcceptor::handleMonitor,
+						this,
+						boost::asio::placeholders::error
+						)
 					)
-				)
-			);
+				);
+		} SPRIG_KRKR_CATCH_RETURN_VOID();
 	}
 	void NativeAcceptor::handleMonitorSSL(
 		boost::system::error_code const& error
 		)
 	{
 		scoped_lock_type lock(mutex_);
-		element_.acceptors.error_code() = error;
-		if (!restartMonitorSSL()) {
-			return;
-		}
-		NetworkUtils::asSocket(*element_.ssl_socket).close(*element_.acceptors.error_code());
-		if (!checkAcceptors()) {
-			return;
-		}
-		element_.acceptors.acceptor()->async_accept(
-			NetworkUtils::asSocket(*element_.ssl_socket),
-			strand_->wrap(
-				boost::bind(
-					&NativeAcceptor::handleMonitorSSL,
-					this,
-					boost::asio::placeholders::error
+		SPRIG_KRKR_TRY() {
+			element_.acceptors.error_code() = error;
+			if (!restartMonitorSSL()) {
+				return;
+			}
+			NetworkUtils::asSocket(*element_.ssl_socket).close(*element_.acceptors.error_code());
+			if (!checkAcceptors()) {
+				return;
+			}
+			element_.acceptors.acceptor()->async_accept(
+				NetworkUtils::asSocket(*element_.ssl_socket),
+				strand_->wrap(
+					boost::bind(
+						&NativeAcceptor::handleMonitorSSL,
+						this,
+						boost::asio::placeholders::error
+						)
 					)
-				)
-			);
+				);
+		} SPRIG_KRKR_CATCH_RETURN_VOID();
 	}
 	KTL_INLINE bool NativeAcceptor::setupMonitor(unsigned short port, flag_type protocol_flag) {
 		if (is_processing_) {
@@ -419,7 +423,7 @@ namespace ktl {
 	//
 	// Acceptor::AliveHandler
 	//
-	Acceptor::AliveHandler::AliveHandler(boost::shared_ptr<NativeAcceptor> const& instance)
+	KTL_INLINE Acceptor::AliveHandler::AliveHandler(boost::shared_ptr<NativeAcceptor> const& instance)
 		: instance_(instance)
 	{}
 	KTL_INLINE void Acceptor::AliveHandler::operator()() const {
