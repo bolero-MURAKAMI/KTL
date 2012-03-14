@@ -1890,10 +1890,10 @@ namespace ktl {
 	}
 	KTL_INLINE bool NativeDownloader::clearBuffer() {
 		scoped_lock_type lock(mutex_);
-		if (!buffer_) {
+		if (!is_processing_) {
 			return false;
 		}
-		buffer_ = boost::make_shared<buffer_type>();
+		buffer_.reset();
 		return true;
 	}
 	KTL_INLINE bool NativeDownloader::bufferEnable() const {
