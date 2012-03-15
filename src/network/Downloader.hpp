@@ -151,7 +151,12 @@ namespace ktl {
 						)
 					);
 			}
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeDownloader::handleConnect(
 		boost::system::error_code const& error,
@@ -194,7 +199,12 @@ namespace ktl {
 						)
 					)
 				);
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeDownloader::handleConnectSSL(
 		boost::system::error_code const& error,
@@ -233,7 +243,12 @@ namespace ktl {
 						)
 					)
 				);
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeDownloader::handleHandshake(
 		boost::system::error_code const& error
@@ -274,7 +289,12 @@ namespace ktl {
 						)
 					)
 				);
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeDownloader::handleWrite(
 		boost::system::error_code const& error,
@@ -331,7 +351,12 @@ namespace ktl {
 						)
 					);
 			}
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeDownloader::handleReadUntil(
 		boost::system::error_code const& error,
@@ -455,7 +480,12 @@ namespace ktl {
 						);
 				}
 			}
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeDownloader::handleLoadBlock(
 		boost::system::error_code const& error,
@@ -532,7 +562,12 @@ namespace ktl {
 						)
 					);
 			}
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	KTL_INLINE void NativeDownloader::handleReadChunkSize(
 		boost::system::error_code const& error,
@@ -647,7 +682,12 @@ namespace ktl {
 						);
 				}
 			}
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	KTL_INLINE void NativeDownloader::handleReadChunkData(
 		boost::system::error_code const& error,
@@ -751,7 +791,12 @@ namespace ktl {
 						);
 				}
 			}
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	KTL_INLINE void NativeDownloader::handleReadChunkDataAfter(
 		boost::system::error_code const& error,
@@ -810,7 +855,12 @@ namespace ktl {
 						)
 					);
 			}
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeDownloader::handleTimeout(
 		boost::system::error_code const& error
@@ -825,7 +875,12 @@ namespace ktl {
 			}
 			cancelImpl();
 			NetworkUtils::moveComponent(timeout_timers_, timeout_timers2_);
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	KTL_INLINE bool NativeDownloader::resolve(impl_string_type const& host_name, impl_string_type const& service_name) {
 		if (resolvers2_.enable()) {

@@ -70,7 +70,12 @@ namespace ktl {
 						)
 					)
 				);
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("îÒìØä˙èàóùì‡Ç≈ó·äOÇ™ìäÇ∞ÇÁÇÍÇ‹ÇµÇΩ"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeAcceptor::handleMonitorSSL(
 		boost::system::error_code const& error
@@ -96,7 +101,12 @@ namespace ktl {
 						)
 					)
 				);
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("îÒìØä˙èàóùì‡Ç≈ó·äOÇ™ìäÇ∞ÇÁÇÍÇ‹ÇµÇΩ"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	KTL_INLINE bool NativeAcceptor::setupMonitor(unsigned short port, flag_type protocol_flag) {
 		if (is_processing_) {

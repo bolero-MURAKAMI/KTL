@@ -216,7 +216,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			resolvers2_.error_code() = error;
 			finishResolve(endpoint_iterator);
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleConnect(
 		boost::system::error_code const& error,
@@ -227,7 +232,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			connectors2_.error_code() = error;
 			finishConnect();
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleConnectSSL(
 		boost::system::error_code const& error,
@@ -238,7 +248,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			connectors2_.error_code() = error;
 			finishConnectSSL();
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleAccept(
 		boost::system::error_code const& error
@@ -248,7 +263,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			acceptors2_.error_code() = error;
 			finishAccept();
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleAcceptSSL(
 		boost::system::error_code const& error
@@ -258,7 +278,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			acceptors2_.error_code() = error;
 			finishAcceptSSL();
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleHandshake(
 		boost::system::error_code const& error
@@ -268,7 +293,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			handshakers2_.error_code() = error;
 			finishHandshake();
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleWrite(
 		boost::system::error_code const& error,
@@ -279,7 +309,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			writers2_.error_code() = error;
 			finishWrite();
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleRead(
 		boost::system::error_code const& error,
@@ -290,7 +325,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			readers2_.error_code() = error;
 			finishRead();
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleReadUntil(
 		boost::system::error_code const& error,
@@ -301,7 +341,12 @@ namespace ktl {
 		SPRIG_KRKR_TRY() {
 			readers2_.error_code() = error;
 			finishRead();
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	void NativeSocket::handleTimeout(
 		boost::system::error_code const& error
@@ -316,7 +361,12 @@ namespace ktl {
 			}
 			cancelImpl();
 			NetworkUtils::moveComponent(timeout_timers_, timeout_timers2_);
-		} SPRIG_KRKR_CATCH_RETURN_VOID();
+		} SPRIG_KRKR_CATCH(e) {
+			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
+			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
+			cleanupOnProcessFailed();
+			return;
+		}
 	}
 	KTL_INLINE bool NativeSocket::setupResolve(impl_string_type const& host_name, impl_string_type const& service_name) {
 		if (is_processing_) {
