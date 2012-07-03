@@ -13,6 +13,7 @@ namespace ktl {
 	class NativeLocalFiles {
 	public:
 		typedef boost::filesystem::file_type file_type_flag_type;
+		typedef boost::filesystem::perms perms_flag_type;
 		typedef boost::uintmax_t uint_type;
 		typedef std::time_t time_type;
 	public:
@@ -35,6 +36,31 @@ namespace ktl {
 		static file_type_flag_type const ftfSocketFile = boost::filesystem::socket_file;
 		static file_type_flag_type const ftfReparseFile = boost::filesystem::reparse_file;
 		static file_type_flag_type const ftfTypeUnknown = boost::filesystem::type_unknown;
+		//
+		//	SUMMARY: パーミッション系フラグ
+		//
+		static perms_flag_type const pfNoPerms = boost::filesystem::no_perms;
+		static perms_flag_type const pfOwnerRead = boost::filesystem::owner_read;
+		static perms_flag_type const pfOwnerWrite = boost::filesystem::owner_write;
+		static perms_flag_type const pfOwnerExe = boost::filesystem::owner_exe;
+		static perms_flag_type const pfOwnerAll = boost::filesystem::owner_all;
+		static perms_flag_type const pfGroupRead = boost::filesystem::group_read;
+		static perms_flag_type const pfGroupWrite = boost::filesystem::group_write;
+		static perms_flag_type const pfGroupExe = boost::filesystem::group_exe;
+		static perms_flag_type const pfGroupAll = boost::filesystem::group_all;
+		static perms_flag_type const pfOthersRead = boost::filesystem::others_read;
+		static perms_flag_type const pfOthersWrite = boost::filesystem::others_write;
+		static perms_flag_type const pfOthersExe = boost::filesystem::others_exe;
+		static perms_flag_type const pfOthersAll = boost::filesystem::others_all;
+		static perms_flag_type const pfAllAll = boost::filesystem::all_all;
+		static perms_flag_type const pfUIDOnExe = boost::filesystem::set_uid_on_exe;
+		static perms_flag_type const pfGIDOnExe = boost::filesystem::set_gid_on_exe;
+		static perms_flag_type const pfStickyBit = boost::filesystem::sticky_bit;
+		static perms_flag_type const pfPermsMask = boost::filesystem::perms_mask;
+		static perms_flag_type const pfPermsNotKnown = boost::filesystem::perms_not_known;
+		static perms_flag_type const pfAddPerms = boost::filesystem::add_perms;
+		static perms_flag_type const pfRemovePerms = boost::filesystem::remove_perms;
+		static perms_flag_type const pfSymlinkPerms = boost::filesystem::symlink_perms;
 	public:
 		//
 		//	SUMMARY: コピー系メソッド
@@ -65,6 +91,7 @@ namespace ktl {
 		static bool isSymlink(tjs_char const* p);
 		static time_type getLastWriteTime(tjs_char const* p);
 		static void setLastWriteTime(tjs_char const* p, time_type new_time);
+		static void permissions(tjs_char const* p, perms_flag_type prms);
 		static tTJSString readSymlink(tjs_char const* p);
 		//
 		//	SUMMARY: 削除系メソッド
@@ -79,9 +106,17 @@ namespace ktl {
 		//
 		//	SUMMARY: ステータス系メソッド
 		//
-		static file_type_flag_type status(tjs_char const* p);
+		static tTJSVariant space(tjs_char const* p);
+		static uint_type spaceCapacity(tjs_char const* p);
+		static uint_type spaceFree(tjs_char const* p);
+		static uint_type spaceAvailable(tjs_char const* p);
+		static tTJSVariant status(tjs_char const* p);
+		static file_type_flag_type statusType(tjs_char const* p);
+		static perms_flag_type statusPermissions(tjs_char const* p);
 		static bool statusKnown(file_type_flag_type s);
-		static file_type_flag_type symlinkStatus(tjs_char const* p);
+		static tTJSVariant symlinkStatus(tjs_char const* p);
+		static file_type_flag_type symlinkStatusType(tjs_char const* p);
+		static perms_flag_type symlinkStatusPermissions(tjs_char const* p);
 		//
 		//	SUMMARY: 取得系メソッド
 		//
@@ -130,6 +165,31 @@ namespace ktl {
 		static tTVInteger const ftfSocketFile = NativeLocalFiles::ftfSocketFile;
 		static tTVInteger const ftfReparseFile = NativeLocalFiles::ftfReparseFile;
 		static tTVInteger const ftfTypeUnknown = NativeLocalFiles::ftfTypeUnknown;
+		//
+		//	SUMMARY: パーミッション系フラグ
+		//
+		static tTVInteger const pfNoPerms = NativeLocalFiles::pfNoPerms;
+		static tTVInteger const pfOwnerRead = NativeLocalFiles::pfOwnerRead;
+		static tTVInteger const pfOwnerWrite = NativeLocalFiles::pfOwnerWrite;
+		static tTVInteger const pfOwnerExe = NativeLocalFiles::pfOwnerExe;
+		static tTVInteger const pfOwnerAll = NativeLocalFiles::pfOwnerAll;
+		static tTVInteger const pfGroupRead = NativeLocalFiles::pfGroupRead;
+		static tTVInteger const pfGroupWrite = NativeLocalFiles::pfGroupWrite;
+		static tTVInteger const pfGroupExe = NativeLocalFiles::pfGroupExe;
+		static tTVInteger const pfGroupAll = NativeLocalFiles::pfGroupAll;
+		static tTVInteger const pfOthersRead = NativeLocalFiles::pfOthersRead;
+		static tTVInteger const pfOthersWrite = NativeLocalFiles::pfOthersWrite;
+		static tTVInteger const pfOthersExe = NativeLocalFiles::pfOthersExe;
+		static tTVInteger const pfOthersAll = NativeLocalFiles::pfOthersAll;
+		static tTVInteger const pfAllAll = NativeLocalFiles::pfAllAll;
+		static tTVInteger const pfUIDOnExe = NativeLocalFiles::pfUIDOnExe;
+		static tTVInteger const pfGIDOnExe = NativeLocalFiles::pfGIDOnExe;
+		static tTVInteger const pfStickyBit = NativeLocalFiles::pfStickyBit;
+		static tTVInteger const pfPermsMask = NativeLocalFiles::pfPermsMask;
+		static tTVInteger const pfPermsNotKnown = NativeLocalFiles::pfPermsNotKnown;
+		static tTVInteger const pfAddPerms = NativeLocalFiles::pfAddPerms;
+		static tTVInteger const pfRemovePerms = NativeLocalFiles::pfRemovePerms;
+		static tTVInteger const pfSymlinkPerms = NativeLocalFiles::pfSymlinkPerms;
 	public:
 		//
 		//	SUMMARY: コピー系メソッド
@@ -160,6 +220,7 @@ namespace ktl {
 		static bool isSymlink(tTJSVariantString const* p);
 		static tTVInteger getLastWriteTime(tTJSVariantString const* p);
 		static void setLastWriteTime(tTJSVariantString const* p, tTVInteger new_time);
+		static void permissions(tTJSVariantString const* p, tTVInteger prms);
 		static tTJSString readSymlink(tTJSVariantString const* p);
 		//
 		//	SUMMARY: 削除系メソッド
@@ -174,9 +235,17 @@ namespace ktl {
 		//
 		//	SUMMARY: ステータス系メソッド
 		//
-		static tTVInteger status(tTJSVariantString const* p);
+		static tTJSVariant space(tTJSVariantString const* p);
+		static tTVInteger spaceCapacity(tTJSVariantString const* p);
+		static tTVInteger spaceFree(tTJSVariantString const* p);
+		static tTVInteger spaceAvailable(tTJSVariantString const* p);
+		static tTJSVariant status(tTJSVariantString const* p);
+		static tTVInteger statusType(tTJSVariantString const* p);
+		static tTVInteger statusPermissions(tTJSVariantString const* p);
 		static bool statusKnown(tTVInteger s);
-		static tTVInteger symlinkStatus(tTJSVariantString const* p);
+		static tTJSVariant symlinkStatus(tTJSVariantString const* p);
+		static tTVInteger symlinkStatusType(tTJSVariantString const* p);
+		static tTVInteger symlinkStatusPermissions(tTJSVariantString const* p);
 		//
 		//	SUMMARY: 取得系メソッド
 		//

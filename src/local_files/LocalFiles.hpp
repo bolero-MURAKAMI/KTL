@@ -8,7 +8,7 @@
 #include <boost/smart_ptr/make_shared.hpp>
 #include <boost/range/reference.hpp>
 #include <boost/range/value_type.hpp>
-#include <boost/range/algorithm/sort.hpp> 
+#include <boost/range/algorithm/sort.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -16,6 +16,7 @@
 #include <sprig/str_compare.hpp>
 #include <sprig/str_cast.hpp>
 #include <sprig/predicate.hpp>
+#include <sprig/numeric/conversion/cast.hpp>
 #include <sprig/krkr/exception.hpp>
 #include <sprig/krkr/tjs.hpp>
 #include <sprig/krkr/macro.hpp>
@@ -44,10 +45,10 @@ namespace ktl {
 	//	SUMMARY: コピー系メソッド
 	//
 	KTL_INLINE void NativeLocalFiles::copy(tjs_char const* from, tjs_char const* to) {
-		boost::filesystem3::copy(getLocalName(from).c_str(), getLocalName(to).c_str());
+		boost::filesystem::copy(getLocalName(from).c_str(), getLocalName(to).c_str());
 	}
 	KTL_INLINE void NativeLocalFiles::copyDirectory(tjs_char const* from, tjs_char const* to) {
-		boost::filesystem3::copy_directory(getLocalName(from).c_str(), getLocalName(to).c_str());
+		boost::filesystem::copy_directory(getLocalName(from).c_str(), getLocalName(to).c_str());
 	}
 	KTL_INLINE void NativeLocalFiles::copyFile(tjs_char const* from, tjs_char const* to) {
 		boost::filesystem::copy_file(getLocalName(from).c_str(), getLocalName(to).c_str());
@@ -106,6 +107,9 @@ namespace ktl {
 	KTL_INLINE void NativeLocalFiles::setLastWriteTime(tjs_char const* p, time_type new_time) {
 		boost::filesystem::last_write_time(getLocalName(p).c_str(), new_time);
 	}
+	KTL_INLINE void NativeLocalFiles::permissions(tjs_char const* p, perms_flag_type prms) {
+		boost::filesystem::permissions(getLocalName(p).c_str(), prms);
+	}
 	KTL_INLINE tTJSString NativeLocalFiles::readSymlink(tjs_char const* p) {
 		return boost::filesystem::read_symlink(getLocalName(p).c_str()).c_str();
 	}
@@ -130,14 +134,105 @@ namespace ktl {
 	//
 	//	SUMMARY: ステータス系メソッド
 	//
-	KTL_INLINE NativeLocalFiles::file_type_flag_type NativeLocalFiles::status(tjs_char const* p) {
+	KTL_INLINE tTJSVariant NativeLocalFiles::space(tjs_char const* p) {
+		boost::filesystem::space_info info(boost::filesystem::space(getLocalName(p).c_str()));
+		sprig::krkr::tjs::object_type result;
+		{
+			iTJSDispatch2* result_obj = 0;
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
+				&result_obj,
+				0,
+				0,
+				0
+				);
+			result = sprig::krkr::tjs::object_type(result_obj, false);
+		}
+		{
+			tTJSVariant var(tTVInteger(info.capacity));
+			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("capacity"), &var);
+		}
+		{
+			tTJSVariant var(tTVInteger(info.free));
+			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("free"), &var);
+		}
+		{
+			tTJSVariant var(tTVInteger(info.available));
+			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("available"), &var);
+		}
+		return tTJSVariant(result.get(), result.get());
+	}
+	KTL_INLINE NativeLocalFiles::uint_type NativeLocalFiles::spaceCapacity(tjs_char const* p) {
+		return boost::filesystem::space(getLocalName(p).c_str()).capacity;
+	}
+	KTL_INLINE NativeLocalFiles::uint_type NativeLocalFiles::spaceFree(tjs_char const* p) {
+		return boost::filesystem::space(getLocalName(p).c_str()).free;
+	}
+	KTL_INLINE NativeLocalFiles::uint_type NativeLocalFiles::spaceAvailable(tjs_char const* p) {
+		return boost::filesystem::space(getLocalName(p).c_str()).available;
+	}
+	KTL_INLINE tTJSVariant NativeLocalFiles::status(tjs_char const* p) {
+		boost::filesystem::file_status stat(boost::filesystem::status(getLocalName(p).c_str()));
+		sprig::krkr::tjs::object_type result;
+		{
+			iTJSDispatch2* result_obj = 0;
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
+				&result_obj,
+				0,
+				0,
+				0
+				);
+			result = sprig::krkr::tjs::object_type(result_obj, false);
+		}
+		{
+			tTJSVariant var(tTVInteger(stat.type()));
+			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("type"), &var);
+		}
+		{
+			tTJSVariant var(tTVInteger(stat.permissions()));
+			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("permissions"), &var);
+		}
+		return tTJSVariant(result.get(), result.get());
+	}
+	KTL_INLINE NativeLocalFiles::file_type_flag_type NativeLocalFiles::statusType(tjs_char const* p) {
 		return boost::filesystem::status(getLocalName(p).c_str()).type();
+	}
+	KTL_INLINE NativeLocalFiles::perms_flag_type NativeLocalFiles::statusPermissions(tjs_char const* p) {
+		return boost::filesystem::status(getLocalName(p).c_str()).permissions();
 	}
 	KTL_INLINE bool NativeLocalFiles::statusKnown(file_type_flag_type s) {
 		return boost::filesystem::status_known(boost::filesystem::file_status(s));
 	}
-	KTL_INLINE NativeLocalFiles::file_type_flag_type NativeLocalFiles::symlinkStatus(tjs_char const* p) {
+	KTL_INLINE tTJSVariant NativeLocalFiles::symlinkStatus(tjs_char const* p) {
+		boost::filesystem::file_status stat(boost::filesystem::symlink_status(getLocalName(p).c_str()));
+		sprig::krkr::tjs::object_type result;
+		{
+			iTJSDispatch2* result_obj = 0;
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
+				&result_obj,
+				0,
+				0,
+				0
+				);
+			result = sprig::krkr::tjs::object_type(result_obj, false);
+		}
+		{
+			tTJSVariant var(tTVInteger(stat.type()));
+			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("type"), &var);
+		}
+		{
+			tTJSVariant var(tTVInteger(stat.permissions()));
+			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("permissions"), &var);
+		}
+		return tTJSVariant(result.get(), result.get());
+	}
+	KTL_INLINE NativeLocalFiles::file_type_flag_type NativeLocalFiles::symlinkStatusType(tjs_char const* p) {
 		return boost::filesystem::symlink_status(getLocalName(p).c_str()).type();
+	}
+	KTL_INLINE NativeLocalFiles::perms_flag_type NativeLocalFiles::symlinkStatusPermissions(tjs_char const* p) {
+		return boost::filesystem::symlink_status(getLocalName(p).c_str()).permissions();
 	}
 	//
 	//	SUMMARY: 取得系メソッド
@@ -409,6 +504,12 @@ namespace ktl {
 			new_time
 			);
 	}
+	KTL_INLINE void LocalFiles::permissions(tTJSVariantString const* p, tTVInteger prms) {
+		return NativeLocalFiles::permissions(
+			sprig::krkr::tjs::as_c_str(p),
+			sprig::numeric::bit_cast<NativeLocalFiles::perms_flag_type>(prms)
+			);
+	}
 	KTL_INLINE tTJSString LocalFiles::readSymlink(tTJSVariantString const* p) {
 		return NativeLocalFiles::readSymlink(
 			sprig::krkr::tjs::as_c_str(p)
@@ -445,18 +546,58 @@ namespace ktl {
 	//
 	//	SUMMARY: ステータス系メソッド
 	//
-	KTL_INLINE tTVInteger LocalFiles::status(tTJSVariantString const* p) {
+	KTL_INLINE tTJSVariant LocalFiles::space(tTJSVariantString const* p) {
+		return NativeLocalFiles::space(
+			sprig::krkr::tjs::as_c_str(p)
+			);
+	}
+	KTL_INLINE tTVInteger LocalFiles::spaceCapacity(tTJSVariantString const* p) {
+		return NativeLocalFiles::spaceCapacity(
+			sprig::krkr::tjs::as_c_str(p)
+			);
+	}
+	KTL_INLINE tTVInteger LocalFiles::spaceFree(tTJSVariantString const* p) {
+		return NativeLocalFiles::spaceFree(
+			sprig::krkr::tjs::as_c_str(p)
+			);
+	}
+	KTL_INLINE tTVInteger LocalFiles::spaceAvailable(tTJSVariantString const* p) {
+		return NativeLocalFiles::spaceAvailable(
+			sprig::krkr::tjs::as_c_str(p)
+			);
+	}
+	KTL_INLINE tTJSVariant LocalFiles::status(tTJSVariantString const* p) {
 		return NativeLocalFiles::status(
+			sprig::krkr::tjs::as_c_str(p)
+			);
+	}
+	KTL_INLINE tTVInteger LocalFiles::statusType(tTJSVariantString const* p) {
+		return NativeLocalFiles::statusType(
+			sprig::krkr::tjs::as_c_str(p)
+			);
+	}
+	KTL_INLINE tTVInteger LocalFiles::statusPermissions(tTJSVariantString const* p) {
+		return NativeLocalFiles::statusPermissions(
 			sprig::krkr::tjs::as_c_str(p)
 			);
 	}
 	KTL_INLINE bool LocalFiles::statusKnown(tTVInteger s) {
 		return NativeLocalFiles::statusKnown(
-			static_cast<NativeLocalFiles::file_type_flag_type>(s)
+			sprig::numeric::bit_cast<NativeLocalFiles::file_type_flag_type>(s)
 			);
 	}
-	KTL_INLINE tTVInteger LocalFiles::symlinkStatus(tTJSVariantString const* p) {
+	KTL_INLINE tTJSVariant LocalFiles::symlinkStatus(tTJSVariantString const* p) {
 		return NativeLocalFiles::symlinkStatus(
+			sprig::krkr::tjs::as_c_str(p)
+			);
+	}
+	KTL_INLINE tTVInteger LocalFiles::symlinkStatusType(tTJSVariantString const* p) {
+		return NativeLocalFiles::symlinkStatusType(
+			sprig::krkr::tjs::as_c_str(p)
+			);
+	}
+	KTL_INLINE tTVInteger LocalFiles::symlinkStatusPermissions(tTJSVariantString const* p) {
+		return NativeLocalFiles::symlinkStatusPermissions(
 			sprig::krkr::tjs::as_c_str(p)
 			);
 	}

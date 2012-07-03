@@ -39,6 +39,7 @@ namespace ktl {
 	namespace patch {
 		//
 		// geometric_distribution
+		//	for: Boost 1.47
 		//
 		template<
 			typename IntType = boost::random::geometric_distribution<>::result_type,
@@ -230,8 +231,7 @@ namespace ktl {
 		typedef boost::random::bernoulli_distribution<tTVReal> bernoulli_distribution;
 		//	CHECK: binomial_distribution (Boost 1.47)
 		typedef boost::random::binomial_distribution</*tTVInteger*/tjs_int, tTVReal> binomial_distribution;
-		//	CHECK: geometric_distribution (Boost 1.47)
-		typedef patch::geometric_distribution<tTVInteger, tTVReal> geometric_distribution;
+		typedef boost::random::geometric_distribution<tTVInteger, tTVReal> geometric_distribution;
 		typedef boost::random::negative_binomial_distribution<tTVInteger, tTVReal> negative_binomial_distribution;
 		typedef boost::random::poisson_distribution<tTVInteger, tTVReal> poisson_distribution;
 		typedef boost::random::exponential_distribution<tTVReal> exponential_distribution;

@@ -32,6 +32,31 @@ namespace ktl {
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(ftfReparseFile, LocalFiles::ftfReparseFile);
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(ftfTypeUnknown, LocalFiles::ftfTypeUnknown);
 	//
+	//	SUMMARY: パーミッション系フラグ
+	//
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfNoPerms, LocalFiles::pfNoPerms);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfOwnerRead, LocalFiles::pfOwnerRead);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfOwnerWrite, LocalFiles::pfOwnerWrite);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfOwnerExe, LocalFiles::pfOwnerExe);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfOwnerAll, LocalFiles::pfOwnerAll);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfGroupRead, LocalFiles::pfGroupRead);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfGroupWrite, LocalFiles::pfGroupWrite);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfGroupExe, LocalFiles::pfGroupExe);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfGroupAll, LocalFiles::pfGroupAll);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfOthersRead, LocalFiles::pfOthersRead);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfOthersWrite, LocalFiles::pfOthersWrite);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfOthersExe, LocalFiles::pfOthersExe);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfOthersAll, LocalFiles::pfOthersAll);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfAllAll, LocalFiles::pfAllAll);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfUIDOnExe, LocalFiles::pfUIDOnExe);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfGIDOnExe, LocalFiles::pfGIDOnExe);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfStickyBit, LocalFiles::pfStickyBit);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfPermsMask, LocalFiles::pfPermsMask);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfPermsNotKnown, LocalFiles::pfPermsNotKnown);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfAddPerms, LocalFiles::pfAddPerms);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfRemovePerms, LocalFiles::pfRemovePerms);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(pfSymlinkPerms, LocalFiles::pfSymlinkPerms);
+	//
 	//	SUMMARY: コピー系メソッド
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(copy)
@@ -232,6 +257,14 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(setLastWriteTime);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(permissions)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		LocalFiles::permissions(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1));
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(permissions);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(readSymlink)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
@@ -288,6 +321,46 @@ namespace ktl {
 	//
 	//	SUMMARY: ステータス系メソッド
 	//
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(space)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		SPRIG_KRKR_RESULT_SET(
+			LocalFiles::space(SPRIG_KRKR_ARG_STRING(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(space);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(spaceCapacity)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		SPRIG_KRKR_RESULT_SET(
+			LocalFiles::spaceCapacity(SPRIG_KRKR_ARG_STRING(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(spaceCapacity);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(spaceFree)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		SPRIG_KRKR_RESULT_SET(
+			LocalFiles::spaceFree(SPRIG_KRKR_ARG_STRING(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(spaceFree);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(spaceAvailable)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		SPRIG_KRKR_RESULT_SET(
+			LocalFiles::spaceAvailable(SPRIG_KRKR_ARG_STRING(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(spaceAvailable);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(status)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
@@ -298,6 +371,26 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(status);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(statusType)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		SPRIG_KRKR_RESULT_SET(
+			LocalFiles::statusType(SPRIG_KRKR_ARG_STRING(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(statusType);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(statusPermissions)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		SPRIG_KRKR_RESULT_SET(
+			LocalFiles::statusPermissions(SPRIG_KRKR_ARG_STRING(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(statusPermissions);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(statusKnown)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
@@ -318,6 +411,26 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(symlinkStatus);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(symlinkStatusType)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		SPRIG_KRKR_RESULT_SET(
+			LocalFiles::symlinkStatusType(SPRIG_KRKR_ARG_STRING(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(symlinkStatusType);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(symlinkStatusPermissions)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		SPRIG_KRKR_RESULT_SET(
+			LocalFiles::symlinkStatusPermissions(SPRIG_KRKR_ARG_STRING(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(symlinkStatusPermissions);
 	//
 	//	SUMMARY: 取得系メソッド
 	//

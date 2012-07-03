@@ -55,7 +55,7 @@ namespace ktl {
 			bool op_ins_;
 			bool op_seq_;
 		public:
-			explicit SpecAnalyzer(pt_string_type& spec); 
+			explicit SpecAnalyzer(pt_string_type& spec);
 			bool opNop() const;
 			bool opIns() const;
 			bool opSeq() const;
