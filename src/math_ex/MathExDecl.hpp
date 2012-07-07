@@ -154,6 +154,13 @@ namespace ktl {
 		static tTVReal sphBessel(unsigned v, tTVReal x);
 		static tTVReal sphNeumann(unsigned v, tTVReal x);
 		//
+		//	SUMMARY: ハンケル関数系メソッド
+		//
+		static std::complex<tTVReal> cylHankel1(tTVReal v, tTVReal x);
+		static std::complex<tTVReal> cylHankel2(tTVReal v, tTVReal x);
+		static std::complex<tTVReal> sphHankel1(tTVReal v, tTVReal x);
+		static std::complex<tTVReal> sphHankel2(tTVReal v, tTVReal x);
+		//
 		//	SUMMARY: ゼータ関数系メソッド
 		//
 		static tTVReal zeta(tTVReal z);
@@ -162,6 +169,10 @@ namespace ktl {
 		//
 		static tTVReal sincPi(tTVReal x);
 		static tTVReal sinhcPi(tTVReal x);
+		//
+		//	SUMMARY: オーウェンのT関数系メソッド
+		//
+		static tTVReal owensT(tTVReal h, tTVReal a);
 		//
 		//	SUMMARY: 楕円積分系メソッド
 		//
@@ -362,6 +373,13 @@ namespace ktl {
 		static tTVReal sphBessel(tTVInteger v, tTVReal x);
 		static tTVReal sphNeumann(tTVInteger v, tTVReal x);
 		//
+		//	SUMMARY: ハンケル関数系メソッド
+		//
+		static tTJSVariant cylHankel1(tTVReal v, tTVReal x);
+		static tTJSVariant cylHankel2(tTVReal v, tTVReal x);
+		static tTJSVariant sphHankel1(tTVReal v, tTVReal x);
+		static tTJSVariant sphHankel2(tTVReal v, tTVReal x);
+		//
 		//	SUMMARY: ゼータ関数系メソッド
 		//
 		static tTVReal zeta(tTVReal z);
@@ -370,6 +388,10 @@ namespace ktl {
 		//
 		static tTVReal sincPi(tTVReal x);
 		static tTVReal sinhcPi(tTVReal x);
+		//
+		//	SUMMARY: オーウェンのT関数系メソッド
+		//
+		static tTVReal owensT(tTVReal h, tTVReal a);
 		//
 		//	SUMMARY: 楕円積分系メソッド
 		//

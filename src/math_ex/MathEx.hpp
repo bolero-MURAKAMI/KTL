@@ -22,9 +22,11 @@
 #include <boost/math/special_functions/hermite.hpp>
 #include <boost/math/special_functions/spherical_harmonic.hpp>
 #include <boost/math/special_functions/bessel.hpp>
+#include <boost/math/special_functions/hankel.hpp>
 #include <boost/math/special_functions/zeta.hpp>
 #include <boost/math/special_functions/sinc.hpp>
 #include <boost/math/special_functions/sinhc.hpp>
+#include <boost/math/special_functions/owens_t.hpp>
 #include <boost/math/special_functions/ellint_rf.hpp>
 #include <boost/math/special_functions/ellint_rd.hpp>
 #include <boost/math/special_functions/ellint_rj.hpp>
@@ -483,6 +485,21 @@ namespace ktl {
 		return boost::math::sph_neumann(v, x);
 	}
 	//
+	//	SUMMARY: ハンケル関数系メソッド
+	//
+	KTL_INLINE std::complex<tTVReal> NativeMathEx::cylHankel1(tTVReal v, tTVReal x) {
+		return boost::math::cyl_hankel_1(v, x);
+	}
+	KTL_INLINE std::complex<tTVReal> NativeMathEx::cylHankel2(tTVReal v, tTVReal x) {
+		return boost::math::cyl_hankel_2(v, x);
+	}
+	KTL_INLINE std::complex<tTVReal> NativeMathEx::sphHankel1(tTVReal v, tTVReal x) {
+		return boost::math::sph_hankel_1(v, x);
+	}
+	KTL_INLINE std::complex<tTVReal> NativeMathEx::sphHankel2(tTVReal v, tTVReal x) {
+		return boost::math::sph_hankel_2(v, x);
+	}
+	//
 	//	SUMMARY: ゼータ関数系メソッド
 	//
 	KTL_INLINE tTVReal NativeMathEx::zeta(tTVReal z) {
@@ -496,6 +513,12 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal NativeMathEx::sinhcPi(tTVReal x) {
 		return boost::math::sinhc_pi(x);
+	}
+	//
+	//	SUMMARY: オーウェンのT関数系メソッド
+	//
+	KTL_INLINE tTVReal NativeMathEx::owensT(tTVReal h, tTVReal a) {
+		return boost::math::owens_t(h, a);
 	}
 	//
 	//	SUMMARY: 楕円積分系メソッド
@@ -951,6 +974,105 @@ namespace ktl {
 		return NativeMathEx::sphNeumann(boost::numeric_cast<unsigned>(v), x);
 	}
 	//
+	//	SUMMARY: ハンケル関数系メソッド
+	//
+	KTL_INLINE tTJSVariant MathEx::cylHankel1(tTVReal v, tTVReal x) {
+		std::complex<tTVReal> t(NativeMathEx::cylHankel1(v, x));
+		sprig::krkr::tjs::object_type result;
+		{
+			iTJSDispatch2* result_obj = 0;
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				&result_obj,
+				0,
+				0,
+				0
+				);
+			result = sprig::krkr::tjs::object_type(result_obj, false);
+		}
+		{
+			tTJSVariant var(t.real());
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
+		}
+		{
+			tTJSVariant var(t.imag());
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
+		}
+		return tTJSVariant(result.get(), result.get());
+	}
+	KTL_INLINE tTJSVariant MathEx::cylHankel2(tTVReal v, tTVReal x) {
+		std::complex<tTVReal> t(NativeMathEx::cylHankel2(v, x));
+		sprig::krkr::tjs::object_type result;
+		{
+			iTJSDispatch2* result_obj = 0;
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				&result_obj,
+				0,
+				0,
+				0
+				);
+			result = sprig::krkr::tjs::object_type(result_obj, false);
+		}
+		{
+			tTJSVariant var(t.real());
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
+		}
+		{
+			tTJSVariant var(t.imag());
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
+		}
+		return tTJSVariant(result.get(), result.get());
+	}
+	KTL_INLINE tTJSVariant MathEx::sphHankel1(tTVReal v, tTVReal x) {
+		std::complex<tTVReal> t(NativeMathEx::sphHankel1(v, x));
+		sprig::krkr::tjs::object_type result;
+		{
+			iTJSDispatch2* result_obj = 0;
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				&result_obj,
+				0,
+				0,
+				0
+				);
+			result = sprig::krkr::tjs::object_type(result_obj, false);
+		}
+		{
+			tTJSVariant var(t.real());
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
+		}
+		{
+			tTJSVariant var(t.imag());
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
+		}
+		return tTJSVariant(result.get(), result.get());
+	}
+	KTL_INLINE tTJSVariant MathEx::sphHankel2(tTVReal v, tTVReal x) {
+		std::complex<tTVReal> t(NativeMathEx::sphHankel2(v, x));
+		sprig::krkr::tjs::object_type result;
+		{
+			iTJSDispatch2* result_obj = 0;
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				&result_obj,
+				0,
+				0,
+				0
+				);
+			result = sprig::krkr::tjs::object_type(result_obj, false);
+		}
+		{
+			tTJSVariant var(t.real());
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
+		}
+		{
+			tTJSVariant var(t.imag());
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
+		}
+		return tTJSVariant(result.get(), result.get());
+	}
+	//
 	//	SUMMARY: ゼータ関数系メソッド
 	//
 	KTL_INLINE tTVReal MathEx::zeta(tTVReal z) {
@@ -964,6 +1086,12 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal MathEx::sinhcPi(tTVReal x) {
 		return NativeMathEx::sinhcPi(x);
+	}
+	//
+	//	SUMMARY: オーウェンのT関数系メソッド
+	//
+	KTL_INLINE tTVReal MathEx::owensT(tTVReal h, tTVReal a) {
+		return NativeMathEx::owensT(h, a);
 	}
 	//
 	//	SUMMARY: 楕円積分系メソッド
