@@ -315,6 +315,41 @@ namespace ktl {
 	//
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT(Downloader, onFinished, getOnFinished, setOnFinished);
 
+	//
+	//  HACK: カスタムヘッダ設定
+	//
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(setCustomHeader)
+	{
+		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
+		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		switch (SPRIG_KRKR_ARG_TYPE(0)) {
+		case tvtString:
+			SPRIG_KRKR_INVOKE_RESULT_SET(
+				this_->setCustomHeader(SPRIG_KRKR_ARG_STRING(0))
+				);
+			break;
+		default:
+			return TJS_E_INVALIDPARAM;
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(setCustomHeader);
+
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(clearCustomHeader)
+	{
+		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
+		SPRIG_KRKR_INVOKE_RESULT_SET(
+			this_->clearCustomHeader()
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(clearCustomHeader);
+
+	//
+	//  HACK: processStatusCodeError
+	//
+	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT(Downloader, processStatusCodeError, getProcessStatusCodeError, setProcessStatusCodeError);
+
 	SPRIG_KRKR_END_CREATE_NATIVE_CLASS();
 #undef TJS_NATIVE_CLASSID_NAME
 }	// namespace ktl
