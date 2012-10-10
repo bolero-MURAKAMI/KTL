@@ -1374,14 +1374,11 @@ namespace ktl {
 					<< "Accept: */*\r\n"
 					<< "Connection: close\r\n"
 					<< "Content-Length: " << upload_buffer_->size() << "\r\n";
-
-				//  HACK カスタムヘーダを送信
-				if (custom_header_)
-				{
+				//  HACK: カスタムヘッダを送信
+				if (custom_header_) {
 					writing_ostream << *custom_header_;
-					//  SPRIG_KRKR_OUTPUT_COMMENT(*custom_header_, SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
+					//SPRIG_KRKR_OUTPUT_COMMENT(*custom_header_, SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 				}
-
 				writing_ostream
 					<< "\r\n"
 					;
@@ -1397,12 +1394,12 @@ namespace ktl {
 				<< "GET " << content_path << " HTTP/1.0\r\n"
 				<< "Host: " << host_name << "\r\n"
 				<< "Accept: */*\r\n"
-				<< "Connection: close\r\n";
-
-				//  HACK カスタムヘーダを送信
-				if (custom_header_)
-					writing_ostream << *custom_header_;
-
+				<< "Connection: close\r\n"
+				;
+			//	HACK: カスタムヘッダを送信
+			if (custom_header_) {
+				writing_ostream << *custom_header_;
+			}
 			writing_ostream
 				<< "\r\n"
 				;
@@ -1465,7 +1462,7 @@ namespace ktl {
 			}
 			NetworkUtils::moveComponent(http_response_, http_response2_);
 		}
-		if (process_status_code_error_ == true && http_response_.status_code() != "200") {
+		if (process_status_code_error_ && http_response_.status_code() != "200") {
 			if (!upload_buffer_ || http_response_.status_code() != "204") {
 				if (async) {
 					SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("失敗のステータスコードが返されました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
@@ -1581,9 +1578,7 @@ namespace ktl {
 		storage_out_.reset();
 		if (!setup) {
 			upload_buffer_.reset();
-
-			//  HACK
-			//  カスタムヘッダをリセットする
+			//	HACK: カスタムヘッダをリセットする
 			custom_header_.reset();
 		}
 	}
@@ -1617,7 +1612,7 @@ namespace ktl {
 		cancelTimeoutImplNoErrorHandling();
 		is_processing_ = false;
 		failed_ = true;
-		//  HACK: 処理が完了するたびに、processStatusCodeErrorをtrueにリセットする
+		//	HACK: 処理が完了するたびに、processStatusCodeError を true にリセットする
 		process_status_code_error_ = true;
 		postOnFinished();
 	}
@@ -1627,7 +1622,7 @@ namespace ktl {
 		cancelTimeoutImplNoErrorHandling();
 		is_processing_ = false;
 		failed_ = false;
-		//  HACK: 処理が完了するたびに、processStatusCodeErrorをtrueにリセットする
+		//	HACK: 処理が完了するたびに、processStatusCodeError を true にリセットする
 		process_status_code_error_ = true;
 		postOnFinished();
 	}
@@ -1872,7 +1867,7 @@ namespace ktl {
 		, is_processing_(false)
 		, failed_(false)
 		, cancelled_(false)
-		//  HACK: processStatusCodeErrorの初期値はtrue
+		//	HACK: processStatusCodeError の初期値は true
 		, process_status_code_error_(true)
 	{}
 	KTL_INLINE boost::shared_ptr<boost::asio::io_service> const& NativeDownloader::ioService() const {
@@ -2371,6 +2366,48 @@ namespace ktl {
 			on_finished_.reset();
 		}
 	}
+	//
+	//	SUMMARY: カスタムヘッダ系メソッド
+	//
+	//		HACK: 行末の"\r\n"設定はスクリプト側に任せる
+	//
+	KTL_INLINE bool NativeDownloader::setCustomHeader(tjs_char const* source) {
+		scoped_lock_type lock(mutex_);
+		if (is_processing_) {
+			return false;
+		}
+		std::string str(sprig::str_cast<std::string>(source));
+		if (!custom_header_) {
+			custom_header_ = boost::make_shared<std::string>();
+		}
+		std::copy(
+			str.begin(),
+			str.end(),
+			std::back_inserter(*custom_header_)
+			);
+		return true;
+	}
+	KTL_INLINE bool NativeDownloader::clearCustomHeader() {
+		scoped_lock_type lock(mutex_);
+		if (is_processing_) {
+			return false;
+		}
+		custom_header_.reset();
+		return true;
+	}
+	//
+	//	SUMMARY: 処理設定系メソッド
+	//
+	//		HACK: false に設定すると、失敗のステータスコードが返されても解析を続ける
+	//
+	KTL_INLINE void NativeDownloader::setProcessStatusCodeError(bool value) {
+		scoped_lock_type lock(mutex_);
+		process_status_code_error_ = value;
+	}
+	KTL_INLINE bool NativeDownloader::getProcessStatusCodeError() const {
+		scoped_lock_type lock(mutex_);
+		return process_status_code_error_;
+	}
 
 	//
 	// Downloader::AliveHandler
@@ -2643,67 +2680,26 @@ namespace ktl {
 	KTL_INLINE void Downloader::setOnFinished(tTJSVariant const& func) {
 		instance_->setOnFinished(func);
 	}
-
 	//
-	//  HACK: カスタムヘッダ設定のための関数
-	//    コードはaddPostDataのコピペがほとんど、データのライフサイクルもPostDataに近い
-	//    行末の"\r\n"設定はスクリプト側に任せる
+	//	SUMMARY: カスタムヘッダ系メソッド
 	//
-	KTL_INLINE bool NativeDownloader::setCustomHeader(tjs_char const* source) {
-		scoped_lock_type lock(mutex_);
-		if (is_processing_) {
-			return false;
-		}
-		std::string str(sprig::str_cast<std::string>(source));
-		if (!custom_header_) {
-			custom_header_ = boost::make_shared<std::string>();
-		}
-
-		*custom_header_ = str;
-
-		return true;
-	}
-	
-	KTL_INLINE bool NativeDownloader::clearCustomHeader() {
-		scoped_lock_type lock(mutex_);
-		if (is_processing_) {
-			return false;
-		}
-		custom_header_.reset();
-		return true;
-	}
-
 	KTL_INLINE bool Downloader::setCustomHeader(tTJSVariantString const* source) {
 		return instance_->setCustomHeader(
 			sprig::krkr::tjs::as_c_str(source)
 			);
 	}
-	
 	KTL_INLINE bool Downloader::clearCustomHeader() {
 		return instance_->clearCustomHeader();
 	}
-
-	
-	//  HACK: processStatusCodeError
-	//      falseに設定すると、失敗のステータスコードが返されても解析を続ける
-	KTL_INLINE void NativeDownloader::setProcessStatusCodeError(bool value) {
-		scoped_lock_type lock(mutex_);
-		 process_status_code_error_ = value;
-	}
-
-	KTL_INLINE bool NativeDownloader::getProcessStatusCodeError() const {
-		scoped_lock_type lock(mutex_);
-		return process_status_code_error_;
-	}
-
-	KTL_INLINE void Downloader::setProcessStatusCodeError(tTVInteger value) {
+	//
+	//	SUMMARY: 処理設定系メソッド
+	//
+	KTL_INLINE void Downloader::setProcessStatusCodeError(bool value) {
 		instance_->setProcessStatusCodeError(value);
 	}
-
 	KTL_INLINE bool Downloader::getProcessStatusCodeError() const {
 		return instance_->getProcessStatusCodeError();
 	}
-
 }	// namespace ktl
 
 #undef KTL_WARNING_SECTION

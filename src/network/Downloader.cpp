@@ -314,9 +314,8 @@ namespace ktl {
 	//	SUMMARY: コールバック系メソッド
 	//
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT(Downloader, onFinished, getOnFinished, setOnFinished);
-
 	//
-	//  HACK: カスタムヘッダ設定
+	//	SUMMARY: カスタムヘッダ系メソッド
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(setCustomHeader)
 	{
@@ -334,7 +333,6 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(setCustomHeader);
-
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(clearCustomHeader)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
@@ -344,9 +342,8 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(clearCustomHeader);
-
 	//
-	//  HACK: processStatusCodeError
+	//	SUMMARY: 処理設定系メソッド
 	//
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT(Downloader, processStatusCodeError, getProcessStatusCodeError, setProcessStatusCodeError);
 

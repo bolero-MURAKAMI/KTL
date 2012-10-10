@@ -88,6 +88,10 @@ namespace ktl {
 		//
 		boost::shared_ptr<tTJSVariant> on_finished_;
 		//
+		boost::shared_ptr<std::string> custom_header_;
+		//
+		bool process_status_code_error_;
+		//
 		mutable mutex_type mutex_;
 	private:
 		void callOnFinished();
@@ -280,22 +284,16 @@ namespace ktl {
 		//
 		tTJSVariant getOnFinished() const;
 		void setOnFinished(tTJSVariant const& func);
-
-		//  HACK: カスタムヘッダ設定
-	public:
+		//
+		//	SUMMARY: カスタムヘッダ系メソッド
+		//
 		bool setCustomHeader(tjs_char const* source);
 		bool clearCustomHeader();
-
-	private:
-		boost::shared_ptr<std::string> custom_header_;
-
-		//  HACK: processStatusCodeError
-	public:
+		//
+		//	SUMMARY: 処理設定系メソッド
+		//
 		void setProcessStatusCodeError(bool value);
 		bool getProcessStatusCodeError() const;
-
-	private:
-		bool process_status_code_error_;
 	};
 
 	//
@@ -425,13 +423,15 @@ namespace ktl {
 		//
 		tTJSVariant getOnFinished() const;
 		void setOnFinished(tTJSVariant const& func);
-
-		//  HACK: カスタムヘッダ設定
+		//
+		//	SUMMARY: カスタムヘッダ系メソッド
+		//
 		bool setCustomHeader(tTJSVariantString const* source);
 		bool clearCustomHeader();
-
-		//  HACK: processStatusCodeError
-		void setProcessStatusCodeError(tTVInteger value);
+		//
+		//	SUMMARY: 処理設定系メソッド
+		//
+		void setProcessStatusCodeError(bool value);
 		bool getProcessStatusCodeError() const;
 	};
 }	// namespace ktl
