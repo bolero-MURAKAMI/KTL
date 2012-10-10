@@ -280,6 +280,22 @@ namespace ktl {
 		//
 		tTJSVariant getOnFinished() const;
 		void setOnFinished(tTJSVariant const& func);
+
+		//  HACK: カスタムヘッダ設定
+	public:
+		bool setCustomHeader(tjs_char const* source);
+		bool clearCustomHeader();
+
+	private:
+		boost::shared_ptr<std::string> custom_header_;
+
+		//  HACK: processStatusCodeError
+	public:
+		void setProcessStatusCodeError(bool value);
+		bool getProcessStatusCodeError() const;
+
+	private:
+		bool process_status_code_error_;
 	};
 
 	//
@@ -409,5 +425,13 @@ namespace ktl {
 		//
 		tTJSVariant getOnFinished() const;
 		void setOnFinished(tTJSVariant const& func);
+
+		//  HACK: カスタムヘッダ設定
+		bool setCustomHeader(tTJSVariantString const* source);
+		bool clearCustomHeader();
+
+		//  HACK: processStatusCodeError
+		void setProcessStatusCodeError(tTVInteger value);
+		bool getProcessStatusCodeError() const;
 	};
 }	// namespace ktl
