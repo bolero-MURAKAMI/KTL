@@ -674,8 +674,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeOctetBuilder::size_type NativeOctetBuilder::setOctet(size_type pos, tTJSVariantOctet const* source) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		if (!length) {
 			return length;
 		}
@@ -686,8 +686,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeOctetBuilder::size_type NativeOctetBuilder::setOctet(size_type pos, tTJSVariantOctet const* source, size_type spos) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos);
 		if (!result_size) {
 			return result_size;
@@ -699,8 +699,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeOctetBuilder::size_type NativeOctetBuilder::setOctet(size_type pos, tTJSVariantOctet const* source, size_type spos, size_type ssize) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos, ssize);
 		if (!result_size) {
 			return result_size;
@@ -999,8 +999,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE void NativeOctetBuilder::assignOctet(tTJSVariantOctet const* source) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		assignBytes(
 			length
 				? data
@@ -1010,8 +1010,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE void NativeOctetBuilder::assignOctet(tTJSVariantOctet const* source, size_type spos) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos);
 		assignBytes(
 			result_size
@@ -1022,8 +1022,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE void NativeOctetBuilder::assignOctet(tTJSVariantOctet const* source, size_type spos, size_type ssize) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos, ssize);
 		assignBytes(
 			result_size
@@ -1321,8 +1321,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE void NativeOctetBuilder::insertOctet(size_type pos, tTJSVariantOctet const* source) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		if (!length) {
 			return;
 		}
@@ -1333,8 +1333,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE void NativeOctetBuilder::insertOctet(size_type pos, tTJSVariantOctet const* source, size_type spos) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos);
 		if (!result_size) {
 			return;
@@ -1346,8 +1346,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE void NativeOctetBuilder::insertOctet(size_type pos, tTJSVariantOctet const* source, size_type spos, size_type ssize) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos, ssize);
 		if (!result_size) {
 			return;
@@ -1636,8 +1636,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeOctetBuilder::size_type NativeOctetBuilder::addOctet(tTJSVariantOctet const* source) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		if (!length) {
 			return length;
 		}
@@ -1647,8 +1647,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeOctetBuilder::size_type NativeOctetBuilder::addOctet(tTJSVariantOctet const* source, size_type spos) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos);
 		if (!result_size) {
 			return result_size;
@@ -1659,8 +1659,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeOctetBuilder::size_type NativeOctetBuilder::addOctet(tTJSVariantOctet const* source, size_type spos, size_type ssize) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos, ssize);
 		if (!result_size) {
 			return result_size;

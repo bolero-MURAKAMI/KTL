@@ -140,16 +140,16 @@ namespace ktl {
 	//	SUMMARY: オクテット系メソッド
 	//
 	KTL_INLINE NativeUtils::byte_type const* NativeUtils::getOctetData(tTJSVariantOctet const* octet) {
-		return octet->GetData();
+		return sprig::krkr::tjs::octet_data(octet);
 	}
 	KTL_INLINE NativeUtils::size_type NativeUtils::getOctetSize(tTJSVariantOctet const* octet) {
-		return octet->GetLength();
+		return sprig::krkr::tjs::octet_length(octet);
 	}
 	KTL_INLINE NativeUtils::byte_type const* NativeUtils::beginOctet(tTJSVariantOctet const* octet) {
-		return octet->GetData();
+		return sprig::krkr::tjs::octet_data(octet);
 	}
 	KTL_INLINE NativeUtils::byte_type const* NativeUtils::endOctet(tTJSVariantOctet const* octet) {
-		return octet->GetData() + octet->GetLength();
+		return sprig::krkr::tjs::octet_data(octet) + sprig::krkr::tjs::octet_length(octet);
 	}
 	//
 	//	SUMMARY: 文字列系メソッド
@@ -263,8 +263,8 @@ namespace ktl {
 				);
 			return -1;
 		}
-		tjs_uint8 const* data = octet->GetData();
-		tjs_uint const length = octet->GetLength();
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(octet);
+		tjs_uint const length = sprig::krkr::tjs::octet_length(octet);
 		ULONG io_size = 0;
 		if (FAILED(out->Write(data, length, &io_size))) {
 			KTL_ERROR(

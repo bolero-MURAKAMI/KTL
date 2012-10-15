@@ -177,16 +177,16 @@ namespace ktl {
 		if (!stream_) {
 			return -1;
 		}
-		tjs_uint const length = source->GetLength();
-		tjs_uint8 const* const data = source->GetData();
+		tjs_uint const length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* const data = sprig::krkr::tjs::octet_data(source);
 		return writeBytes(data, length);
 	}
 	KTL_INLINE NativeStorageStream::int_type NativeStorageStream::writeOctet(tTJSVariantOctet const* source, size_type spos) {
 		if (!stream_) {
 			return -1;
 		}
-		tjs_uint const length = source->GetLength();
-		tjs_uint8 const* const data = source->GetData();
+		tjs_uint const length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* const data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos);
 		if (!result_size) {
 			return result_size;
@@ -197,8 +197,8 @@ namespace ktl {
 		if (!stream_) {
 			return -1;
 		}
-		tjs_uint const length = source->GetLength();
-		tjs_uint8 const* const data = source->GetData();
+		tjs_uint const length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* const data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos, ssize);
 		if (!result_size) {
 			return result_size;

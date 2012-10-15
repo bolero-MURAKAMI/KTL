@@ -180,8 +180,8 @@ namespace ktl {
 		typedef boost::iostreams::stream<device_type> stream_type;
 
 		device_type dev(
-			reinterpret_cast<binary_type::value_type const*>(data->GetData()),
-			data->GetLength()
+			reinterpret_cast<binary_type::value_type const*>(sprig::krkr::tjs::octet_data(data)),
+			sprig::krkr::tjs::octet_length(data)
 			);
 		stream_type is(dev, std::ios::in | std::ios::binary);
 		{

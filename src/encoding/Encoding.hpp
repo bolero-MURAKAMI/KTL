@@ -499,7 +499,7 @@ namespace ktl {
 		)
 	{
 		binary_type src;
-		if (!encodeAsBuffer(src, charset, source->GetData(), source->GetLength(), source_charset)) {
+		if (!encodeAsBuffer(src, charset, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), source_charset)) {
 			return tTJSVariant();
 		}
 		binary_type dest;
@@ -519,7 +519,7 @@ namespace ktl {
 		flag_type flag
 		)
 	{
-		binary_type src(source->GetData(), source->GetData() + source->GetLength());
+		binary_type src(sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_data(source) + sprig::krkr::tjs::octet_length(source));
 		binary_type dest;
 		if (!URLEncodeAsBuffer(dest, src, flag)) {
 			return tTJSVariant();
@@ -557,7 +557,7 @@ namespace ktl {
 		)
 	{
 		binary_type src;
-		if (!encodeAsBuffer(src, charset, source->GetData(), source->GetLength(), source_charset)) {
+		if (!encodeAsBuffer(src, charset, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), source_charset)) {
 			return tTJSVariant();
 		}
 		binary_type dest;
@@ -572,7 +572,7 @@ namespace ktl {
 		flag_type flag
 		)
 	{
-		binary_type src(source->GetData(), source->GetData() + source->GetLength());
+		binary_type src(sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_data(source) + sprig::krkr::tjs::octet_length(source));
 		binary_type dest;
 		if (!URLEncodeAsBuffer(dest, src, flag)) {
 			return tTJSVariant();
@@ -602,7 +602,7 @@ namespace ktl {
 		)
 	{
 		string_type src;
-		if (!encodeAsString(src, source->GetData(), source->GetLength(), source_charset)) {
+		if (!encodeAsString(src, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), source_charset)) {
 			return tTJSVariant();
 		}
 		binary_type dest;
@@ -621,7 +621,7 @@ namespace ktl {
 		tTJSVariantOctet const* source
 		)
 	{
-		binary_type src(source->GetData(), source->GetData() + source->GetLength());
+		binary_type src(sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_data(source) + sprig::krkr::tjs::octet_length(source));
 		binary_type dest;
 		if (!URLDecodeAsBuffer(dest, src)) {
 			return tTJSVariant();
@@ -659,7 +659,7 @@ namespace ktl {
 		)
 	{
 		string_type src;
-		if (!encodeAsString(src, source->GetData(), source->GetLength(), source_charset)) {
+		if (!encodeAsString(src, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), source_charset)) {
 			return tTJSVariant();
 		}
 		binary_type dest;
@@ -680,7 +680,7 @@ namespace ktl {
 		tTJSVariantOctet const* source
 		)
 	{
-		binary_type src(source->GetData(), source->GetData() + source->GetLength());
+		binary_type src(sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_data(source) + sprig::krkr::tjs::octet_length(source));
 		binary_type dest;
 		if (!URLDecodeAsBuffer(dest, src)) {
 			return tTJSVariant();
@@ -705,8 +705,8 @@ namespace ktl {
 		binary_type dest;
 		if (!base64EncodeAsBuffer(
 				dest,
-				source->GetData(),
-				source->GetLength(),
+				sprig::krkr::tjs::octet_data(source),
+				sprig::krkr::tjs::octet_length(source),
 				line_max_length
 				)
 			)
@@ -729,8 +729,8 @@ namespace ktl {
 		binary_type dest;
 		if (!base64EncodeAsBuffer(
 				dest,
-				source->GetData(),
-				source->GetLength(),
+				sprig::krkr::tjs::octet_data(source),
+				sprig::krkr::tjs::octet_length(source),
 				line_max_length
 				)
 			)
@@ -770,8 +770,8 @@ namespace ktl {
 		binary_type dest;
 		if (!base64DecodeAsBuffer(
 				dest,
-				source->GetData(),
-				source->GetLength()
+				sprig::krkr::tjs::octet_data(source),
+				sprig::krkr::tjs::octet_length(source)
 				)
 			)
 		{
@@ -812,7 +812,7 @@ namespace ktl {
 		)
 	{
 		binary_type buffer;
-		return encodeAsBuffer(buffer, charset, source->GetData(), source->GetLength(), source_charset)
+		return encodeAsBuffer(buffer, charset, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), source_charset)
 			? tTJSVariant(
 				buffer.size()
 					? &buffer[0]
@@ -829,7 +829,7 @@ namespace ktl {
 		)
 	{
 		string_type string;
-		return encodeAsString(string, source->GetData(), source->GetLength(), source_charset)
+		return encodeAsString(string, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), source_charset)
 			? tTJSVariant(string.c_str())
 			: tTJSVariant()
 			;
@@ -860,10 +860,10 @@ namespace ktl {
 		int_type confidence_threshold
 		)
 	{
-		tjs_uint8 const* source_data = source->GetData();
+		tjs_uint8 const* source_data = sprig::krkr::tjs::octet_data(source);
 		tjs_uint source_length = length
-			? std::min<tjs_uint>(length, source->GetLength())
-			: source->GetLength()
+			? std::min<tjs_uint>(length, sprig::krkr::tjs::octet_length(source))
+			: sprig::krkr::tjs::octet_length(source)
 			;
 		if (!source_length) {
 			return tTJSVariant();
@@ -893,10 +893,10 @@ namespace ktl {
 		int_type confidence_threshold
 		)
 	{
-		tjs_uint8 const* source_data = source->GetData();
+		tjs_uint8 const* source_data = sprig::krkr::tjs::octet_data(source);
 		tjs_uint source_length = length
-			? std::min<tjs_uint>(length, source->GetLength())
-			: source->GetLength()
+			? std::min<tjs_uint>(length, sprig::krkr::tjs::octet_length(source))
+			: sprig::krkr::tjs::octet_length(source)
 			;
 		if (!source_length) {
 			return tTJSVariant();
@@ -947,10 +947,10 @@ namespace ktl {
 		int_type confidence_threshold
 		)
 	{
-		tjs_uint8 const* source_data = source->GetData();
+		tjs_uint8 const* source_data = sprig::krkr::tjs::octet_data(source);
 		tjs_uint source_length = length
-			? std::min<tjs_uint>(length, source->GetLength())
-			: source->GetLength()
+			? std::min<tjs_uint>(length, sprig::krkr::tjs::octet_length(source))
+			: sprig::krkr::tjs::octet_length(source)
 			;
 		if (!source_length) {
 			return false;

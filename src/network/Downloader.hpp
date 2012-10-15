@@ -2262,8 +2262,8 @@ namespace ktl {
 		if (is_processing_) {
 			return false;
 		}
-		char const* data = reinterpret_cast<char const*>(source->GetData());
-		size_type length = source->GetLength();
+		char const* data = reinterpret_cast<char const*>(sprig::krkr::tjs::octet_data(source));
+		size_type length = sprig::krkr::tjs::octet_length(source);
 		if (!upload_buffer_) {
 			upload_buffer_ = boost::make_shared<buffer_type>();
 		}

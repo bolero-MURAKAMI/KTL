@@ -380,7 +380,7 @@ namespace ktl {
 		return TJS_S_OK; \
 	} \
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(checksumHex); \
-	 \
+		\
 	SPRIG_KRKR_END_CREATE_NATIVE_CLASS();
 
 	//

@@ -274,8 +274,8 @@ namespace ktl {
 			;
 	}
 	KTL_INLINE NativeBzip2Compressor::int_type NativeBzip2Compressor::processOctet(tTJSVariantOctet const* source) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		if (!length) {
 			return length;
 		}
@@ -285,8 +285,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeBzip2Compressor::int_type NativeBzip2Compressor::processOctet(tTJSVariantOctet const* source, size_type spos) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos);
 		if (!result_size) {
 			return result_size;
@@ -297,8 +297,8 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeBzip2Compressor::int_type NativeBzip2Compressor::processOctet(tTJSVariantOctet const* source, size_type spos, size_type ssize) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos, ssize);
 		if (!result_size) {
 			return result_size;

@@ -85,12 +85,12 @@ namespace ktl {
 			}
 		case tvtOctet:
 			{
-				tTJSVariantOctet* octet = address->AsOctetNoAddRef();
-				tjs_uint length = octet->GetLength();
+				tTJSVariantOctet const* octet = address->AsOctetNoAddRef();
+				tjs_uint length = sprig::krkr::tjs::octet_length(octet);
 				if (length != 4) {
 					return boost::none;
 				}
-				tjs_uint8 const* data = octet->GetData();
+				tjs_uint8 const* data = sprig::krkr::tjs::octet_data(octet);
 				boost::asio::ip::address_v4::bytes_type bytes = { {
 					data[0],
 					data[1],
@@ -126,12 +126,12 @@ namespace ktl {
 			}
 		case tvtOctet:
 			{
-				tTJSVariantOctet* octet = address->AsOctetNoAddRef();
-				tjs_uint length = octet->GetLength();
+				tTJSVariantOctet const* octet = address->AsOctetNoAddRef();
+				tjs_uint length = sprig::krkr::tjs::octet_length(octet);
 				if (length != 16) {
 					return boost::none;
 				}
-				tjs_uint8 const* data = octet->GetData();
+				tjs_uint8 const* data = sprig::krkr::tjs::octet_data(octet);
 				boost::asio::ip::address_v6::bytes_type bytes = { {
 					data[0],
 					data[1],
@@ -1537,8 +1537,8 @@ namespace ktl {
 	KTL_INLINE void NativeSocket::pushOctet(tTJSVariantOctet const* source) {
 		scoped_lock_type lock(mutex_);
 		std::ostream writing_ostream(writing_streambuf_.get());
-		size_type length = source->GetLength();
-		writing_ostream.write(reinterpret_cast<char const*>(source->GetData()), length);
+		size_type length = sprig::krkr::tjs::octet_length(source);
+		writing_ostream.write(reinterpret_cast<char const*>(sprig::krkr::tjs::octet_data(source)), length);
 	}
 	KTL_INLINE void NativeSocket::pushLine(impl_string_type const& source) {
 		scoped_lock_type lock(mutex_);
@@ -1940,8 +1940,8 @@ namespace ktl {
 			return -1;
 		}
 		size_type bytes_transferred = 0;
-		char const* delimiter = reinterpret_cast<char const*>(delim->GetData());
-		size_type length = delim->GetLength();
+		char const* delimiter = reinterpret_cast<char const*>(sprig::krkr::tjs::octet_data(delim));
+		size_type length = sprig::krkr::tjs::octet_length(delim);
 		if (socket_) {
 			bytes_transferred = boost::asio::read_until(
 				*socket_,
@@ -2225,8 +2225,8 @@ namespace ktl {
 		if (!setupRead()) {
 			return -1;
 		}
-		char const* delimiter = reinterpret_cast<char const*>(delim->GetData());
-		size_type length = delim->GetLength();
+		char const* delimiter = reinterpret_cast<char const*>(sprig::krkr::tjs::octet_data(delim));
+		size_type length = sprig::krkr::tjs::octet_length(delim);
 		if (socket_) {
 			boost::asio::async_read_until(
 				*socket_,

@@ -134,9 +134,9 @@ namespace ktl {
 				break;
 			case tvtOctet:
 				{
-					tTJSVariantOctet* v_octet = value_.AsOctetNoAddRef();
-					tjs_uint const length = v_octet->GetLength();
-					tjs_uint8 const* const data = v_octet->GetData();
+					tTJSVariantOctet const* v_octet = value_.AsOctetNoAddRef();
+					tjs_uint const length = sprig::krkr::tjs::octet_length(v_octet);
+					tjs_uint8 const* const data = sprig::krkr::tjs::octet_data(v_octet);
 					octet_type octet(length);
 					if (length) {
 						std::copy(
@@ -255,7 +255,7 @@ namespace ktl {
 				break;
 			case tvtOctet:
 				{
-					tTJSVariantOctet* v_octet = value_.AsOctetNoAddRef();
+					tTJSVariantOctet const* v_octet = value_.AsOctetNoAddRef();
 					boost::intrusive_ptr<tTJSVariantString> oct(
 						::TJSOctetToListString(v_octet),
 						false

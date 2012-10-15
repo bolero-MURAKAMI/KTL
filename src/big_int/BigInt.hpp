@@ -49,8 +49,8 @@ namespace ktl {
 			return static_cast<tTJSString>(v).c_str();
 		case tvtOctet:
 			{
-				tTJSVariantOctet* v_octet = v.AsOctetNoAddRef();
-				return sprig::big_int(v_octet->GetData(), v_octet->GetLength());
+				tTJSVariantOctet const* v_octet = v.AsOctetNoAddRef();
+				return sprig::big_int(sprig::krkr::tjs::octet_data(v_octet), sprig::krkr::tjs::octet_length(v_octet));
 			}
 		case tvtInteger:
 			return static_cast<tTVInteger>(v);
@@ -69,8 +69,8 @@ namespace ktl {
 						? sprig::big_int::sign_plus
 						: sprig::big_int::sign_zero
 					;
-				tTJSVariantOctet* v_octet = v.AsOctetNoAddRef();
-				return sprig::big_int(v_octet->GetData(), v_octet->GetLength(), s);
+				tTJSVariantOctet const* v_octet = v.AsOctetNoAddRef();
+				return sprig::big_int(sprig::krkr::tjs::octet_data(v_octet), sprig::krkr::tjs::octet_length(v_octet), s);
 			}
 		default:
 			KTL_ERROR(

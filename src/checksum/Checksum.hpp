@@ -209,8 +209,8 @@ namespace ktl {
 	}
 	template<typename Impl>
 	KTL_INLINE typename NativeChecksum<Impl>::value_type NativeChecksum<Impl>::calculateOctet(tTJSVariantOctet const* source) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		return calculateBytes(
 			reinterpret_cast<byte_type const*>(data),
 			length
@@ -325,8 +325,8 @@ namespace ktl {
 	}
 	template<typename Impl>
 	KTL_INLINE typename NativeChecksum<Impl>::size_type NativeChecksum<Impl>::processOctet(tTJSVariantOctet const* source) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		if (!length) {
 			return length;
 		}
@@ -337,8 +337,8 @@ namespace ktl {
 	}
 	template<typename Impl>
 	KTL_INLINE typename NativeChecksum<Impl>::size_type NativeChecksum<Impl>::processOctet(tTJSVariantOctet const* source, size_type spos) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos);
 		if (!result_size) {
 			return result_size;
@@ -350,8 +350,8 @@ namespace ktl {
 	}
 	template<typename Impl>
 	KTL_INLINE typename NativeChecksum<Impl>::size_type NativeChecksum<Impl>::processOctet(tTJSVariantOctet const* source, size_type spos, size_type ssize) {
-		tjs_uint length = source->GetLength();
-		tjs_uint8 const* data = source->GetData();
+		tjs_uint length = sprig::krkr::tjs::octet_length(source);
+		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(source);
 		size_type result_size = getEnableSize(length, spos, ssize);
 		if (!result_size) {
 			return result_size;

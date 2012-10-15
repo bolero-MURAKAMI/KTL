@@ -952,7 +952,7 @@ namespace ktl {
 		)
 	{
 		pt_string_type string;
-		if (!encodeAsString(string, source->GetData(), source->GetLength(), code)) {
+		if (!encodeAsString(string, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), code)) {
 			return false;
 		}
 		return readXML(string.c_str(), flag);
@@ -1019,7 +1019,7 @@ namespace ktl {
 		)
 	{
 		pt_string_type string;
-		if (!encodeAsString(string, source->GetData(), source->GetLength(), code)) {
+		if (!encodeAsString(string, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), code)) {
 			return false;
 		}
 		return readJSON(string.c_str());
@@ -1083,7 +1083,7 @@ namespace ktl {
 		)
 	{
 		pt_string_type string;
-		if (!encodeAsString(string, source->GetData(), source->GetLength(), code)) {
+		if (!encodeAsString(string, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), code)) {
 			return false;
 		}
 		return readINI(string.c_str());
@@ -1147,7 +1147,7 @@ namespace ktl {
 		)
 	{
 		pt_string_type string;
-		if (!encodeAsString(string, source->GetData(), source->GetLength(), code)) {
+		if (!encodeAsString(string, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), code)) {
 			return false;
 		}
 		return readINFO(string.c_str());
@@ -1229,7 +1229,7 @@ namespace ktl {
 		)
 	{
 		pt_string_type string;
-		if (!encodeAsString(string, source->GetData(), source->GetLength(), code)) {
+		if (!encodeAsString(string, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), code)) {
 			return false;
 		}
 		return readYAML(string.c_str(), flag);
@@ -1298,7 +1298,7 @@ namespace ktl {
 		)
 	{
 		pt_string_type string;
-		if (!encodeAsString(string, source->GetData(), source->GetLength(), code)) {
+		if (!encodeAsString(string, sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source), code)) {
 			return false;
 		}
 		return readHTML(string.c_str(), flag);

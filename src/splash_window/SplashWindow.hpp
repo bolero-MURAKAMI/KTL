@@ -99,7 +99,7 @@ namespace ktl {
 		return impl_->loadImages(&buffer[0], io_size);
 	}
 	KTL_INLINE bool NativeSplashWindow::loadImagesFromOctet(tTJSVariantOctet const* source) {
-		return impl_->loadImages(source->GetData(), source->GetLength());
+		return impl_->loadImages(sprig::krkr::tjs::octet_data(source), sprig::krkr::tjs::octet_length(source));
 	}
 	//
 	//	SUMMARY: プロパテイ系メソッド
