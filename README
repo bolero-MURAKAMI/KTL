@@ -4,13 +4,13 @@ KTL (KiriKiri Trivial Library) DLL
 
 
 
-*ドキュメント (Documents)
+* ドキュメント (Documents)
 
 KTLWiki http://www.boleros.x0.com/doc/ktlwiki/index.php?KTLWiki
 
 
 
-*謝辞 (Acknowledgment)
+* 謝辞 (Acknowledgment)
 
 KTL は下記サードパーティライブラリを利用しています。
 有用なライブラリを公開されている方々に感謝いたします。
@@ -74,7 +74,7 @@ DirectX SDK
 
 
 
-*プラグイン別サードパーティライブラリ (3rd Perty Libraries)
+* プラグイン別サードパーティライブラリ (3rd Perty Libraries)
 
 各 DLL のビルドには、それぞれ以下のライブラリが必要となります。
 
@@ -212,18 +212,24 @@ KTL.OSVersion
 
 
 
-*作者 (Author)
+* 作者 (Author)
 
 Bolero MURAKAMI
+
+Website: http://www.boleros.x0.com/
+Twitter: https://twitter.com/bolero_murakami
+Facebook: http://www.facebook.com/genya.murakami
 Blog: http://d.hatena.ne.jp/boleros/
-Twitter: http://twitter.com/#!/bolero_MURAKAMI
+Github: https://github.com/bolero-MURAKAMI
+SlideShare: http://www.slideshare.net/GenyaMurakami
 Mail: contact-lib@boleros.x0.com
 
 
 
-*著作権等 (Copyrights)
+* 著作権等 (Copyrights)
 
 このライブラリは Boost Software License の元で公開されています。
 
 Copyright (C) 2011-2012 Bolero MURAKAMI.
-Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
