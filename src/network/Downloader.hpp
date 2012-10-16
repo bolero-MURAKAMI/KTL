@@ -9,6 +9,7 @@
 #include <boost/ref.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
+#include <boost/tuple/tuple.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/thread.hpp>
@@ -18,6 +19,7 @@
 #include <boost/range/begin.hpp>
 #include <boost/range/end.hpp>
 #include <boost/range/iterator_range.hpp>
+#include <boost/algorithm/cxx11/copy_n.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/find.hpp>
 #include <boost/utility/swap.hpp>
@@ -398,58 +400,79 @@ namespace ktl {
 				cleanupOnProcessFailed();
 				return;
 			}
-			// 先読みされた分を処理
-			if (!chunked_) {
-				transferred_size_ = (content_length_ && reading_streambuf_->size() > content_length_)
-					? content_length_
-					: reading_streambuf_->size()
-					;
-				if (!updateBuffer(transferred_size_)) {
+			if (chunked_) {
+				// 先読みされた分を処理
+				boost::tuple<bool, bool, size_type, impl_string_type> result(processChunked());
+				if (!boost::get<0>(result)) {
+					KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("チャンクデータの処理でエラーが発生しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
 					cleanupOnProcessFailed();
 					return;
 				}
-				if (content_length_ && transferred_size_ >= content_length_) {
+				if (boost::get<1>(result)) {
 					KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
 					cleanupOnProcessSucceeded();
 					return;
 				}
-			}
-			//
-			// ロード開始
-			//
-			readers_.error_code().reset();
-			readers2_.error_code() = boost::system::error_code();
-			if (chunked_) {
+				//
+				// ロード開始
+				//
+				readers_.error_code().reset();
+				readers2_.error_code() = boost::system::error_code();
 				if (socket_) {
-					boost::asio::async_read_until(
+					boost::asio::async_read(
 						*socket_,
 						*reading_streambuf_,
-						"\r\n",
+						boost::asio::transfer_at_least(1),
 						strand_->wrap(
 							boost::bind(
-								&NativeDownloader::handleReadChunkSize,
+								&NativeDownloader::handleLoadChunked,
 								this,
 								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred
+								boost::asio::placeholders::bytes_transferred,
+								boost::get<2>(result),
+								boost::get<3>(result)
 								)
 							)
 						);
 				} else if (ssl_socket_) {
-					boost::asio::async_read_until(
+					boost::asio::async_read(
 						*ssl_socket_,
 						*reading_streambuf_,
-						"\r\n",
+						boost::asio::transfer_at_least(1),
 						strand_->wrap(
 							boost::bind(
-								&NativeDownloader::handleReadChunkSize,
+								&NativeDownloader::handleLoadChunked,
 								this,
 								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred
+								boost::asio::placeholders::bytes_transferred,
+								boost::get<2>(result),
+								boost::get<3>(result)
 								)
 							)
 						);
 				}
 			} else {
+				// 先読みされた分を処理
+				{
+					transferred_size_ = (content_length_ && reading_streambuf_->size() > content_length_)
+						? content_length_
+						: reading_streambuf_->size()
+						;
+					if (!updateBuffer(transferred_size_)) {
+						cleanupOnProcessFailed();
+						return;
+					}
+					if (content_length_ && transferred_size_ >= content_length_) {
+						KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
+						cleanupOnProcessSucceeded();
+						return;
+					}
+				}
+				//
+				// ロード開始
+				//
+				readers_.error_code().reset();
+				readers2_.error_code() = boost::system::error_code();
 				if (socket_) {
 					boost::asio::async_read(
 						*socket_,
@@ -569,130 +592,11 @@ namespace ktl {
 			return;
 		}
 	}
-	KTL_INLINE void NativeDownloader::handleReadChunkSize(
-		boost::system::error_code const& error,
-		size_type bytes_transferred
-		)
-	{
-		scoped_lock_type lock(mutex_);
-		SPRIG_KRKR_TRY() {
-			readers2_.error_code() = error;
-			if (*readers2_.error_code()) {
-				NetworkUtils::moveErrorCode(readers_, readers2_);
-				if (*readers_.error_code() != boost::asio::error::operation_aborted) {
-					KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ受信に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-					KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("error_code"), *readers_.error_code(), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-					KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("message"), readers_.error_code()->message(), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-				} else {
-					KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ受信がキャンセルされました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-				}
-				cleanupOnProcessFailed();
-				return;
-			}
-			NetworkUtils::moveComponent(readers_, readers2_);
-			impl_string_type chunk_size_block(bytes_transferred, '\0');
-			{
-				std::istream reading_istream(reading_streambuf_.get());
-				if (bytes_transferred) {
-					reading_istream.read(&chunk_size_block[0], bytes_transferred);
-				}
-			}
-			{
-				impl_string_type::size_type ext_pos = chunk_size_block.find(';');
-				if (ext_pos != impl_string_type::npos) {
-					chunk_size_block.erase(ext_pos);
-				} else {
-					chunk_size_block.erase(chunk_size_block.size() - 2);
-				}
-			}
-			size_type chunk_size = std::strtol(chunk_size_block.c_str(), 0, 16);
-			if (!chunk_size) {
-				KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
-				cleanupOnProcessSucceeded();
-				return;
-			}
-			if (reading_streambuf_->size() > chunk_size) {
-				size_type real_bytes_transferred = chunk_size;
-				transferred_size_ += real_bytes_transferred;
-				if (!updateBuffer(real_bytes_transferred)) {
-					cleanupOnProcessFailed();
-					return;
-				}
-				readers_.error_code().reset();
-				readers2_.error_code() = boost::system::error_code();
-				if (socket_) {
-					boost::asio::async_read_until(
-						*socket_,
-						*reading_streambuf_,
-						"\r\n",
-						strand_->wrap(
-							boost::bind(
-								&NativeDownloader::handleReadChunkDataAfter,
-								this,
-								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred
-								)
-							)
-						);
-				} else if (ssl_socket_) {
-					boost::asio::async_read_until(
-						*ssl_socket_,
-						*reading_streambuf_,
-						"\r\n",
-						strand_->wrap(
-							boost::bind(
-								&NativeDownloader::handleReadChunkDataAfter,
-								this,
-								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred
-								)
-							)
-						);
-				}
-			} else {
-				if (socket_) {
-					boost::asio::async_read(
-						*socket_,
-						*reading_streambuf_,
-						boost::asio::transfer_at_least(1),
-						strand_->wrap(
-							boost::bind(
-								&NativeDownloader::handleReadChunkData,
-								this,
-								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred,
-								chunk_size
-								)
-							)
-						);
-				} else if (ssl_socket_) {
-					boost::asio::async_read(
-						*ssl_socket_,
-						*reading_streambuf_,
-						boost::asio::transfer_at_least(1),
-						strand_->wrap(
-							boost::bind(
-								&NativeDownloader::handleReadChunkData,
-								this,
-								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred,
-								chunk_size
-								)
-							)
-						);
-				}
-			}
-		} SPRIG_KRKR_CATCH(e) {
-			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
-			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
-			cleanupOnProcessFailed();
-			return;
-		}
-	}
-	KTL_INLINE void NativeDownloader::handleReadChunkData(
+	KTL_INLINE void NativeDownloader::handleLoadChunked(
 		boost::system::error_code const& error,
 		size_type bytes_transferred,
-		size_type remaind_chunk_size
+		size_type chunk_size,
+		impl_string_type const& chunk_size_block
 		)
 	{
 		scoped_lock_type lock(mutex_);
@@ -711,146 +615,48 @@ namespace ktl {
 				return;
 			}
 			NetworkUtils::moveComponent(readers_, readers2_);
-			size_type real_bytes_transferred = (reading_streambuf_->size() > remaind_chunk_size)
-				? remaind_chunk_size
-				: reading_streambuf_->size()
-				;
-			transferred_size_ += real_bytes_transferred;
-			if (!updateBuffer(real_bytes_transferred)) {
+			boost::tuple<bool, bool, size_type, impl_string_type> result(processChunked(chunk_size, chunk_size_block));
+			if (!boost::get<0>(result)) {
+				KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("チャンクデータの処理でエラーが発生しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
 				cleanupOnProcessFailed();
 				return;
 			}
-			remaind_chunk_size -= real_bytes_transferred;
-			if (remaind_chunk_size && error == boost::asio::error::eof) {
-				KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("受信データ長が指定データ長に足りません"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-				cleanupOnProcessFailed();
+			if (boost::get<1>(result) || error == boost::asio::error::eof) {
+				KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
+				cleanupOnProcessSucceeded();
 				return;
 			}
-			if (remaind_chunk_size) {
-				readers_.error_code().reset();
-				readers2_.error_code() = boost::system::error_code();
-				if (socket_) {
-					boost::asio::async_read(
-						*socket_,
-						*reading_streambuf_,
-						boost::asio::transfer_at_least(1),
-						strand_->wrap(
-							boost::bind(
-								&NativeDownloader::handleReadChunkData,
-								this,
-								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred,
-								remaind_chunk_size
-								)
-							)
-						);
-				} else if (ssl_socket_) {
-					boost::asio::async_read(
-						*ssl_socket_,
-						*reading_streambuf_,
-						boost::asio::transfer_at_least(1),
-						strand_->wrap(
-							boost::bind(
-								&NativeDownloader::handleReadChunkData,
-								this,
-								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred,
-								remaind_chunk_size
-								)
-							)
-						);
-				}
-			} else {
-				if (socket_) {
-					boost::asio::async_read_until(
-						*socket_,
-						*reading_streambuf_,
-						"\r\n",
-						strand_->wrap(
-							boost::bind(
-								&NativeDownloader::handleReadChunkDataAfter,
-								this,
-								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred
-								)
-							)
-						);
-				} else if (ssl_socket_) {
-					boost::asio::async_read_until(
-						*ssl_socket_,
-						*reading_streambuf_,
-						"\r\n",
-						strand_->wrap(
-							boost::bind(
-								&NativeDownloader::handleReadChunkDataAfter,
-								this,
-								boost::asio::placeholders::error,
-								boost::asio::placeholders::bytes_transferred
-								)
-							)
-						);
-				}
-			}
-		} SPRIG_KRKR_CATCH(e) {
-			KTL_THREAD_CALLBACK_POST_ERROR(KTL_ERROR_SECTION, SPRIG_KRKR_TJS_W("非同期処理内で例外が投げられました"));
-			KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("exception_information"), sprig::krkr::tjs::exception_information(e), SPRIG_KRKR_LOG_LEVEL_ERROR);
-			cleanupOnProcessFailed();
-			return;
-		}
-	}
-	KTL_INLINE void NativeDownloader::handleReadChunkDataAfter(
-		boost::system::error_code const& error,
-		size_type bytes_transferred
-		)
-	{
-		scoped_lock_type lock(mutex_);
-		SPRIG_KRKR_TRY() {
-			readers2_.error_code() = error;
-			if (*readers2_.error_code()) {
-				NetworkUtils::moveErrorCode(readers_, readers2_);
-				if (*readers_.error_code() != boost::asio::error::operation_aborted) {
-					KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ受信に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-					KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("error_code"), *readers_.error_code(), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-					KTL_THREAD_CALLBACK_POST_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("message"), readers_.error_code()->message(), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-				} else {
-					KTL_THREAD_CALLBACK_POST_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ受信がキャンセルされました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-				}
-				cleanupOnProcessFailed();
-				return;
-			}
-			NetworkUtils::moveComponent(readers_, readers2_);
-			impl_string_type cr_lf(2, '\0');
-			{
-				std::istream reading_istream(reading_streambuf_.get());
-				if (bytes_transferred >= 2) {
-					reading_istream.read(&cr_lf[0], 2);
-				}
-			}
+			readers_.error_code().reset();
+			readers2_.error_code() = boost::system::error_code();
 			if (socket_) {
-				boost::asio::async_read_until(
+				boost::asio::async_read(
 					*socket_,
 					*reading_streambuf_,
-					"\r\n",
+					boost::asio::transfer_at_least(1),
 					strand_->wrap(
 						boost::bind(
-							&NativeDownloader::handleReadChunkSize,
+							&NativeDownloader::handleLoadChunked,
 							this,
 							boost::asio::placeholders::error,
-							boost::asio::placeholders::bytes_transferred
+							boost::asio::placeholders::bytes_transferred,
+							boost::get<2>(result),
+							boost::get<3>(result)
 							)
 						)
 					);
 			} else if (ssl_socket_) {
-				boost::asio::async_read_until(
+				boost::asio::async_read(
 					*ssl_socket_,
 					*reading_streambuf_,
-					"\r\n",
+					boost::asio::transfer_at_least(1),
 					strand_->wrap(
 						boost::bind(
-							&NativeDownloader::handleReadChunkSize,
+							&NativeDownloader::handleLoadChunked,
 							this,
 							boost::asio::placeholders::error,
-							boost::asio::placeholders::bytes_transferred
+							boost::asio::placeholders::bytes_transferred,
+							boost::get<2>(result),
+							boost::get<3>(result)
 							)
 						)
 					);
@@ -1148,12 +954,12 @@ namespace ktl {
 				cleanupOnProcessFailed();
 				return false;
 			}
-		if (content_length_ && transferred_size_ >= content_length_) {
-			SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
-			cleanupOnProcessSucceeded();
-			return true;
-		} else if (error == boost::asio::error::eof) {
-			if (content_length_) {
+			if (content_length_ && transferred_size_ >= content_length_) {
+				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
+				cleanupOnProcessSucceeded();
+				return true;
+			} else if (error == boost::asio::error::eof) {
+				if (content_length_) {
 					SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("受信データ長が指定データ長に足りません"), SPRIG_KRKR_LOG_LEVEL_WARNING);
 					cleanupOnProcessFailed();
 					return false;
@@ -1164,163 +970,45 @@ namespace ktl {
 			}
 		}
 	}
-	KTL_INLINE bool NativeDownloader::loadChunked() {
+	KTL_INLINE bool NativeDownloader::loadChunked(size_type chunk_size, impl_string_type chunk_size_block) {
 		boost::system::error_code error;
 		size_type bytes_transferred = 0;
 		for (; ; ) {
 			if (socket_) {
-				bytes_transferred = boost::asio::read_until(
+				bytes_transferred = boost::asio::read(
 					*socket_,
 					*reading_streambuf_,
-					"\r\n",
+					boost::asio::transfer_at_least(1),
 					error
 					);
 			} else if (ssl_socket_) {
-				bytes_transferred = boost::asio::read_until(
+				bytes_transferred = boost::asio::read(
 					*ssl_socket_,
 					*reading_streambuf_,
-					"\r\n",
+					boost::asio::transfer_at_least(1),
 					error
 					);
 			}
-			if (error) {
+			if (error && error != boost::asio::error::eof) {
 				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ受信に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
 				SPRIG_KRKR_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("error_code"), error, SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 				SPRIG_KRKR_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("message"), error.message(), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 				cleanupOnProcessFailed();
 				return false;
 			}
-			impl_string_type chunk_size_block(bytes_transferred, '\0');
-			{
-				std::istream reading_istream(reading_streambuf_.get());
-				if (bytes_transferred) {
-					reading_istream.read(&chunk_size_block[0], bytes_transferred);
-				}
+			boost::tuple<bool, bool, size_type, impl_string_type> result(processChunked(chunk_size, chunk_size_block));
+			if (!boost::get<0>(result)) {
+				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("チャンクデータの処理でエラーが発生しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
+				cleanupOnProcessFailed();
+				return false;
 			}
-			{
-				impl_string_type::size_type ext_pos = chunk_size_block.find(';');
-				if (ext_pos != impl_string_type::npos) {
-					chunk_size_block.erase(ext_pos);
-				} else {
-					chunk_size_block.erase(chunk_size_block.size() - 2);
-				}
-			}
-			size_type chunk_size = std::strtol(chunk_size_block.c_str(), 0, 16);
-			if (!chunk_size) {
+			if (boost::get<1>(result) || error == boost::asio::error::eof) {
 				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
 				cleanupOnProcessSucceeded();
 				return true;
 			}
-			if (reading_streambuf_->size() > chunk_size) {
-				size_type real_bytes_transferred = chunk_size;
-				transferred_size_ += real_bytes_transferred;
-				if (!updateBuffer(real_bytes_transferred)) {
-					cleanupOnProcessFailed();
-					return false;
-				}
-				if (socket_) {
-					bytes_transferred = boost::asio::read_until(
-						*socket_,
-						*reading_streambuf_,
-						"\r\n",
-						error
-						);
-				} else if (ssl_socket_) {
-					bytes_transferred = boost::asio::read_until(
-						*ssl_socket_,
-						*reading_streambuf_,
-						"\r\n",
-						error
-						);
-				}
-				if (error) {
-					SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ受信に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-					SPRIG_KRKR_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("error_code"), error, SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-					SPRIG_KRKR_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("message"), error.message(), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-					cleanupOnProcessFailed();
-					return false;
-				}
-				impl_string_type cr_lf(2, '\0');
-				{
-					std::istream reading_istream(reading_streambuf_.get());
-					if (bytes_transferred >= 2) {
-						reading_istream.read(&cr_lf[0], 2);
-					}
-				}
-				continue;
-			}
-			size_type remaind_chunk_size = chunk_size;
-			do {
-				if (socket_) {
-					bytes_transferred = boost::asio::read(
-						*socket_,
-						*reading_streambuf_,
-						boost::asio::transfer_at_least(1),
-						error
-						);
-				} else if (ssl_socket_) {
-					bytes_transferred = boost::asio::read(
-						*ssl_socket_,
-						*reading_streambuf_,
-						boost::asio::transfer_at_least(1),
-						error
-						);
-				}
-				if (error && error != boost::asio::error::eof) {
-					SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ受信に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-					SPRIG_KRKR_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("error_code"), error, SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-					SPRIG_KRKR_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("message"), error.message(), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-					cleanupOnProcessFailed();
-					return false;
-				}
-				size_type real_bytes_transferred = (reading_streambuf_->size() > remaind_chunk_size)
-					? remaind_chunk_size
-					: reading_streambuf_->size()
-					;
-				transferred_size_ += real_bytes_transferred;
-				if (!updateBuffer(real_bytes_transferred)) {
-					cleanupOnProcessFailed();
-					return false;
-				}
-				remaind_chunk_size -= real_bytes_transferred;
-				if (remaind_chunk_size && error == boost::asio::error::eof) {
-					SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("受信データ長が指定データ長に足りません"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-					cleanupOnProcessFailed();
-					return false;
-				}
-				if (remaind_chunk_size) {
-					continue;
-				}
-				if (socket_) {
-					bytes_transferred = boost::asio::read_until(
-						*socket_,
-						*reading_streambuf_,
-						"\r\n",
-						error
-						);
-				} else if (ssl_socket_) {
-					bytes_transferred = boost::asio::read_until(
-						*ssl_socket_,
-						*reading_streambuf_,
-						"\r\n",
-						error
-						);
-				}
-				if (error) {
-					SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("データ受信に失敗しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
-					SPRIG_KRKR_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("error_code"), error, SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-					SPRIG_KRKR_OUTPUT_VALUE(SPRIG_KRKR_TJS_W("message"), error.message(), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
-					cleanupOnProcessFailed();
-					return false;
-				}
-				impl_string_type cr_lf(2, '\0');
-				{
-					std::istream reading_istream(reading_streambuf_.get());
-					if (bytes_transferred >= 2) {
-						reading_istream.read(&cr_lf[0], 2);
-					}
-				}
-			} while (remaind_chunk_size);
+			chunk_size = boost::get<2>(result);
+			chunk_size_block = boost::get<3>(result);
 		}
 	}
 	KTL_INLINE bool NativeDownloader::analyURL(impl_string_type const& url) {
@@ -1373,7 +1061,8 @@ namespace ktl {
 					<< "Host: " << host_name << "\r\n"
 					<< "Accept: */*\r\n"
 					<< "Connection: close\r\n"
-					<< "Content-Length: " << upload_buffer_->size() << "\r\n";
+					<< "Content-Length: " << upload_buffer_->size() << "\r\n"
+					;
 				//  HACK: カスタムヘッダを送信
 				if (custom_header_) {
 					writing_ostream << *custom_header_;
@@ -1541,19 +1230,71 @@ namespace ktl {
 	}
 	KTL_INLINE bool NativeDownloader::updateBuffer(size_type bytes_transferred) {
 		if (storage_) {
-			std::copy(
+			boost::algorithm::copy_n(
 				std::istreambuf_iterator<char>(reading_streambuf_.get()),
-				std::istreambuf_iterator<char>(),
+				bytes_transferred,
 				std::ostreambuf_iterator<char>(*storage_out_)
 				);
 		} else {
-			std::copy(
+			boost::algorithm::copy_n(
 				std::istreambuf_iterator<char>(reading_streambuf_.get()),
-				std::istreambuf_iterator<char>(),
+				bytes_transferred,
 				std::back_inserter(*buffer_)
 				);
 		}
 		return true;
+	}
+	KTL_INLINE boost::tuple<bool, bool, NativeDownloader::size_type, NativeDownloader::impl_string_type> NativeDownloader::processChunked(
+		size_type chunk_size,
+		impl_string_type chunk_size_block
+		)
+	{
+		while (reading_streambuf_->size()) {
+			if (chunk_size > 2) {
+				size_type readable_size = std::min(chunk_size - 2, reading_streambuf_->size());
+				transferred_size_ += readable_size;
+				if (!updateBuffer(readable_size)) {
+					return boost::tuple<bool, bool, size_type, impl_string_type>(false, false, 0);
+				}
+				chunk_size -= readable_size;
+			} else if (chunk_size) {
+				size_type readable_size = std::min(chunk_size, reading_streambuf_->size());
+				impl_string_type cr_lf(readable_size, '\0');
+				{
+					std::istream reading_istream(reading_streambuf_.get());
+					reading_istream.read(&cr_lf[0], readable_size);
+				}
+			} else {
+				{
+					impl_string_type chunk_size_piece;
+					std::istream reading_istream(reading_streambuf_.get());
+					std::getline(reading_istream, chunk_size_piece);
+					if (chunk_size_block.empty()) {
+						chunk_size_block.swap(chunk_size_piece);
+					} else {
+						chunk_size_block += chunk_size_piece;
+					}
+				}
+				if (chunk_size_block.empty() || chunk_size_block[chunk_size_block.size() - 1] != '\r') {
+					return boost::tuple<bool, bool, size_type, impl_string_type>(true, false, 0, chunk_size_block);
+				}
+				{
+					impl_string_type::size_type ext_pos = chunk_size_block.find(';');
+					if (ext_pos != impl_string_type::npos) {
+						chunk_size_block.erase(ext_pos);
+					} else {
+						chunk_size_block.erase(chunk_size_block.size() - 1);
+					}
+				}
+				chunk_size = std::strtol(chunk_size_block.c_str(), 0, 16);
+				chunk_size_block.clear();
+				if (!chunk_size) {
+					return boost::tuple<bool, bool, size_type, impl_string_type>(true, true, 0);
+				}
+				chunk_size += 2;
+			}
+		}
+		return boost::tuple<bool, bool, size_type, impl_string_type>(true, false, chunk_size, chunk_size_block);
 	}
 	KTL_INLINE void NativeDownloader::resetInfo() {
 		NetworkUtils::resetComponent(url_info_, url_info2_);
@@ -1701,28 +1442,40 @@ namespace ktl {
 			cleanupOnProcessFailed();
 			return false;
 		}
-		// 先読みされた分を処理
-		if (!chunked_) {
-			transferred_size_ = (content_length_ && reading_streambuf_->size() > content_length_)
-				? content_length_
-				: reading_streambuf_->size()
-				;
-			if (!updateBuffer(transferred_size_)) {
+		if (chunked_) {
+			// 先読みされた分を処理
+			boost::tuple<bool, bool, size_type, impl_string_type> result(processChunked());
+			if (!boost::get<0>(result)) {
+				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("チャンクデータの処理でエラーが発生しました"), SPRIG_KRKR_LOG_LEVEL_WARNING);
 				cleanupOnProcessFailed();
 				return false;
 			}
-			if (content_length_ && transferred_size_ >= content_length_) {
+			if (boost::get<1>(result)) {
 				SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
 				cleanupOnProcessSucceeded();
 				return true;
 			}
-		}
-		if (chunked_) {
-			if (!loadChunked()) {
+			if (!loadChunked(boost::get<2>(result), boost::get<3>(result))) {
 				cleanupOnProcessFailed();
 				return false;
 			}
 		} else {
+			// 先読みされた分を処理
+			{
+				transferred_size_ = (content_length_ && reading_streambuf_->size() > content_length_)
+					? content_length_
+					: reading_streambuf_->size()
+					;
+				if (!updateBuffer(transferred_size_)) {
+					cleanupOnProcessFailed();
+					return false;
+				}
+				if (content_length_ && transferred_size_ >= content_length_) {
+					SPRIG_KRKR_OUTPUT_COMMENT(SPRIG_KRKR_TJS_W("ダウンロード完了しました"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
+					cleanupOnProcessSucceeded();
+					return true;
+				}
+			}
 			if (!loadBlock()) {
 				cleanupOnProcessFailed();
 				return false;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/tuple/tuple.hpp>
 #include <boost/asio/ssl.hpp>
 #include <boost/thread.hpp>
 #include <boost/cstdint.hpp>
@@ -123,18 +124,11 @@ namespace ktl {
 			boost::system::error_code const& error,
 			size_type bytes_transferred
 			);
-		void handleReadChunkSize(
-			boost::system::error_code const& error,
-			size_type bytes_transferred
-			);
-		void handleReadChunkData(
+		void handleLoadChunked(
 			boost::system::error_code const& error,
 			size_type bytes_transferred,
-			size_type remaind_chunk_size
-			);
-		void handleReadChunkDataAfter(
-			boost::system::error_code const& error,
-			size_type bytes_transferred
+			size_type chunk_size,
+			impl_string_type const& chunk_size_block
 			);
 		void handleTimeout(
 			boost::system::error_code const& error
@@ -148,13 +142,17 @@ namespace ktl {
 		int_type read(size_type size);
 		int_type readUntil(impl_string_type const& delim);
 		bool loadBlock();
-		bool loadChunked();
+		bool loadChunked(size_type chunk_size, impl_string_type chunk_size_block);
 		bool analyURL(impl_string_type const& url);
 		bool setStorageName(tjs_char const* storage, bool to_buffer);
 		void putHTTPRequest(impl_string_type const& host_name, impl_string_type const& content_path);
 		bool analyHTTPResponse(bool async);
 		bool openBuffer(bool async);
 		bool updateBuffer(size_type bytes_transferred);
+		boost::tuple<bool, bool, size_type, impl_string_type> processChunked(
+			size_type chunk_size = 0,
+			impl_string_type chunk_size_block = impl_string_type()
+			);
 		void resetInfo();
 		void resetWorkers();
 		void resetWorkingBuffer(bool setup = false);

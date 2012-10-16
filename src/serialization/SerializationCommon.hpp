@@ -64,58 +64,56 @@ namespace ktl {
 		}
 	};
 
-	namespace {
-		//
-		// getSerializerInstance
-		//
-		ISerializer* getSerializerInstance(tTJSVariantClosure const& closure) {
-			tTJSVariant ser_v;
-			{
-				tjs_error const error = closure.Object->PropGet(
-					0,
-					SPRIG_KRKR_TJS_W("serializer"),
-					0,
-					&ser_v,
-					closure.ObjThis
-					);
-				if (TJS_FAILED(error) && error != TJS_E_MEMBERNOTFOUND) {
-					KTL_ERROR(
-						KTL_WARNING_SECTION,
-						SPRIG_KRKR_TJS_W("stackの取得でエラーが発生しました"),
-						sprig::krkr::tvp_error
-						);
-				}
-			}
-			return reinterpret_cast<ISerializer*>(
-				static_cast<sprig::krkr::tjs::intptr_type>(ser_v)
+	//
+	// getSerializerInstance
+	//
+	ISerializer* getSerializerInstance(tTJSVariantClosure const& closure) {
+		tTJSVariant ser_v;
+		{
+			tjs_error const error = closure.Object->PropGet(
+				0,
+				SPRIG_KRKR_TJS_W("serializer"),
+				0,
+				&ser_v,
+				closure.ObjThis
 				);
-		}
-		//
-		// getSerializationStackInstance
-		//
-		ISerializationStack* getSerializationStackInstance(tTJSVariantClosure const& closure) {
-			tTJSVariant stack_v;
-			{
-				tjs_error const error = closure.Object->PropGet(
-					0,
-					SPRIG_KRKR_TJS_W("stack"),
-					0,
-					&stack_v,
-					closure.ObjThis
+			if (TJS_FAILED(error) && error != TJS_E_MEMBERNOTFOUND) {
+				KTL_ERROR(
+					KTL_WARNING_SECTION,
+					SPRIG_KRKR_TJS_W("stackの取得でエラーが発生しました"),
+					sprig::krkr::tvp_error
 					);
-				if (TJS_FAILED(error) && error != TJS_E_MEMBERNOTFOUND) {
-					KTL_ERROR(
-						KTL_WARNING_SECTION,
-						SPRIG_KRKR_TJS_W("stackの取得でエラーが発生しました"),
-						sprig::krkr::tvp_error
-						);
-				}
 			}
-			return reinterpret_cast<ISerializationStack*>(
-				static_cast<sprig::krkr::tjs::intptr_type>(stack_v)
-				);
 		}
-	}	// anonymous-namespace
+		return reinterpret_cast<ISerializer*>(
+			static_cast<sprig::krkr::tjs::intptr_type>(ser_v)
+			);
+	}
+	//
+	// getSerializationStackInstance
+	//
+	ISerializationStack* getSerializationStackInstance(tTJSVariantClosure const& closure) {
+		tTJSVariant stack_v;
+		{
+			tjs_error const error = closure.Object->PropGet(
+				0,
+				SPRIG_KRKR_TJS_W("stack"),
+				0,
+				&stack_v,
+				closure.ObjThis
+				);
+			if (TJS_FAILED(error) && error != TJS_E_MEMBERNOTFOUND) {
+				KTL_ERROR(
+					KTL_WARNING_SECTION,
+					SPRIG_KRKR_TJS_W("stackの取得でエラーが発生しました"),
+					sprig::krkr::tvp_error
+					);
+			}
+		}
+		return reinterpret_cast<ISerializationStack*>(
+			static_cast<sprig::krkr::tjs::intptr_type>(stack_v)
+			);
+	}
 
 	//
 	// ScriptSerializer

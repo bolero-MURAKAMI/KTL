@@ -365,26 +365,26 @@ namespace ktl {
 	KTL_INLINE sprig::krkr::tjs::intptr_type Utils::getStringData(tTJSVariantString const* string) {
 		return reinterpret_cast<sprig::krkr::tjs::intptr_type>(
 			NativeUtils::getStringData(
-				string->operator tjs_char const*()
+				sprig::krkr::tjs::as_c_str(string)
 				)
 			);
 	}
 	KTL_INLINE tTVInteger Utils::getStringSize(tTJSVariantString const* string) {
 		return NativeUtils::getStringSize(
-			string->operator tjs_char const*()
+			sprig::krkr::tjs::as_c_str(string)
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::intptr_type Utils::beginString(tTJSVariantString const* string) {
 		return reinterpret_cast<sprig::krkr::tjs::intptr_type>(
 			NativeUtils::beginString(
-				string->operator tjs_char const*()
+				sprig::krkr::tjs::as_c_str(string)
 				)
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::intptr_type Utils::endString(tTJSVariantString const* string) {
 		return reinterpret_cast<sprig::krkr::tjs::intptr_type>(
 			NativeUtils::endString(
-				string->operator tjs_char const*()
+				sprig::krkr::tjs::as_c_str(string)
 				)
 			);
 	}

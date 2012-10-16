@@ -490,7 +490,7 @@ namespace ktl {
 				}
 			}
 		};
-		tjs_char const* str = data->operator tjs_char const*();
+		tjs_char const* str = sprig::krkr::tjs::as_c_str(data);
 		std::size_t const len = data->GetLength();
 		binary_type binary;
 		for (std::size_t i = 0, last = len % 2 ? len - 1 : len; i != last; i += 2) {
