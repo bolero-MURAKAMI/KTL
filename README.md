@@ -197,14 +197,14 @@ ncbind
 Sprig  
 Boost  
 
-* KTL.Sprites
+* KTL.Sprites  
 tp_stub  
 ncbind  
 Sprig  
 Boost  
 DirectX SDK  
 
-* KTL.OSVersion
+* KTL.OSVersion  
 tp_stub  
 ncbind  
 Sprig  
