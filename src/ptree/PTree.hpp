@@ -968,7 +968,7 @@ namespace ktl {
 		}
 		if (binary.empty()
 			|| binary.size() % sizeof(tjs_char)
-			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != L'\xFEFF'
+			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != SPRIG_KRKR_TJS_W('\xFEFF')
 			)
 		{
 			binary.insert(binary.end(), sizeof(tjs_nchar), 0);
@@ -1034,7 +1034,7 @@ namespace ktl {
 		}
 		if (binary.empty()
 			|| binary.size() % sizeof(tjs_char)
-			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != L'\xFEFF'
+			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != SPRIG_KRKR_TJS_W('\xFEFF')
 			)
 		{
 			binary.insert(binary.end(), sizeof(tjs_nchar), 0);
@@ -1098,7 +1098,7 @@ namespace ktl {
 		}
 		if (binary.empty()
 			|| binary.size() % sizeof(tjs_char)
-			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != L'\xFEFF'
+			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != SPRIG_KRKR_TJS_W('\xFEFF')
 			)
 		{
 			binary.insert(binary.end(), sizeof(tjs_nchar), 0);
@@ -1162,7 +1162,7 @@ namespace ktl {
 		}
 		if (binary.empty()
 			|| binary.size() % sizeof(tjs_char)
-			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != L'\xFEFF'
+			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != SPRIG_KRKR_TJS_W('\xFEFF')
 			)
 		{
 			binary.insert(binary.end(), sizeof(tjs_nchar), 0);
@@ -1245,7 +1245,7 @@ namespace ktl {
 		}
 		if (binary.empty()
 			|| binary.size() % sizeof(tjs_char)
-			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != L'\xFEFF'
+			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != SPRIG_KRKR_TJS_W('\xFEFF')
 			)
 		{
 			binary.insert(binary.end(), sizeof(tjs_nchar), 0);
@@ -1285,7 +1285,13 @@ namespace ktl {
 		flag_type flag
 		)
 	{
-		std::basic_istringstream<tjs_char> is(source ? source : SPRIG_KRKR_TJS_W(""));
+		std::basic_istringstream<tjs_char> is(
+			source
+				? source[0] == SPRIG_KRKR_TJS_W('\xFEFF')
+					? source + 1
+					: source
+				: SPRIG_KRKR_TJS_W("")
+			);
 		pt_ptree_type ptree;
 		sprig::property_tree::read_html(is, ptree, sprig::property_tree::default_str_converter<pt_string_type>(), flag);
 		boost::swap(ptree_, ptree);
@@ -1314,7 +1320,7 @@ namespace ktl {
 		}
 		if (binary.empty()
 			|| binary.size() % sizeof(tjs_char)
-			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != L'\xFEFF'
+			|| reinterpret_cast<tjs_char const*>(&binary[0])[0] != SPRIG_KRKR_TJS_W('\xFEFF')
 			)
 		{
 			binary.insert(binary.end(), sizeof(tjs_nchar), 0);

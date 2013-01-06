@@ -135,6 +135,7 @@ namespace ktl {
 		//	SUMMARY: YAMLエミット系フラグ
 		//
 		static flag_type const efYAMLMultiDocument = sprig::property_tree::yaml_parser::writer_flags::multi_document;
+		static flag_type const efYAMLInsertEndOfDocument = sprig::property_tree::yaml_parser::writer_flags::insert_end_of_document;
 		//
 		//	SUMMARY: HTMLパース系フラグ
 		//
@@ -401,6 +402,7 @@ namespace ktl {
 		//	SUMMARY: YAMLエミット系フラグ
 		//
 		static tTVInteger const efYAMLMultiDocument = NativePTree::efYAMLMultiDocument;
+		static tTVInteger const efYAMLInsertEndOfDocument = NativePTree::efYAMLInsertEndOfDocument;
 		//
 		//	SUMMARY: HTMLパース系フラグ
 		//

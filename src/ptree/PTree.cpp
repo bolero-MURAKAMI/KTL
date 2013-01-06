@@ -32,6 +32,7 @@ namespace ktl {
 	//	SUMMARY: YAMLエミット系フラグ
 	//
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(efYAMLMultiDocument, PTree::efYAMLMultiDocument);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(efYAMLInsertEndOfDocument, PTree::efYAMLInsertEndOfDocument);
 	//
 	//	SUMMARY: HTMLパース系フラグ
 	//
