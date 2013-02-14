@@ -1,17 +1,17 @@
 #pragma once
 
+#include <boost/multiprecision/cpp_int.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <sprig/external/tp_stub.hpp>
-#include <sprig/ntl/big_int.hpp>
 #include <sprig/krkr/tjs.hpp>
 
 namespace ktl {
 	//
-	// NativeBigInt
+	// NativeCppInt
 	//
-	class NativeBigInt {
+	class NativeCppInt {
 	public:
-		typedef sprig::big_int big_int_type;
+		typedef boost::multiprecision::cpp_int big_int_type;
 	private:
 		big_int_type value_;
 	public:
@@ -21,10 +21,10 @@ namespace ktl {
 		static sprig::krkr::tjs::intptr_type getInstance(iTJSDispatch2* obj);
 		static sprig::krkr::tjs::object_type createNew(tjs_int numparams, tTJSVariant** param);
 	public:
-		NativeBigInt();
-		explicit NativeBigInt(big_int_type const& value);
-		explicit NativeBigInt(tTJSVariant const& v);
-		NativeBigInt(tTJSVariant const& v, int sign);
+		NativeCppInt();
+		explicit NativeCppInt(big_int_type const& value);
+		explicit NativeCppInt(tTJSVariant const& v);
+		NativeCppInt(tTJSVariant const& v, int sign);
 		void reset(big_int_type const& value);
 		big_int_type const& get() const;
 		big_int_type& ref();
@@ -69,18 +69,18 @@ namespace ktl {
 		//
 		//	SUMMARY: 代入系メソッド
 		//
-		NativeBigInt& assign(tTJSVariant const& v);
+		NativeCppInt& assign(tTJSVariant const& v);
 		//
 		//	SUMMARY: 演算代入系メソッド
 		//
-		NativeBigInt& assignAdd(tjs_int numparams, tTJSVariant** param);
-		NativeBigInt& assignSub(tjs_int numparams, tTJSVariant** param);
-		NativeBigInt& assignMul(tjs_int numparams, tTJSVariant** param);
-		NativeBigInt& assignDiv(tjs_int numparams, tTJSVariant** param);
-		NativeBigInt& assignMod(tjs_int numparams, tTJSVariant** param);
-		NativeBigInt& assignOr(tjs_int numparams, tTJSVariant** param);
-		NativeBigInt& assignAnd(tjs_int numparams, tTJSVariant** param);
-		NativeBigInt& assignXor(tjs_int numparams, tTJSVariant** param);
+		NativeCppInt& assignAdd(tjs_int numparams, tTJSVariant** param);
+		NativeCppInt& assignSub(tjs_int numparams, tTJSVariant** param);
+		NativeCppInt& assignMul(tjs_int numparams, tTJSVariant** param);
+		NativeCppInt& assignDiv(tjs_int numparams, tTJSVariant** param);
+		NativeCppInt& assignMod(tjs_int numparams, tTJSVariant** param);
+		NativeCppInt& assignOr(tjs_int numparams, tTJSVariant** param);
+		NativeCppInt& assignAnd(tjs_int numparams, tTJSVariant** param);
+		NativeCppInt& assignXor(tjs_int numparams, tTJSVariant** param);
 		//
 		//	SUMMARY: 変換系メソッド
 		//
@@ -95,17 +95,17 @@ namespace ktl {
 	};
 
 	//
-	// BigInt
+	// CppInt
 	//
-	class BigInt
+	class CppInt
 		: public tTJSNativeInstance
 	{
 	public:
-		typedef NativeBigInt::big_int_type big_int_type;
+		typedef NativeCppInt::big_int_type big_int_type;
 	private:
-		boost::shared_ptr<NativeBigInt> instance_;
+		boost::shared_ptr<NativeCppInt> instance_;
 	public:
-		BigInt();
+		CppInt();
 		tjs_error TJS_INTF_METHOD Construct(
 			tjs_int numparams,
 			tTJSVariant** param,
@@ -160,18 +160,18 @@ namespace ktl {
 		//
 		//	SUMMARY: 代入系メソッド
 		//
-		BigInt& assign(tTJSVariant const& v);
+		CppInt& assign(tTJSVariant const& v);
 		//
 		//	SUMMARY: 演算代入系メソッド
 		//
-		BigInt& assignAdd(tjs_int numparams, tTJSVariant** param);
-		BigInt& assignSub(tjs_int numparams, tTJSVariant** param);
-		BigInt& assignMul(tjs_int numparams, tTJSVariant** param);
-		BigInt& assignDiv(tjs_int numparams, tTJSVariant** param);
-		BigInt& assignMod(tjs_int numparams, tTJSVariant** param);
-		BigInt& assignOr(tjs_int numparams, tTJSVariant** param);
-		BigInt& assignAnd(tjs_int numparams, tTJSVariant** param);
-		BigInt& assignXor(tjs_int numparams, tTJSVariant** param);
+		CppInt& assignAdd(tjs_int numparams, tTJSVariant** param);
+		CppInt& assignSub(tjs_int numparams, tTJSVariant** param);
+		CppInt& assignMul(tjs_int numparams, tTJSVariant** param);
+		CppInt& assignDiv(tjs_int numparams, tTJSVariant** param);
+		CppInt& assignMod(tjs_int numparams, tTJSVariant** param);
+		CppInt& assignOr(tjs_int numparams, tTJSVariant** param);
+		CppInt& assignAnd(tjs_int numparams, tTJSVariant** param);
+		CppInt& assignXor(tjs_int numparams, tTJSVariant** param);
 		//
 		//	SUMMARY: 変換系メソッド
 		//

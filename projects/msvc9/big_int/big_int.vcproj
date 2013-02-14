@@ -180,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\big_int\CppInt.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\big_int\Main.cpp"
 				>
 			</File>
@@ -199,6 +203,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\big_int\Config.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\big_int\CppInt.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\big_int\CppIntDecl.hpp"
 				>
 			</File>
 		</Filter>

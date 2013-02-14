@@ -33,12 +33,21 @@
     <ClInclude Include="..\..\..\ktl\rc\version.h">
       <Filter>リソース ファイル\ktl</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\big_int\CppInt.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\big_int\CppIntDecl.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\big_int\BigInt.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\big_int\Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\big_int\CppInt.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

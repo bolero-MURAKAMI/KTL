@@ -94,10 +94,13 @@
     <ClInclude Include="..\..\..\src\big_int\BigInt.hpp" />
     <ClInclude Include="..\..\..\src\big_int\BigIntDecl.hpp" />
     <ClInclude Include="..\..\..\src\big_int\Config.hpp" />
+    <ClInclude Include="..\..\..\src\big_int\CppInt.hpp" />
+    <ClInclude Include="..\..\..\src\big_int\CppIntDecl.hpp" />
     <ClInclude Include="ktl_rc_version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\big_int\BigInt.cpp" />
+    <ClCompile Include="..\..\..\src\big_int\CppInt.cpp" />
     <ClCompile Include="..\..\..\src\big_int\Main.cpp" />
   </ItemGroup>
   <ItemGroup>

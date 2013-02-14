@@ -14,7 +14,7 @@
 #include <sprig/algorithm.hpp>
 #include <sprig/exception.hpp>
 #include <sprig/section.hpp>
-#include <sprig/serialization/sprig/ntl/big_int.hpp>
+#include <sprig/ntl/big_int.hpp>
 #include <sprig/krkr/exception.hpp>
 #include <sprig/krkr/tjs.hpp>
 #include <sprig/krkr/macro.hpp>
@@ -30,10 +30,10 @@ namespace ktl {
 	//
 	// NativeBigInt
 	//
-	KTL_INLINE sprig::big_int NativeBigInt::convertValue(tTJSVariant const& v) {
+	KTL_INLINE NativeBigInt::big_int_type NativeBigInt::convertValue(tTJSVariant const& v) {
 		switch (v.Type()) {
 		case tvtVoid:
-			return sprig::big_int::zero();
+			return big_int_type::zero();
 		case tvtObject:
 			if (sprig::krkr::tjs::IsInstanceObjectOf(v.AsObjectNoAddRef(), SPRIG_KRKR_TJS_W("BigInt"))) {
 				return reinterpret_cast<BigInt*>(getInstance(v.AsObjectNoAddRef()))->get();
@@ -43,34 +43,34 @@ namespace ktl {
 					SPRIG_KRKR_TJS_W("対応しないオブジェクトの引数は無効です"),
 					sprig::krkr::bad_argument
 					);
-				return sprig::big_int::zero();
+				return big_int_type::zero();
 			}
 		case tvtString:
 			return static_cast<tTJSString>(v).c_str();
 		case tvtOctet:
 			{
 				tTJSVariantOctet const* v_octet = v.AsOctetNoAddRef();
-				return sprig::big_int(sprig::krkr::tjs::octet_data(v_octet), sprig::krkr::tjs::octet_length(v_octet));
+				return big_int_type(sprig::krkr::tjs::octet_data(v_octet), sprig::krkr::tjs::octet_length(v_octet));
 			}
 		case tvtInteger:
 			return static_cast<tTVInteger>(v);
 		case tvtReal:
 			return static_cast<tTVReal>(v);
 		}
-		return sprig::big_int::zero();
+		return big_int_type::zero();
 	}
-	KTL_INLINE sprig::big_int NativeBigInt::convertValue(tTJSVariant const& v, int sign) {
+	KTL_INLINE NativeBigInt::big_int_type NativeBigInt::convertValue(tTJSVariant const& v, int sign) {
 		switch (v.Type()) {
 		case tvtOctet:
 			{
-				sprig::big_int::sign s = sign < 0
-					? sprig::big_int::sign_minus
+				big_int_type::sign s = sign < 0
+					? big_int_type::sign_minus
 					: sign > 0
-						? sprig::big_int::sign_plus
-						: sprig::big_int::sign_zero
+						? big_int_type::sign_plus
+						: big_int_type::sign_zero
 					;
 				tTJSVariantOctet const* v_octet = v.AsOctetNoAddRef();
-				return sprig::big_int(sprig::krkr::tjs::octet_data(v_octet), sprig::krkr::tjs::octet_length(v_octet), s);
+				return big_int_type(sprig::krkr::tjs::octet_data(v_octet), sprig::krkr::tjs::octet_length(v_octet), s);
 			}
 		default:
 			KTL_ERROR(
@@ -78,10 +78,10 @@ namespace ktl {
 				SPRIG_KRKR_TJS_W("符号付変換はオクテット列のみ対応します"),
 				sprig::krkr::bad_argument
 				);
-			return sprig::big_int::zero();
+			return big_int_type::zero();
 		}
 	}
-	KTL_INLINE sprig::big_int NativeBigInt::convertValuePtr(tTJSVariant const* v) {
+	KTL_INLINE NativeBigInt::big_int_type NativeBigInt::convertValuePtr(tTJSVariant const* v) {
 		return convertValue(*v);
 	}
 	KTL_INLINE sprig::krkr::tjs::intptr_type NativeBigInt::getInstance(iTJSDispatch2* obj) {
@@ -105,7 +105,7 @@ namespace ktl {
 		return sprig::krkr::tjs::object_type(result_obj, false);
 	}
 	NativeBigInt::NativeBigInt() {}
-	NativeBigInt::NativeBigInt(sprig::big_int const& value)
+	NativeBigInt::NativeBigInt(big_int_type const& value)
 		: value_(value)
 	{}
 	NativeBigInt::NativeBigInt(tTJSVariant const& v)
@@ -114,13 +114,13 @@ namespace ktl {
 	NativeBigInt::NativeBigInt(tTJSVariant const& v, int sign)
 		: value_(convertValue(v, sign))
 	{}
-	KTL_INLINE void NativeBigInt::reset(sprig::big_int const& value) {
+	KTL_INLINE void NativeBigInt::reset(big_int_type const& value) {
 		value_ = value;
 	}
-	KTL_INLINE sprig::big_int const& NativeBigInt::get() const {
+	KTL_INLINE NativeBigInt::big_int_type const& NativeBigInt::get() const {
 		return value_;
 	}
-	KTL_INLINE sprig::big_int& NativeBigInt::ref() {
+	KTL_INLINE NativeBigInt::big_int_type& NativeBigInt::ref() {
 		return value_;
 	}
 	//
@@ -166,7 +166,7 @@ namespace ktl {
 				);
 			return 0;
 		}
-		std::vector<sprig::big_int> seq;
+		std::vector<big_int_type> seq;
 		std::transform(
 			param,
 			param + numparams,
@@ -184,7 +184,7 @@ namespace ktl {
 				);
 			return 0;
 		}
-		std::vector<sprig::big_int> seq;
+		std::vector<big_int_type> seq;
 		std::transform(
 			param,
 			param + numparams,
@@ -206,7 +206,7 @@ namespace ktl {
 				); \
 			return 0; \
 		} \
-		std::vector<sprig::big_int> seq; \
+		std::vector<big_int_type> seq; \
 		std::transform( \
 			param, \
 			param + numparams, \
@@ -354,13 +354,13 @@ namespace ktl {
 		SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("BigInt::Invalidate"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
 		instance_.reset();
 	}
-	KTL_INLINE void BigInt::reset(sprig::big_int const& value) {
+	KTL_INLINE void BigInt::reset(big_int_type const& value) {
 		instance_->reset(value);
 	}
-	KTL_INLINE sprig::big_int const& BigInt::get() const {
+	KTL_INLINE BigInt::big_int_type const& BigInt::get() const {
 		return instance_->get();
 	}
-	KTL_INLINE sprig::big_int& BigInt::ref() {
+	KTL_INLINE BigInt::big_int_type& BigInt::ref() {
 		return instance_->ref();
 	}
 	//
