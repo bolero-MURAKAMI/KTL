@@ -26,9 +26,17 @@ namespace ktl {
 	// NativeAcceptor
 	//
 	void NativeAcceptor::callOnFinished() {
-		scoped_lock_type lock(mutex_);
-		if (on_finished_ && on_finished_->Type() == tvtObject) {
-			tTJSVariantClosure closure(on_finished_->AsObjectClosureNoAddRef());
+		tTJSVariant on_finished;
+		{
+			scoped_lock_type lock(mutex_);
+			if (!(on_finished_ && on_finished_->Type() == tvtObject)) {
+				return;
+			}
+			on_finished = *on_finished_;
+			on_finished_.reset();
+		}
+		{
+			tTJSVariantClosure closure(on_finished.AsObjectClosureNoAddRef());
 			sprig::krkr::tjs::FuncObjectCall(
 				closure.Object,
 				0,
@@ -36,7 +44,6 @@ namespace ktl {
 				0,
 				closure.ObjThis
 				);
-			on_finished_.reset();
 		}
 	}
 	KTL_INLINE void NativeAcceptor::postOnFinished() {

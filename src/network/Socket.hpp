@@ -187,9 +187,17 @@ namespace ktl {
 		return sprig::krkr::tjs::object_type(result_obj, false);
 	}
 	void NativeSocket::callOnFinished() {
-		scoped_lock_type lock(mutex_);
-		if (on_finished_ && on_finished_->Type() == tvtObject) {
-			tTJSVariantClosure closure(on_finished_->AsObjectClosureNoAddRef());
+		tTJSVariant on_finished;
+		{
+			scoped_lock_type lock(mutex_);
+			if (!(on_finished_ && on_finished_->Type() == tvtObject)) {
+				return;
+			}
+			on_finished = *on_finished_;
+			on_finished_.reset();
+		}
+		{
+			tTJSVariantClosure closure(on_finished.AsObjectClosureNoAddRef());
 			sprig::krkr::tjs::FuncObjectCall(
 				closure.Object,
 				0,
@@ -197,7 +205,6 @@ namespace ktl {
 				0,
 				closure.ObjThis
 				);
-			on_finished_.reset();
 		}
 	}
 	KTL_INLINE void NativeSocket::postOnFinished() {
@@ -2444,57 +2451,72 @@ namespace ktl {
 	//	SUMMARY: タイムアウト系メソッド
 	//
 	KTL_INLINE bool NativeSocket::waitTimeoutFromNow(rep_type expiry_time_millisec) {
-		scoped_lock_type lock(mutex_);
-		if (!is_processing_) {
-			return false;
+		{
+			scoped_lock_type lock(mutex_);
+			if (!is_processing_) {
+				return false;
+			}
+			timeout_timers_.error_code().reset();
+			timeout_timers2_.error_code() = boost::system::error_code();
+			timeout_timer_->expires_from_now(
+				milliseconds_type(expiry_time_millisec),
+				*timeout_timers2_.error_code()
+				);
+			if (*timeout_timers2_.error_code()) {
+				NetworkUtils::moveErrorCode(timeout_timers_, timeout_timers2_);
+				return false;
+			}
+			timeout_timers2_.error_code() = boost::system::error_code();
+			timeout_timer_->async_wait(
+				strand_->wrap(
+					boost::bind(
+						&NativeSocket::handleTimeout,
+						this,
+						boost::asio::placeholders::error
+						)
+					)
+				);
 		}
-		timeout_timers_.error_code().reset();
-		timeout_timers2_.error_code() = boost::system::error_code();
-		timeout_timer_->expires_from_now(
-			milliseconds_type(expiry_time_millisec),
-			*timeout_timers2_.error_code()
-			);
-		if (*timeout_timers2_.error_code()) {
-			NetworkUtils::moveErrorCode(timeout_timers_, timeout_timers2_);
-			return false;
+		for (; ; ) {
+			scoped_lock_type lock(mutex_);
+			if (!is_processing_) {
+				break;
+			}
 		}
-		timeout_timers2_.error_code() = boost::system::error_code();
-		timeout_timer_->wait(
-			*timeout_timers2_.error_code()
-			);
-		if (*timeout_timers2_.error_code()) {
-			NetworkUtils::moveErrorCode(timeout_timers_, timeout_timers2_);
-			return false;
-		}
-		cancelImpl();
-		NetworkUtils::moveComponent(timeout_timers_, timeout_timers2_);
 		return true;
 	}
 	KTL_INLINE bool NativeSocket::waitTimeoutAt(rep_type expiry_time_millisec) {
-		scoped_lock_type lock(mutex_);
-		if (!is_processing_) {
-			return false;
+		{
+			scoped_lock_type lock(mutex_);
+			if (!is_processing_) {
+				return false;
+			}
+			timeout_timers_.error_code().reset();
+			timeout_timers2_.error_code() = boost::system::error_code();
+			timeout_timer_->expires_at(
+				time_point_type(milliseconds_type(expiry_time_millisec)),
+				*timeout_timers2_.error_code()
+				);
+			if (*timeout_timers2_.error_code()) {
+				NetworkUtils::moveErrorCode(timeout_timers_, timeout_timers2_);
+				return false;
+			}
+			timeout_timer_->async_wait(
+				strand_->wrap(
+					boost::bind(
+						&NativeSocket::handleTimeout,
+						this,
+						boost::asio::placeholders::error
+						)
+					)
+				);
 		}
-		timeout_timers_.error_code().reset();
-		timeout_timers2_.error_code() = boost::system::error_code();
-		timeout_timer_->expires_at(
-			time_point_type(milliseconds_type(expiry_time_millisec)),
-			*timeout_timers2_.error_code()
-			);
-		if (*timeout_timers2_.error_code()) {
-			NetworkUtils::moveErrorCode(timeout_timers_, timeout_timers2_);
-			return false;
+		for (; ; ) {
+			scoped_lock_type lock(mutex_);
+			if (!is_processing_) {
+				break;
+			}
 		}
-		timeout_timers2_.error_code() = boost::system::error_code();
-		timeout_timer_->wait(
-			*timeout_timers2_.error_code()
-			);
-		if (*timeout_timers2_.error_code()) {
-			NetworkUtils::moveErrorCode(timeout_timers_, timeout_timers2_);
-			return false;
-		}
-		cancelImpl();
-		NetworkUtils::moveComponent(timeout_timers_, timeout_timers2_);
 		return true;
 	}
 	KTL_INLINE bool NativeSocket::asyncWaitTimeoutFromNow(rep_type expiry_time_millisec) {
@@ -2566,6 +2588,24 @@ namespace ktl {
 	KTL_INLINE NativeSocket::rep_type NativeSocket::expiresTimeoutAt() const {
 		scoped_lock_type lock(mutex_);
 		return boost::chrono::duration_cast<milliseconds_type>(timeout_timer_->expires_at().time_since_epoch()).count();
+	}
+	//
+	//	SUMMARY: 待機系メソッド
+	//
+	KTL_INLINE bool NativeSocket::join() {
+		{
+			scoped_lock_type lock(mutex_);
+			if (!is_processing_) {
+				return false;
+			}
+		}
+		for (; ; ) {
+			scoped_lock_type lock(mutex_);
+			if (!is_processing_) {
+				break;
+			}
+		}
+		return true;
 	}
 	//
 	//	SUMMARY: プロパティ系メソッド
@@ -3123,6 +3163,12 @@ namespace ktl {
 	}
 	KTL_INLINE tTVInteger Socket::expiresTimeoutAt() const {
 		return instance_->expiresTimeoutAt();
+	}
+	//
+	//	SUMMARY: 待機系メソッド
+	//
+	KTL_INLINE bool Socket::join() {
+		return instance_->join();
 	}
 	//
 	//	SUMMARY: プロパティ系メソッド

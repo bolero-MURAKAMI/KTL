@@ -255,6 +255,10 @@ namespace ktl {
 		rep_type expiresTimeoutFromNow() const;
 		rep_type expiresTimeoutAt() const;
 		//
+		//	SUMMARY: 待機系メソッド
+		//
+		bool join();
+		//
 		//	SUMMARY: ポスト系メソッド
 		//
 		bool addPostDataEncoded(tjs_char const* source);
@@ -393,6 +397,10 @@ namespace ktl {
 		bool isWaitingTimeout() const;
 		tTVInteger expiresTimeoutFromNow() const;
 		tTVInteger expiresTimeoutAt() const;
+		//
+		//	SUMMARY: 待機系メソッド
+		//
+		bool join();
 		//
 		//	SUMMARY: ポスト系メソッド
 		//

@@ -94,6 +94,16 @@ namespace ktl {
 			scoped_lock_type lock(mutex_);
 			run_impl(new_thread_count);
 		}
+		void run_with_hardware_concurrency() {
+			scoped_lock_type lock(mutex_);
+			size_type new_thread_count = boost::thread::hardware_concurrency();
+			if (!new_thread_count) {
+				new_thread_count = 1;
+			}
+			if (thread_list_.size() < new_thread_count) {
+				run_impl(new_thread_count);
+			}
+		}
 		void run_at_least(size_type new_thread_count) {
 			scoped_lock_type lock(mutex_);
 			if (thread_list_.size() < new_thread_count) {
@@ -183,6 +193,9 @@ namespace ktl {
 		}
 		void run(size_type new_thread_count) {
 			impl_->run(new_thread_count);
+		}
+		void run_with_hardware_concurrency() {
+			impl_->run_with_hardware_concurrency();
 		}
 		void run_at_least(size_type new_thread_count = 1) {
 			impl_->run_at_least(new_thread_count);

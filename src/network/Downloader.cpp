@@ -251,6 +251,18 @@ namespace ktl {
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, expiresTimeoutFromNow, expiresTimeoutFromNow);
 	SPRIG_KRKR_NATIVE_PROP_DECL_VARIANT_GETONLY(Downloader, expiresTimeoutAt, expiresTimeoutAt);
 	//
+	//	SUMMARY: 待機系メソッド
+	//
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(join)
+	{
+		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
+		SPRIG_KRKR_INVOKE_RESULT_SET(
+			this_->join()
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(join)
+	//
 	//	SUMMARY: ポスト系メソッド
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(addPostDataEncoded)

@@ -6,6 +6,7 @@
 #include <boost/smart_ptr/make_shared.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <sprig/external/tp_stub.hpp>
 #include <sprig/numeric/conversion/cast.hpp>
@@ -35,6 +36,9 @@ namespace ktl {
 	}
 	KTL_INLINE void NativeNetwork::run(size_type new_thread_count) {
 		NetworkService::get_mutable_instance().run(new_thread_count);
+	}
+	KTL_INLINE void NativeNetwork::runWithHardwareConcurrency() {
+		NetworkService::get_mutable_instance().run_with_hardware_concurrency();
 	}
 	KTL_INLINE void NativeNetwork::runAtLeast(size_type new_thread_count) {
 		NetworkService::get_mutable_instance().run_at_least(new_thread_count);
@@ -70,6 +74,12 @@ namespace ktl {
 			return tTJSVariant();
 		}
 		return tTJSVariant(result.c_str());
+	}
+	//
+	//	SUMMARY: スレッド系メソッド
+	//
+	KTL_INLINE NativeNetwork::size_type NativeNetwork::getThreadHardwareConcurrency() {
+		return boost::thread::hardware_concurrency();
 	}
 	//
 	//	SUMMARY: クロック系メソッド
@@ -123,6 +133,9 @@ namespace ktl {
 			boost::numeric_cast<NativeNetwork::size_type>(new_thread_count)
 			);
 	}
+	KTL_INLINE void Network::runWithHardwareConcurrency() {
+		NativeNetwork::runWithHardwareConcurrency();
+	}
 	KTL_INLINE void Network::runAtLeast(tTVInteger new_thread_count) {
 		NativeNetwork::runAtLeast(
 			boost::numeric_cast<NativeNetwork::size_type>(new_thread_count)
@@ -159,6 +172,12 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant Network::hostName() {
 		return NativeNetwork::hostName();
+	}
+	//
+	//	SUMMARY: スレッド系メソッド
+	//
+	KTL_INLINE tTVInteger Network::getThreadHardwareConcurrency() {
+		return NativeNetwork::getThreadHardwareConcurrency();
 	}
 	//
 	//	SUMMARY: クロック系メソッド

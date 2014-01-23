@@ -56,6 +56,12 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(run)
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(runWithHardwareConcurrency)
+	{
+		Network::runWithHardwareConcurrency();
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(runWithHardwareConcurrency)
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(runAtLeast)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
@@ -100,6 +106,10 @@ namespace ktl {
 	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(Network, internetConnetionState, getInternetConnetionState);
 	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(Network, isInternetConnected, isInternetConnected);
 	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(Network, hostName, hostName);
+	//
+	//	SUMMARY: スレッド系メソッド
+	//
+	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(Network, threadHardwareConcurrency, getThreadHardwareConcurrency);
 	//
 	//	SUMMARY: クロック系メソッド
 	//

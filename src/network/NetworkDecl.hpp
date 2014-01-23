@@ -56,6 +56,7 @@ namespace ktl {
 		//
 		static void run();
 		static void run(size_type new_thread_count);
+		static void runWithHardwareConcurrency();
 		static void runAtLeast(size_type new_thread_count);
 		static void runAtMost(size_type new_thread_count);
 		static void finish();
@@ -68,6 +69,10 @@ namespace ktl {
 		static flag_type getInternetConnetionState();
 		static bool isInternetConnected();
 		static tTJSVariant hostName();
+		//
+		//	SUMMARY: スレッド系メソッド
+		//
+		static size_type getThreadHardwareConcurrency();
 		//
 		//	SUMMARY: クロック系メソッド
 		//
@@ -128,6 +133,7 @@ namespace ktl {
 		//
 		static void run();
 		static void run(tTVInteger new_thread_count);
+		static void runWithHardwareConcurrency();
 		static void runAtLeast(tTVInteger new_thread_count);
 		static void runAtMost(tTVInteger new_thread_count);
 		static void finish();
@@ -140,6 +146,10 @@ namespace ktl {
 		static tTVInteger getInternetConnetionState();
 		static bool isInternetConnected();
 		static tTJSVariant hostName();
+		//
+		//	SUMMARY: スレッド系メソッド
+		//
+		static tTVInteger getThreadHardwareConcurrency();
 		//
 		//	SUMMARY: クロック系メソッド
 		//
