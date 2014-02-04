@@ -1,4 +1,12 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
+
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_TJS_ENGINE_TJS_ENGINE_DECL_HPP
+#define SRC_TJS_ENGINE_TJS_ENGINE_DECL_HPP
 
 #include <string>
 #include <boost/smart_ptr/shared_ptr.hpp>
@@ -44,3 +52,5 @@ namespace ktl {
 		sprig::krkr::tjs::object_type global() const;
 	};
 }	// namespace ktl
+
+#endif	// #ifndef SRC_TJS_ENGINE_TJS_ENGINE_DECL_HPP

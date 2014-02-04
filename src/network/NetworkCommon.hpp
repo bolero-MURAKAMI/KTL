@@ -1,4 +1,12 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
+
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_NETWORK_NETWORK_COMMON_HPP
+#define SRC_NETWORK_NETWORK_COMMON_HPP
 
 #include <cstddef>
 #include <vector>
@@ -14,7 +22,8 @@
 #include <boost/optional/optional.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
-#include <boost/asio/high_resolution_timer.hpp>
+#include <boost/asio/basic_waitable_timer.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/chrono.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
@@ -233,7 +242,7 @@ namespace ktl {
 		typedef std::string impl_string_type;
 		typedef std::size_t size_type;
 		typedef boost::uint_fast32_t flag_type;
-		typedef boost::asio::high_resolution_timer timeout_timer_type;
+		typedef boost::asio::basic_waitable_timer<boost::chrono::steady_clock> timeout_timer_type;
 		typedef timeout_timer_type::clock_type clock_type;
 		typedef timeout_timer_type::time_point time_point_type;
 		typedef timeout_timer_type::duration duration_type;
@@ -917,3 +926,5 @@ namespace ktl {
 		}
 	};
 }	// namespace ktl
+
+#endif	// #ifndef SRC_NETWORK_NETWORK_COMMON_HPP

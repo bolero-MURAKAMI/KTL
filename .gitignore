@@ -1,6 +1,5 @@
 
 /config/
-/.gitignore
 *.user
 *.suo
 *.res
@@ -19,3 +18,4 @@
 *.log
 *.lastbuildstate
 *.cache
+/.gitignore

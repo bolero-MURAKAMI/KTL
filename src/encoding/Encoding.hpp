@@ -1,4 +1,12 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
+
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_ENCODING_ENCODING_HPP
+#define SRC_ENCODING_ENCODING_HPP
 
 #include <clocale>
 #include <vector>
@@ -1291,3 +1299,5 @@ namespace ktl {
 
 #undef KTL_WARNING_SECTION
 #undef KTL_ERROR_SECTION
+
+#endif	// #ifndef SRC_ENCODING_ENCODING_HPP

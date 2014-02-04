@@ -1,4 +1,12 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
+
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_SPLASH_WINDOW_LAYERED_SPLASH_WINDOW_DECL_HPP
+#define SRC_SPLASH_WINDOW_LAYERED_SPLASH_WINDOW_DECL_HPP
 
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/smart_ptr/scoped_ptr.hpp>
@@ -121,3 +129,5 @@ namespace ktl {
 		bool initialized() const;
 	};
 }	// namespace ktl
+
+#endif	// #ifndef SRC_SPLASH_WINDOW_LAYERED_SPLASH_WINDOW_DECL_HPP

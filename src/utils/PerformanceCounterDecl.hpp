@@ -1,4 +1,12 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
+
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_UTILS_PERFORMANCE_COUNTER_DECL_HPP
+#define SRC_UTILS_PERFORMANCE_COUNTER_DECL_HPP
 
 #include <vector>
 #include <boost/smart_ptr/shared_ptr.hpp>
@@ -58,3 +66,5 @@ namespace ktl {
 		void setEnable(bool v);
 	};
 }	// namespace ktl
+
+#endif	// #ifndef SRC_UTILS_PERFORMANCE_COUNTER_DECL_HPP

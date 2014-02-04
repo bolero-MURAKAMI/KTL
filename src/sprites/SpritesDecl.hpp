@@ -1,4 +1,12 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
+
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_SPRITES_SPRITES_DECL_HPP
+#define SRC_SPRITES_SPRITES_DECL_HPP
 
 #include <vector>
 #include <string>
@@ -545,3 +553,5 @@ namespace sprig {
 BOOST_CLASS_EXPORT(ktl::NativeSprites::sprite_drawer_type);
 BOOST_CLASS_EXPORT(ktl::NativeSprites::sprite_drawer_type::sprite_drawer_filter_type);
 BOOST_CLASS_EXPORT(ktl::NativeSprites::sprite_buffer_type::sprite_transferer_type::render_transferer_type::render_filter_type);
+
+#endif	// #ifndef SRC_SPRITES_SPRITES_DECL_HPP

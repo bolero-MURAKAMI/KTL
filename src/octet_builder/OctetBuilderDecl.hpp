@@ -1,4 +1,12 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
+
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_OCTET_BUILDER_OCTET_BUILDER_DECL_HPP
+#define SRC_OCTET_BUILDER_OCTET_BUILDER_DECL_HPP
 
 #include <vector>
 #include <memory>
@@ -478,3 +486,5 @@ namespace ktl {
 		void resize(tTVInteger size);
 	};
 }	// namespace ktl
+
+#endif	// #ifndef SRC_OCTET_BUILDER_OCTET_BUILDER_DECL_HPP

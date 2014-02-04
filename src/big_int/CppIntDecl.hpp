@@ -1,4 +1,12 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
+
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_BIG_INT_CPP_INT_DECL_HPP
+#define SRC_BIG_INT_CPP_INT_DECL_HPP
 
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
@@ -185,3 +193,5 @@ namespace ktl {
 		tTVInteger sign() const;
 	};
 }	// namespace ktl
+
+#endif	// #ifndef SRC_BIG_INT_CPP_INT_DECL_HPP

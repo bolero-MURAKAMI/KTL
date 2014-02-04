@@ -1,8 +1,18 @@
-#pragma once
+/*=============================================================================
+  Copyright (c) 2010-2014 Bolero MURAKAMI
+  https://github.com/bolero-MURAKAMI/KTL
 
-#pragma warning(disable : 4819)
-#pragma warning(disable : 4996)
-#pragma warning(disable : 4503)
+  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+=============================================================================*/
+#ifndef SRC_NETWORK_CONFIG_HPP
+#define SRC_NETWORK_CONFIG_HPP
+
+#if defined(_MSC_VER)
+#	pragma warning(disable : 4819)
+#	pragma warning(disable : 4996)
+#	pragma warning(disable : 4503)
+#endif
 
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
@@ -22,3 +32,5 @@
 
 //	CONFIG: user config
 #define SPRIG_CONFIG_LIB_USERCONFIG
+
+#endif	// #ifndef SRC_NETWORK_CONFIG_HPP
