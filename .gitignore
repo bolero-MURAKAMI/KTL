@@ -1,2 +1,21 @@
 
-/config/libconfig/ktl_tjs_adapter.hpp
+/config/
+/.gitignore
+*.user
+*.suo
+*.res
+*.pdb
+*.obj
+*.ncb
+*.manifest
+*.lib
+*.idb
+*.htm
+*.exp
+*.dll
+*.dep
+*.tlog
+*.sdf
+*.log
+*.lastbuildstate
+*.cache
