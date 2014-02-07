@@ -10,6 +10,7 @@
 
 #include <functional>
 #include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/array.hpp>
 #include <sprig/external/tp_stub.hpp>
 #include <sprig/krkr/tjs.hpp>
 
@@ -169,6 +170,13 @@ namespace ktl {
 		static std::complex<tTVReal> sphHankel1(tTVReal v, tTVReal x);
 		static std::complex<tTVReal> sphHankel2(tTVReal v, tTVReal x);
 		//
+		//	SUMMARY: エアリー関数系メソッド
+		//
+		static tTVReal airyAi(tTVReal x);
+		static tTVReal airyBi(tTVReal x);
+		static tTVReal airyAiPrime(tTVReal x);
+		static tTVReal airyBiPrime(tTVReal x);
+		//
 		//	SUMMARY: ゼータ関数系メソッド
 		//
 		static tTVReal zeta(tTVReal z);
@@ -195,7 +203,23 @@ namespace ktl {
 		static tTVReal ellint3(tTVReal k, tTVReal n, tTVReal phi);
 		static tTVReal ellint3(tTVReal k, tTVReal n);
 		//
-		//	SUMMARY: 指数積分系メソッド
+		//	SUMMARY: ヤコビの楕円関数系メソッド
+		//
+		static boost::array<tTVReal, 3> jacobiElliptic(tTVReal k, tTVReal u);
+		static tTVReal jacobiCd(tTVReal k, tTVReal u);
+		static tTVReal jacobiCn(tTVReal k, tTVReal u);
+		static tTVReal jacobiCs(tTVReal k, tTVReal u);
+		static tTVReal jacobiDc(tTVReal k, tTVReal u);
+		static tTVReal jacobiDn(tTVReal k, tTVReal u);
+		static tTVReal jacobiDs(tTVReal k, tTVReal u);
+		static tTVReal jacobiNc(tTVReal k, tTVReal u);
+		static tTVReal jacobiNd(tTVReal k, tTVReal u);
+		static tTVReal jacobiNs(tTVReal k, tTVReal u);
+		static tTVReal jacobiSc(tTVReal k, tTVReal u);
+		static tTVReal jacobiSd(tTVReal k, tTVReal u);
+		static tTVReal jacobiSn(tTVReal k, tTVReal u);
+		//
+		//	SUMMARY: 楕円積分系メソッド
 		//
 		static tTVReal expint(unsigned n, tTVReal z);
 		static tTVReal expint(tTVReal z);
@@ -388,6 +412,13 @@ namespace ktl {
 		static tTJSVariant sphHankel1(tTVReal v, tTVReal x);
 		static tTJSVariant sphHankel2(tTVReal v, tTVReal x);
 		//
+		//	SUMMARY: エアリー関数系メソッド
+		//
+		static tTVReal airyAi(tTVReal x);
+		static tTVReal airyBi(tTVReal x);
+		static tTVReal airyAiPrime(tTVReal x);
+		static tTVReal airyBiPrime(tTVReal x);
+		//
 		//	SUMMARY: ゼータ関数系メソッド
 		//
 		static tTVReal zeta(tTVReal z);
@@ -413,6 +444,22 @@ namespace ktl {
 		static tTVReal ellint2(tTVReal k);
 		static tTVReal ellint3(tTVReal k, tTVReal n, tTVReal phi);
 		static tTVReal ellint3(tTVReal k, tTVReal n);
+		//
+		//	SUMMARY: ヤコビの楕円関数系メソッド
+		//
+		static tTJSVariant jacobiElliptic(tTVReal k, tTVReal u);
+		static tTVReal jacobiCd(tTVReal k, tTVReal u);
+		static tTVReal jacobiCn(tTVReal k, tTVReal u);
+		static tTVReal jacobiCs(tTVReal k, tTVReal u);
+		static tTVReal jacobiDc(tTVReal k, tTVReal u);
+		static tTVReal jacobiDn(tTVReal k, tTVReal u);
+		static tTVReal jacobiDs(tTVReal k, tTVReal u);
+		static tTVReal jacobiNc(tTVReal k, tTVReal u);
+		static tTVReal jacobiNd(tTVReal k, tTVReal u);
+		static tTVReal jacobiNs(tTVReal k, tTVReal u);
+		static tTVReal jacobiSc(tTVReal k, tTVReal u);
+		static tTVReal jacobiSd(tTVReal k, tTVReal u);
+		static tTVReal jacobiSn(tTVReal k, tTVReal u);
 		//
 		//	SUMMARY: 指数積分系メソッド
 		//

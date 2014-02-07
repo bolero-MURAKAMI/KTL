@@ -31,6 +31,7 @@
 #include <boost/math/special_functions/spherical_harmonic.hpp>
 #include <boost/math/special_functions/bessel.hpp>
 #include <boost/math/special_functions/hankel.hpp>
+#include <boost/math/special_functions/airy.hpp>
 #include <boost/math/special_functions/zeta.hpp>
 #include <boost/math/special_functions/sinc.hpp>
 #include <boost/math/special_functions/sinhc.hpp>
@@ -42,6 +43,7 @@
 #include <boost/math/special_functions/ellint_1.hpp>
 #include <boost/math/special_functions/ellint_2.hpp>
 #include <boost/math/special_functions/ellint_3.hpp>
+#include <boost/math/special_functions/jacobi_elliptic.hpp>
 #include <boost/math/special_functions/expint.hpp>
 #include <boost/math/special_functions/factorials.hpp>
 #include <boost/math/special_functions/binomial.hpp>
@@ -508,6 +510,21 @@ namespace ktl {
 		return boost::math::sph_hankel_2(v, x);
 	}
 	//
+	//	SUMMARY: エアリー関数系メソッド
+	//
+	KTL_INLINE tTVReal NativeMathEx::airyAi(tTVReal x) {
+		return boost::math::airy_ai(x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::airyBi(tTVReal x) {
+		return boost::math::airy_bi(x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::airyAiPrime(tTVReal x) {
+		return boost::math::airy_ai_prime(x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::airyBiPrime(tTVReal x) {
+		return boost::math::airy_bi_prime(x);
+	}
+	//
 	//	SUMMARY: ゼータ関数系メソッド
 	//
 	KTL_INLINE tTVReal NativeMathEx::zeta(tTVReal z) {
@@ -560,6 +577,50 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal NativeMathEx::ellint3(tTVReal k, tTVReal n) {
 		return boost::math::ellint_3(k, n);
+	}
+	//
+	//	SUMMARY: ヤコビの楕円関数系メソッド
+	//
+	KTL_INLINE boost::array<tTVReal, 3> NativeMathEx::jacobiElliptic(tTVReal k, tTVReal u) {
+		boost::array<tTVReal, 3> result;
+		result[0] = boost::math::jacobi_elliptic(k, u, &result[1], &result[2]);
+		return result;
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiCd(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_cd(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiCn(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_cn(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiCs(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_cs(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiDc(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_dc(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiDn(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_dn(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiDs(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_ds(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiNc(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_nc(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiNd(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_nd(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiNs(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_ns(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiSc(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_sc(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiSd(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_sd(k, u);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiSn(tTVReal k, tTVReal u) {
+		return boost::math::jacobi_sn(k, u);
 	}
 	//
 	//	SUMMARY: 指数積分系メソッド
@@ -1081,6 +1142,21 @@ namespace ktl {
 		return tTJSVariant(result.get(), result.get());
 	}
 	//
+	//	SUMMARY: エアリー関数系メソッド
+	//
+	KTL_INLINE tTVReal MathEx::airyAi(tTVReal x) {
+		return NativeMathEx::airyAi(x);
+	}
+	KTL_INLINE tTVReal MathEx::airyBi(tTVReal x) {
+		return NativeMathEx::airyBi(x);
+	}
+	KTL_INLINE tTVReal MathEx::airyAiPrime(tTVReal x) {
+		return NativeMathEx::airyAiPrime(x);
+	}
+	KTL_INLINE tTVReal MathEx::airyBiPrime(tTVReal x) {
+		return NativeMathEx::airyBiPrime(x);
+	}
+	//
 	//	SUMMARY: ゼータ関数系メソッド
 	//
 	KTL_INLINE tTVReal MathEx::zeta(tTVReal z) {
@@ -1133,6 +1209,73 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal MathEx::ellint3(tTVReal k, tTVReal n) {
 		return NativeMathEx::ellint3(k, n);
+	}
+	//
+	//	SUMMARY: ヤコビの楕円関数系メソッド
+	//
+	KTL_INLINE tTJSVariant MathEx::jacobiElliptic(tTVReal k, tTVReal u) {
+		boost::array<tTVReal, 3> t(NativeMathEx::jacobiElliptic(k, u));
+		sprig::krkr::tjs::object_type result;
+		{
+			iTJSDispatch2* result_obj = 0;
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				&result_obj,
+				0,
+				0,
+				0
+				);
+			result = sprig::krkr::tjs::object_type(result_obj, false);
+		}
+		{
+			tTJSVariant var(t[0]);
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
+		}
+		{
+			tTJSVariant var(t[1]);
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
+		}
+		{
+			tTJSVariant var(t[2]);
+			sprig::krkr::tjs::AddMemberByNum(result.get(), 2, &var);
+		}
+		return tTJSVariant(result.get(), result.get());
+	}
+	KTL_INLINE tTVReal MathEx::jacobiCd(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiCd(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiCn(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiCn(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiCs(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiCs(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiDc(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiDc(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiDn(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiDn(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiDs(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiDs(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiNc(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiNc(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiNd(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiNd(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiNs(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiNs(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiSc(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiSc(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiSd(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiSd(k, u);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiSn(tTVReal k, tTVReal u) {
+		return NativeMathEx::jacobiSn(k, u);
 	}
 	//
 	//	SUMMARY: 指数積分系メソッド
