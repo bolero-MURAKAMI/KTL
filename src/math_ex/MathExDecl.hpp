@@ -219,7 +219,7 @@ namespace ktl {
 		static tTVReal jacobiSd(tTVReal k, tTVReal u);
 		static tTVReal jacobiSn(tTVReal k, tTVReal u);
 		//
-		//	SUMMARY: 楕円積分系メソッド
+		//	SUMMARY: 指数積分系メソッド
 		//
 		static tTVReal expint(unsigned n, tTVReal z);
 		static tTVReal expint(tTVReal z);
