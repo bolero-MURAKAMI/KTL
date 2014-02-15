@@ -1748,7 +1748,7 @@ namespace ktl {
 	}
 	KTL_INLINE bool NativeDownloader::bufferEnable() const {
 		scoped_lock_type lock(mutex_);
-		return buffer_;
+		return static_cast<bool>(buffer_);
 	}
 	KTL_INLINE NativeDownloader::int_type NativeDownloader::bufferSize() const {
 		scoped_lock_type lock(mutex_);
@@ -2085,7 +2085,7 @@ namespace ktl {
 		return true;
 	}
 	KTL_INLINE bool NativeDownloader::postDataEnable() const {
-		return upload_buffer_;
+		return static_cast<bool>(upload_buffer_);
 	}
 	KTL_INLINE NativeDownloader::int_type NativeDownloader::postDataSize() const {
 		return upload_buffer_

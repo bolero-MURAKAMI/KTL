@@ -240,7 +240,7 @@ namespace ktl {
 		return true;
 	}
 	KTL_INLINE bool NativeInflate::setupCompleted() const {
-		return stream_;
+		return static_cast<bool>(stream_);
 	}
 	KTL_INLINE bool NativeInflate::finish() {
 		if (!stream_) {

@@ -224,7 +224,7 @@ namespace ktl {
 		return true;
 	}
 	KTL_INLINE bool NativeBzip2Compressor::setupCompleted() const {
-		return stream_;
+		return static_cast<bool>(stream_);
 	}
 	KTL_INLINE bool NativeBzip2Compressor::finish() {
 		if (!stream_) {
