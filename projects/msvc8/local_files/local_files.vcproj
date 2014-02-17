@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="local_files"
-	ProjectGUID="{988313E6-5CFA-4029-BF81-3342E7B3722E}"
+	ProjectGUID="{A4CCEDA7-3964-45D7-A8A8-9EBA717A774A}"
 	RootNamespace="local_files"
 	Keyword="Win32Proj"
 	>

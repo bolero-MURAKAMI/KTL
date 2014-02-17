@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="checksum"
-	ProjectGUID="{D916A249-E8FD-4430-9E38-265FE34287D0}"
+	ProjectGUID="{DB8F6516-F7C1-4842-92E9-7F2B17E9AC9F}"
 	RootNamespace="checksum"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ptime"
-	ProjectGUID="{4761A1AC-1B2B-49D4-89E4-C2DDCC2C3598}"
+	ProjectGUID="{1D7E0875-C57B-49D7-9C21-D2209A346DFA}"
 	RootNamespace="ptime"
 	Keyword="Win32Proj"
 	>

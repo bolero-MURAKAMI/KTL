@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ptree"
-	ProjectGUID="{E7A1EE1D-E4F0-475B-9EC3-3BB8827560ED}"
+	ProjectGUID="{FB1B7680-C2DF-440D-8A97-F63786FCA3DA}"
 	RootNamespace="ptree"
 	Keyword="Win32Proj"
 	>

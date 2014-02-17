@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7117684E-87DE-47EF-8B15-2FFDAA57C837}</ProjectGuid>
+    <ProjectGuid>{2C122850-4F6F-43CD-98E7-A2B966E1DFB0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>math_ex</RootNamespace>
   </PropertyGroup>

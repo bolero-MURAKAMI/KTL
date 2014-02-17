@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="tjs_engine"
-	ProjectGUID="{6C477218-EDF8-48D7-81F7-A46D16F3E1B9}"
+	ProjectGUID="{297D436C-E019-4A0B-8F8F-51FEAF22B42A}"
 	RootNamespace="tjs_engine"
 	Keyword="Win32Proj"
 	>

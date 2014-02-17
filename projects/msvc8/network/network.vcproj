@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="network"
-	ProjectGUID="{693AF826-B218-4C1C-8F78-329E086D21A1}"
+	ProjectGUID="{C117DF75-BA35-427B-9637-6F34F40CFA16}"
 	RootNamespace="network"
 	Keyword="Win32Proj"
 	>

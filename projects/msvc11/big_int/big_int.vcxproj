@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AA764B6B-DA0D-469A-B876-D75AB962347C}</ProjectGuid>
+    <ProjectGuid>{5E769CA2-925F-4EC3-9A80-5126EB144881}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>big_int</RootNamespace>
   </PropertyGroup>

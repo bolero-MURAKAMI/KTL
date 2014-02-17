@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{28B2C669-E46C-4838-ACD2-CCE0E5342056}</ProjectGuid>
+    <ProjectGuid>{30C260D9-6D93-41A0-BDBB-62C8D421B1B2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>thread_task</RootNamespace>
   </PropertyGroup>

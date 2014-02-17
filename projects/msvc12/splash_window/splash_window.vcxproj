@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DD5A6A9D-AE0F-4EB8-BE9D-C3D5AE254F9D}</ProjectGuid>
+    <ProjectGuid>{F12BCD32-AF8B-4FB2-B59A-9E194485C016}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>splash_window</RootNamespace>
   </PropertyGroup>

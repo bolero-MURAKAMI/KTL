@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{888EBFA6-7DB1-4191-AE30-4A5F5038C9C2}</ProjectGuid>
+    <ProjectGuid>{7A6384A4-DAD3-416C-A7B9-5AFB815A40E2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>bzip2</RootNamespace>
   </PropertyGroup>

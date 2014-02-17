@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D06F0CFE-970D-4DC5-B5B7-5ABB10AC12AD}</ProjectGuid>
+    <ProjectGuid>{1D7E0875-C57B-49D7-9C21-D2209A346DFA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ptime</RootNamespace>
   </PropertyGroup>

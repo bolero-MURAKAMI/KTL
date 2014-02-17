@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{30E29322-052E-40A4-8343-1592C40AAF8B}</ProjectGuid>
+    <ProjectGuid>{A4CCEDA7-3964-45D7-A8A8-9EBA717A774A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>local_files</RootNamespace>
   </PropertyGroup>

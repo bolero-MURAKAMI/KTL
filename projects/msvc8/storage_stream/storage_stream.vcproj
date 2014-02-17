@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="storage_stream"
-	ProjectGUID="{84027068-D8B8-445B-BCBF-577F30E89135}"
+	ProjectGUID="{43BB29CF-98D0-4667-98EE-A16D2D56BC6E}"
 	RootNamespace="storage_stream"
 	Keyword="Win32Proj"
 	>

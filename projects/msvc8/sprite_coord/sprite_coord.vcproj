@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sprite_coord"
-	ProjectGUID="{902533C8-8BF4-4C75-BA19-F137BC1030A2}"
+	ProjectGUID="{73ED12A0-4DF1-4958-B469-1FE00EC04DAC}"
 	RootNamespace="sprite_coord"
 	Keyword="Win32Proj"
 	>

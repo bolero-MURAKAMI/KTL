@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="variate_random"
-	ProjectGUID="{25368BC8-65B1-4250-A633-520302B95916}"
+	ProjectGUID="{349F6442-4A32-430A-B083-9F5422717D44}"
 	RootNamespace="variate_random"
 	Keyword="Win32Proj"
 	>

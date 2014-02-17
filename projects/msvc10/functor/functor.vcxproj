@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9722FC3F-DCDC-4A94-AE42-37F276A8D12D}</ProjectGuid>
+    <ProjectGuid>{E2EADA1C-76CE-4D8D-9D09-B3622692A5B4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>functor</RootNamespace>
   </PropertyGroup>

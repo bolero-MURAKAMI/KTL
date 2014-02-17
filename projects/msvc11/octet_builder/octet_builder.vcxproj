@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4DA9D85A-8A08-4648-AD79-F505BDB51425}</ProjectGuid>
+    <ProjectGuid>{2A319931-605D-4802-8B3B-9A5F3ACF21D5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>octet_builder</RootNamespace>
   </PropertyGroup>

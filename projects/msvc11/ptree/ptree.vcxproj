@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C341BBB8-6206-440C-BCD8-05DBE54EC162}</ProjectGuid>
+    <ProjectGuid>{FB1B7680-C2DF-440D-8A97-F63786FCA3DA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ptree</RootNamespace>
   </PropertyGroup>

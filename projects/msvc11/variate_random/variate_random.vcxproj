@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{521F850C-E49B-4CFD-AE1D-7F09BA7E4C55}</ProjectGuid>
+    <ProjectGuid>{349F6442-4A32-430A-B083-9F5422717D44}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>variate_random</RootNamespace>
   </PropertyGroup>

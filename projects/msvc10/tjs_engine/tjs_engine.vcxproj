@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1616C6CC-6F21-48B8-A83C-0B552DCC9C7F}</ProjectGuid>
+    <ProjectGuid>{297D436C-E019-4A0B-8F8F-51FEAF22B42A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>tjs_engine</RootNamespace>
   </PropertyGroup>

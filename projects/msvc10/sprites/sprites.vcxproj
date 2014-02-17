@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BE3969AB-9841-4F03-8317-353195FECCF3}</ProjectGuid>
+    <ProjectGuid>{9DC91DC3-485C-4742-B69E-3BE8679192CE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>sprites</RootNamespace>
   </PropertyGroup>

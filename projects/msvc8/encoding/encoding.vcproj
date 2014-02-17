@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="encoding"
-	ProjectGUID="{28CBEA7C-C095-4DFF-ADE7-7331DE74FC52}"
+	ProjectGUID="{1EC70794-FEA1-4CCF-B97B-B46443006816}"
 	RootNamespace="encoding"
 	Keyword="Win32Proj"
 	>

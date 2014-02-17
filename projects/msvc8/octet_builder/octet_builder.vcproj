@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="octet_builder"
-	ProjectGUID="{930DB2C0-7634-47FB-A8A2-2FD2A41E12F1}"
+	ProjectGUID="{2A319931-605D-4802-8B3B-9A5F3ACF21D5}"
 	RootNamespace="octet_builder"
 	Keyword="Win32Proj"
 	>

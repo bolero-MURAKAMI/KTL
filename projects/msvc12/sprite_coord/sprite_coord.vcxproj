@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{95ABCD6A-9D81-4D07-BA13-58625F785F29}</ProjectGuid>
+    <ProjectGuid>{73ED12A0-4DF1-4958-B469-1FE00EC04DAC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>sprite_coord</RootNamespace>
   </PropertyGroup>

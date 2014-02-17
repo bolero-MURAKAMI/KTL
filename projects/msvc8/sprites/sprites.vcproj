@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sprites"
-	ProjectGUID="{E7766E46-01DD-4887-8E4B-C7B564CAE05A}"
+	ProjectGUID="{9DC91DC3-485C-4742-B69E-3BE8679192CE}"
 	RootNamespace="sprites"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="splash_window"
-	ProjectGUID="{1814F90F-876B-40D3-94A3-06F9971A2735}"
+	ProjectGUID="{F12BCD32-AF8B-4FB2-B59A-9E194485C016}"
 	RootNamespace="splash_window"
 	Keyword="Win32Proj"
 	>

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3C6CE4B4-61C0-4CA0-90DE-C231432AE5E7}</ProjectGuid>
+    <ProjectGuid>{43BB29CF-98D0-4667-98EE-A16D2D56BC6E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>storage_stream</RootNamespace>
   </PropertyGroup>

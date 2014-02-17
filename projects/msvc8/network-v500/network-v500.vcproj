@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="network-v500"
-	ProjectGUID="{BDA8554B-ECB0-410E-B2E7-65AFDDD63502}"
+	ProjectGUID="{EBACC82A-CEE5-46BC-9F4B-94C034DD2D6E}"
 	RootNamespace="networkv500"
 	Keyword="Win32Proj"
 	>

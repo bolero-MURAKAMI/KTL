@@ -171,6 +171,36 @@
 	</References>
 	<Files>
 		<Filter
+			Name="ソース ファイル"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File
+				RelativePath="..\..\..\src\utils\ContinuousHandlerManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\utils\FPSCounter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\utils\Main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\utils\PerformanceCounter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\utils\PerformanceTimer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\utils\Utils.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
 			Name="ヘッダー ファイル"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
@@ -219,36 +249,6 @@
 				RelativePath="..\..\..\src\utils\UtilsDecl.hpp"
 				>
 			</File>
-			<Filter
-				Name="ソース ファイル"
-				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-				>
-				<File
-					RelativePath="..\..\..\src\utils\ContinuousHandlerManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\utils\FPSCounter.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\utils\Main.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\utils\PerformanceCounter.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\utils\PerformanceTimer.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\..\src\utils\Utils.cpp"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="リソース ファイル"

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="functor"
-	ProjectGUID="{0983C4B5-E260-4F44-B611-5B83A4B59E2A}"
+	ProjectGUID="{E2EADA1C-76CE-4D8D-9D09-B3622692A5B4}"
 	RootNamespace="functor"
 	Keyword="Win32Proj"
 	>

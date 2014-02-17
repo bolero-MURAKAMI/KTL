@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="bzip2"
-	ProjectGUID="{814669FA-50E4-4DAD-9AB1-ED0987231697}"
+	ProjectGUID="{7A6384A4-DAD3-416C-A7B9-5AFB815A40E2}"
 	RootNamespace="bzip2"
 	Keyword="Win32Proj"
 	>

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CF04C995-5990-49B3-AF2E-1B55252A1467}</ProjectGuid>
+    <ProjectGuid>{C117DF75-BA35-427B-9637-6F34F40CFA16}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>network</RootNamespace>
   </PropertyGroup>

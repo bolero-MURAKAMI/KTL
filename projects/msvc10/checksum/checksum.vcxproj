@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{354E25FF-3B9C-4966-911E-08DFAA7A8F29}</ProjectGuid>
+    <ProjectGuid>{DB8F6516-F7C1-4842-92E9-7F2B17E9AC9F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>checksum</RootNamespace>
   </PropertyGroup>
