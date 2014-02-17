@@ -149,10 +149,7 @@ namespace ktl {
 			iTJSDispatch2* result_obj = 0;
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj,
-				0,
-				0,
-				0
+				&result_obj, 0, 0, 0
 				);
 			result = sprig::krkr::tjs::object_type(result_obj, false);
 		}
@@ -186,10 +183,7 @@ namespace ktl {
 			iTJSDispatch2* result_obj = 0;
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj,
-				0,
-				0,
-				0
+				&result_obj, 0, 0, 0
 				);
 			result = sprig::krkr::tjs::object_type(result_obj, false);
 		}
@@ -219,10 +213,7 @@ namespace ktl {
 			iTJSDispatch2* result_obj = 0;
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj,
-				0,
-				0,
-				0
+				&result_obj, 0, 0, 0
 				);
 			result = sprig::krkr::tjs::object_type(result_obj, false);
 		}
@@ -245,6 +236,9 @@ namespace ktl {
 	//
 	//	SUMMARY: 取得系メソッド
 	//
+	KTL_INLINE tTJSString NativeLocalFiles::currentPath() {
+		return boost::filesystem::current_path().c_str();
+	}
 	KTL_INLINE tTJSString NativeLocalFiles::tempDirectoryPath() {
 		return boost::filesystem::temp_directory_path().c_str();
 	}
@@ -308,10 +302,7 @@ namespace ktl {
 		iTJSDispatch2* result_obj = 0;
 		sprig::krkr::tjs::CreateNewObject(
 			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-			&result_obj,
-			0,
-			0,
-			0
+			&result_obj, 0, 0, 0
 			);
 		sprig::krkr::tjs::object_type obj(result_obj, false);
 		if (sort_comp && sort_comp->Type() != tvtVoid) {
@@ -612,6 +603,9 @@ namespace ktl {
 	//
 	//	SUMMARY: 取得系メソッド
 	//
+	KTL_INLINE tTJSString LocalFiles::currentPath() {
+		return NativeLocalFiles::currentPath();
+	}
 	KTL_INLINE tTJSString LocalFiles::tempDirectoryPath() {
 		return NativeLocalFiles::tempDirectoryPath();
 	}

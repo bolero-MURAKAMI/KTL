@@ -90,4 +90,4 @@ namespace ktl {
 	};
 }	// namespace ktl
 
-#endif	// #ifndef SRC_CHECKSUM_CONFIG_HPP
+#endif	// #ifndef SRC_CHECKSUM_CHECKSUM_COMMON_HPP

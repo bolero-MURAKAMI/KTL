@@ -55,10 +55,7 @@ namespace ktl {
 		iTJSDispatch2* result_obj = 0;
 		sprig::krkr::tjs::CreateNewObject(
 			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("OctetBuilder")),
-			&result_obj,
-			numparams,
-			param,
-			0
+			&result_obj, numparams, param, 0
 			);
 		return sprig::krkr::tjs::object_type(result_obj, false);
 	}

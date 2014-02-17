@@ -43,10 +43,7 @@ namespace ktl {
 	{
 		sprig::krkr::tjs::CreateNewObject(
 			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-			&result_obj_,
-			0,
-			0,
-			0
+			&result_obj_, 0, 0, 0
 			);
 		sprig::krkr::tjs::object_type result(result_obj_, false);
 		result_ = tTJSVariant(result_obj_, result_obj_);
@@ -83,10 +80,7 @@ namespace ktl {
 	{
 		sprig::krkr::tjs::CreateNewObject(
 			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-			&result_obj_,
-			0,
-			0,
-			0
+			&result_obj_, 0, 0, 0
 			);
 		sprig::krkr::tjs::object_type result(result_obj_, false);
 		result_ = tTJSVariant(result_obj_, result_obj_);

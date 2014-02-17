@@ -44,8 +44,10 @@ namespace ktl {
 	//
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(vfWindows2000, OSVersion::vfWindows2000);
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(vfWindowsXP, OSVersion::vfWindowsXP);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(vfWindowsXPProX64, OSVersion::vfWindowsXPProX64);
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(vfWindowsVista, OSVersion::vfWindowsVista);
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(vfWindows7, OSVersion::vfWindows7);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(vfWindows8_1, OSVersion::vfWindows8_1);
 	//
 	//	SUMMARY: 取得プロパティ系メソッド
 	//

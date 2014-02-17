@@ -34,10 +34,7 @@ namespace ktl {
 			iTJSDispatch2* obj = 0;
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("ThreadControl")),
-				&obj,
-				0,
-				0,
-				0
+				&obj, 0, 0, 0
 				);
 			control_obj = sprig::krkr::tjs::object_type(obj, false);
 		}

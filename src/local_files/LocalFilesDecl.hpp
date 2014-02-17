@@ -128,6 +128,7 @@ namespace ktl {
 		//
 		//	SUMMARY: 取得系メソッド
 		//
+		static tTJSString currentPath();
 		static tTJSString tempDirectoryPath();
 		static tTJSString uniquePath(tjs_char const* model = SPRIG_KRKR_TJS_W("%%%%-%%%%-%%%%-%%%%"));
 		//
@@ -257,6 +258,7 @@ namespace ktl {
 		//
 		//	SUMMARY: 取得系メソッド
 		//
+		static tTJSString currentPath();
 		static tTJSString tempDirectoryPath();
 		static tTJSString uniquePath(tTJSVariantString const* model = 0);
 		//

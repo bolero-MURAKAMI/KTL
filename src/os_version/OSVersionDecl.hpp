@@ -66,8 +66,11 @@ namespace ktl {
 		//
 		static flag_type const vfWindows2000 = 0x500;
 		static flag_type const vfWindowsXP = 0x501;
+		static flag_type const vfWindowsXPProX64 = 0x502;
 		static flag_type const vfWindowsVista = 0x600;
 		static flag_type const vfWindows7 = 0x601;
+		static flag_type const vfWindows8 = 0x602;
+		static flag_type const vfWindows8_1 = 0x603;
 	public:
 		//
 		//	SUMMARY: 取得プロパティ系メソッド
@@ -105,8 +108,10 @@ namespace ktl {
 		//
 		static tTVInteger const vfWindows2000 = NativeOSVersion::vfWindows2000;
 		static tTVInteger const vfWindowsXP = NativeOSVersion::vfWindowsXP;
+		static tTVInteger const vfWindowsXPProX64 = NativeOSVersion::vfWindowsXPProX64;
 		static tTVInteger const vfWindowsVista = NativeOSVersion::vfWindowsVista;
 		static tTVInteger const vfWindows7 = NativeOSVersion::vfWindows7;
+		static tTVInteger const vfWindows8_1 = NativeOSVersion::vfWindows8_1;
 	public:
 		OSVersion();
 		tjs_error TJS_INTF_METHOD Construct(

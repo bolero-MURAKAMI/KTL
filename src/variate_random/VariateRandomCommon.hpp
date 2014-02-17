@@ -96,10 +96,7 @@ namespace ktl {
 			iTJSDispatch2* result_obj = 0;
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj,
-				0,
-				0,
-				0
+				&result_obj, 0, 0, 0
 				);
 			sprig::krkr::tjs::object_type obj(result_obj, false);
 			{

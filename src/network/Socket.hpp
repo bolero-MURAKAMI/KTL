@@ -187,10 +187,7 @@ namespace ktl {
 		iTJSDispatch2* result_obj = 0;
 		sprig::krkr::tjs::CreateNewObject(
 			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Socket")),
-			&result_obj,
-			numparams,
-			param,
-			0
+			&result_obj, numparams, param, 0
 			);
 		return sprig::krkr::tjs::object_type(result_obj, false);
 	}
@@ -1075,10 +1072,7 @@ namespace ktl {
 			iTJSDispatch2* result_obj = 0;
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj,
-				0,
-				0,
-				0
+				&result_obj, 0, 0, 0
 				);
 			result = sprig::krkr::tjs::object_type(result_obj, false);
 		}
@@ -1091,10 +1085,7 @@ namespace ktl {
 					iTJSDispatch2* elem_obj = 0;
 					sprig::krkr::tjs::CreateNewObject(
 						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-						&elem_obj,
-						0,
-						0,
-						0
+						&elem_obj, 0, 0, 0
 						);
 					elem = sprig::krkr::tjs::object_type(elem_obj, false);
 				}

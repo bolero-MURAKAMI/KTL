@@ -98,10 +98,7 @@ static void regist_ktl_serialization() {
 			iTJSDispatch2* serialization_obj = 0;
 			sprig::krkr::tjs::CreateNewObject(
 				serialization_object.get(),
-				&serialization_obj,
-				0,
-				0,
-				0
+				&serialization_obj, 0, 0, 0
 				);
 			serialization = sprig::krkr::tjs::object_type(serialization_obj, false);
 		}

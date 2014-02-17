@@ -440,6 +440,7 @@ namespace ktl {
 	//
 	//	SUMMARY: éÊìæånÉÅÉ\ÉbÉh
 	//
+	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(LocalFiles, currentPath, currentPath);
 	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(LocalFiles, tempDirectoryPath, tempDirectoryPath);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(uniquePath)
 	{
@@ -476,7 +477,7 @@ namespace ktl {
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(enumDirectoryEntry);
 
-SPRIG_KRKR_END_CREATE_NATIVE_CLASS();
+	SPRIG_KRKR_END_CREATE_NATIVE_CLASS();
 #undef TJS_NATIVE_CLASSID_NAME
 }	// namespace ktl
 
