@@ -10,6 +10,9 @@
 
 #include <ktl/default_config.hpp>
 
+#define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
+#define BOOST_MPL_LIMIT_LIST_SIZE 40
+
 //	CONFIG: user config
 #define SPRIG_CONFIG_LIB_USERCONFIG
 

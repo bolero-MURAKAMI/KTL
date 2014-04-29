@@ -43,6 +43,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sprites", "sprites\sprites.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "os_version", "os_version\os_version.vcxproj", "{3CA0805E-CA7D-4A2A-A447-C22D160587AA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system_info", "system_info\system_info.vcxproj", "{49CFA35F-630D-4EE5-A67E-A23796AAA177}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "thread_task", "thread_task\thread_task.vcxproj", "{30C260D9-6D93-41A0-BDBB-62C8D421B1B2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tjs_engine", "tjs_engine\tjs_engine.vcxproj", "{297D436C-E019-4A0B-8F8F-51FEAF22B42A}"
@@ -135,6 +137,10 @@ Global
 		{3CA0805E-CA7D-4A2A-A447-C22D160587AA}.Debug|Win32.Build.0 = Debug|Win32
 		{3CA0805E-CA7D-4A2A-A447-C22D160587AA}.Release|Win32.ActiveCfg = Release|Win32
 		{3CA0805E-CA7D-4A2A-A447-C22D160587AA}.Release|Win32.Build.0 = Release|Win32
+		{49CFA35F-630D-4EE5-A67E-A23796AAA177}.Debug|Win32.ActiveCfg = Debug|Win32
+		{49CFA35F-630D-4EE5-A67E-A23796AAA177}.Debug|Win32.Build.0 = Debug|Win32
+		{49CFA35F-630D-4EE5-A67E-A23796AAA177}.Release|Win32.ActiveCfg = Release|Win32
+		{49CFA35F-630D-4EE5-A67E-A23796AAA177}.Release|Win32.Build.0 = Release|Win32
 		{30C260D9-6D93-41A0-BDBB-62C8D421B1B2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{30C260D9-6D93-41A0-BDBB-62C8D421B1B2}.Debug|Win32.Build.0 = Debug|Win32
 		{30C260D9-6D93-41A0-BDBB-62C8D421B1B2}.Release|Win32.ActiveCfg = Release|Win32

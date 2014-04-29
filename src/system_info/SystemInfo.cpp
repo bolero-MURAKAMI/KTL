@@ -49,6 +49,32 @@ namespace ktl {
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(fsfSupportsSparseFiles, SystemInfo::fsfSupportsSparseFiles);
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(fsfVolumeQuotas, SystemInfo::fsfVolumeQuotas);
 	//
+	//	SUMMARY: CPU機能系フラグ
+	//
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffFPU, SystemInfo::cffFPU);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffMMX, SystemInfo::cffMMX);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cff3DN, SystemInfo::cff3DN);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffSSE, SystemInfo::cffSSE);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffCMOVcc, SystemInfo::cffCMOVcc);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffE3DN, SystemInfo::cffE3DN);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffEMMX, SystemInfo::cffEMMX);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffSSE2, SystemInfo::cffSSE2);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffTSC, SystemInfo::cffTSC);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cffMask, SystemInfo::cffMask);
+	//
+	//	SUMMARY: CPUベンダ系フラグ
+	//
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfIntel, SystemInfo::cvfIntel);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfAMD, SystemInfo::cvfAMD);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfIDT, SystemInfo::cvfIDT);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfCyrix, SystemInfo::cvfCyrix);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfNexGen, SystemInfo::cvfNexGen);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfRise, SystemInfo::cvfRise);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfUMC, SystemInfo::cvfUMC);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfTransmeta, SystemInfo::cvfTransmeta);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfUnknown, SystemInfo::cvfUnknown);
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(cvfMask, SystemInfo::cvfMask);
+	//
 	// コンピュータ名系メソッド
 	//
 	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(SystemInfo, computerName, computerName);
@@ -70,7 +96,9 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
-		SystemInfo::getDriveType(SPRIG_KRKR_ARG_STRING(0));
+		SPRIG_KRKR_RESULT_SET(
+			SystemInfo::getDriveType(SPRIG_KRKR_ARG_STRING(0))
+			);
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(getDriveType);
@@ -78,7 +106,9 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
-		SystemInfo::getDriveTypeString(SPRIG_KRKR_ARG_STRING(0));
+		SPRIG_KRKR_RESULT_SET(
+			SystemInfo::getDriveTypeString(SPRIG_KRKR_ARG_STRING(0))
+			);
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(getDriveTypeString);
@@ -86,7 +116,9 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
-		SystemInfo::getVolumeInformation(SPRIG_KRKR_ARG_STRING(0));
+		SPRIG_KRKR_RESULT_SET(
+			SystemInfo::getVolumeInformation(SPRIG_KRKR_ARG_STRING(0))
+			);
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(getVolumeInformation);
@@ -96,6 +128,10 @@ namespace ktl {
 	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(SystemInfo, cleanBoot, cleanBoot);
 	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(SystemInfo, monitors, monitors);
 	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(SystemInfo, mouseButtons, mouseButtons);
+	//
+	// CPU機能系メソッド
+	//
+	SPRIG_KRKR_NATIVE_STATIC_PROP_DECL_VARIANT_GETONLY(SystemInfo, CPUType, CPUType);
 
 	SPRIG_KRKR_END_CREATE_NATIVE_CLASS();
 #undef TJS_NATIVE_CLASSID_NAME

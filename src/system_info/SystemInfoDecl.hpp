@@ -50,6 +50,32 @@ namespace ktl {
 		static flag_type const fsfSupportsRepersePoints = FILE_SUPPORTS_REPARSE_POINTS;
 		static flag_type const fsfSupportsSparseFiles = FILE_SUPPORTS_SPARSE_FILES;
 		static flag_type const fsfVolumeQuotas = FILE_VOLUME_QUOTAS;
+		//
+		//	SUMMARY: CPU機能系フラグ
+		//
+		static flag_type const cffFPU = TVP_CPU_HAS_FPU;
+		static flag_type const cffMMX = TVP_CPU_HAS_MMX;
+		static flag_type const cff3DN = TVP_CPU_HAS_3DN;
+		static flag_type const cffSSE = TVP_CPU_HAS_SSE;
+		static flag_type const cffCMOVcc = TVP_CPU_HAS_CMOV;
+		static flag_type const cffE3DN = TVP_CPU_HAS_E3DN;
+		static flag_type const cffEMMX = TVP_CPU_HAS_EMMX;
+		static flag_type const cffSSE2 = TVP_CPU_HAS_SSE2;
+		static flag_type const cffTSC = TVP_CPU_HAS_TSC;
+		static flag_type const cffMask = TVP_CPU_FEATURE_MASK;
+		//
+		//	SUMMARY: CPUベンダ系フラグ
+		//
+		static flag_type const cvfIntel = TVP_CPU_IS_INTEL;
+		static flag_type const cvfAMD = TVP_CPU_IS_AMD;
+		static flag_type const cvfIDT = TVP_CPU_IS_IDT;
+		static flag_type const cvfCyrix = TVP_CPU_IS_CYRIX;
+		static flag_type const cvfNexGen = TVP_CPU_IS_NEXGEN;
+		static flag_type const cvfRise = TVP_CPU_IS_RISE;
+		static flag_type const cvfUMC = TVP_CPU_IS_UMC;
+		static flag_type const cvfTransmeta = TVP_CPU_IS_TRANSMETA;
+		static flag_type const cvfUnknown = TVP_CPU_IS_UNKNOWN;
+		static flag_type const cvfMask = TVP_CPU_VENDOR_MASK;
 	public:
 		//
 		// コンピュータ名系メソッド
@@ -60,7 +86,7 @@ namespace ktl {
 		//
 		static tTJSString windowsDirectory();
 		static tTJSString systemWindowsDirectory();
-		static tTJSString systemDirectory() {
+		static tTJSString systemDirectory();
 		//
 		// メモリ情報系メソッド
 		//
@@ -78,6 +104,10 @@ namespace ktl {
 		static int cleanBoot();
 		static int monitors();
 		static int mouseButtons();
+		//
+		// CPU機能系メソッド
+		//
+		static flag_type CPUType();
 	};
 
 	//
@@ -122,6 +152,32 @@ namespace ktl {
 		static tTVInteger const fsfSupportsRepersePoints = NativeSystemInfo::fsfSupportsRepersePoints;
 		static tTVInteger const fsfSupportsSparseFiles = NativeSystemInfo::fsfSupportsSparseFiles;
 		static tTVInteger const fsfVolumeQuotas = NativeSystemInfo::fsfVolumeQuotas;
+		//
+		//	SUMMARY: CPU機能系フラグ
+		//
+		static tTVInteger const cffFPU = NativeSystemInfo::cffFPU;
+		static tTVInteger const cffMMX = NativeSystemInfo::cffMMX;
+		static tTVInteger const cff3DN = NativeSystemInfo::cff3DN;
+		static tTVInteger const cffSSE = NativeSystemInfo::cffSSE;
+		static tTVInteger const cffCMOVcc = NativeSystemInfo::cffCMOVcc;
+		static tTVInteger const cffE3DN = NativeSystemInfo::cffE3DN;
+		static tTVInteger const cffEMMX = NativeSystemInfo::cffEMMX;
+		static tTVInteger const cffSSE2 = NativeSystemInfo::cffSSE2;
+		static tTVInteger const cffTSC = NativeSystemInfo::cffTSC;
+		static tTVInteger const cffMask = NativeSystemInfo::cffMask;
+		//
+		//	SUMMARY: CPUベンダ系フラグ
+		//
+		static tTVInteger const cvfIntel = NativeSystemInfo::cvfIntel;
+		static tTVInteger const cvfAMD = NativeSystemInfo::cvfAMD;
+		static tTVInteger const cvfIDT = NativeSystemInfo::cvfIDT;
+		static tTVInteger const cvfCyrix = NativeSystemInfo::cvfCyrix;
+		static tTVInteger const cvfNexGen = NativeSystemInfo::cvfNexGen;
+		static tTVInteger const cvfRise = NativeSystemInfo::cvfRise;
+		static tTVInteger const cvfUMC = NativeSystemInfo::cvfUMC;
+		static tTVInteger const cvfTransmeta = NativeSystemInfo::cvfTransmeta;
+		static tTVInteger const cvfUnknown = NativeSystemInfo::cvfUnknown;
+		static tTVInteger const cvfMask = NativeSystemInfo::cvfMask;
 	public:
 		//
 		// コンピュータ名系メソッド
@@ -150,6 +206,10 @@ namespace ktl {
 		static tTVInteger cleanBoot();
 		static tTVInteger monitors();
 		static tTVInteger mouseButtons();
+		//
+		// CPU機能系メソッド
+		//
+		static tTVInteger CPUType();
 	};
 }	// namespace ktl
 

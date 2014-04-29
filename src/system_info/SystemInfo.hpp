@@ -11,6 +11,7 @@
 #include <vector>
 #include <algorithm>
 #include <boost/smart_ptr/make_shared.hpp>
+#include <boost/numeric/conversion/cast.hpp>
 #include <sprig/external/windows.hpp>
 #include <sprig/external/tp_stub.hpp>
 #include <sprig/krkr/exception.hpp>
@@ -39,13 +40,7 @@ namespace ktl {
 	//
 	KTL_INLINE tTJSString NativeSystemInfo::computerName() {
 		DWORD size = 0;
-		if (!::GetComputerNameEx(ComputerNameNetBIOS, 0, &size)) {
-			KTL_ERROR(
-				KTL_ERROR_SECTION,
-				SPRIG_KRKR_TJS_W("error in GetComputerNameEx()"),
-				sprig::krkr::internal_error
-				);
-		}
+		::GetComputerNameEx(ComputerNameNetBIOS, 0, &size);
 		std::vector<TCHAR> buffer(size + 1);
 		if (!::GetComputerNameEx(ComputerNameNetBIOS, &buffer[0], &size)) {
 			KTL_ERROR(
@@ -151,35 +146,35 @@ namespace ktl {
 			result = sprig::krkr::tjs::object_type(result_obj, false);
 		}
 		{
-			tTJSVariant var(status.dwMemoryLoad);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.dwMemoryLoad));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("memoryLoad"), &var);
 		}
 		{
-			tTJSVariant var(status.ullTotalPhys);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullTotalPhys));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("totalPhys"), &var);
 		}
 		{
-			tTJSVariant var(status.ullAvailPhys);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullAvailPhys));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("availPhys"), &var);
 		}
 		{
-			tTJSVariant var(status.ullTotalPageFile);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullTotalPageFile));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("totalPageFile"), &var);
 		}
 		{
-			tTJSVariant var(status.ullAvailPageFile);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullAvailPageFile));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("availPageFile"), &var);
 		}
 		{
-			tTJSVariant var(status.ullTotalVirtual);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullTotalVirtual));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("totalVirtual"), &var);
 		}
 		{
-			tTJSVariant var(status.ullAvailVirtual);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullAvailVirtual));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("availVirtual"), &var);
 		}
 		{
-			tTJSVariant var(status.ullAvailExtendedVirtual);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullAvailExtendedVirtual));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("availExtendedVirtual"), &var);
 		}
 		return tTJSVariant(result.get(), result.get());
@@ -279,15 +274,15 @@ namespace ktl {
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("volumeName"), &var);
 		}
 		{
-			tTJSVariant var(serialNumber);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(serialNumber));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("serialNumber"), &var);
 		}
 		{
-			tTJSVariant var(maximumComponentLength);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(maximumComponentLength));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("maximumComponentLength"), &var);
 		}
 		{
-			tTJSVariant var(fileSystemFlags);
+			tTJSVariant var(boost::numeric_cast<tTVInteger>(fileSystemFlags));
 			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("fileSystemFlags"), &var);
 		}
 		{
@@ -311,6 +306,12 @@ namespace ktl {
 		int val = ::GetSystemMetrics(SM_CMOUSEBUTTONS);
 		return tTJSVariant(val);
 	}
+	//
+	// CPU機能系メソッド
+	//
+	KTL_INLINE NativeSystemInfo::flag_type NativeSystemInfo::CPUType() {
+		return ::TVPGetCPUType();
+	}
 
 	//
 	// SystemInfo
@@ -323,7 +324,7 @@ namespace ktl {
 		)
 	{
 		SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("SystemInfo::Construct"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
-		instance_ = boost::make_shared<NativeLocalFiles>();
+		instance_ = boost::make_shared<NativeSystemInfo>();
 		return TJS_S_OK;
 	}
 	void TJS_INTF_METHOD SystemInfo::Invalidate() {
@@ -366,12 +367,12 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE tTJSString SystemInfo::getDriveTypeString(tTJSVariantString const* root_path_name) {
-		return NativeSystemInfo::getDriveType(
+		return NativeSystemInfo::getDriveTypeString(
 			sprig::krkr::tjs::as_c_str(root_path_name)
 			);
 	}
 	KTL_INLINE tTJSVariant SystemInfo::getVolumeInformation(tTJSVariantString const* root_path_name) {
-		return NativeSystemInfo::getDriveType(
+		return NativeSystemInfo::getVolumeInformation(
 			sprig::krkr::tjs::as_c_str(root_path_name)
 			);
 	}
@@ -386,6 +387,12 @@ namespace ktl {
 	}
 	KTL_INLINE tTVInteger SystemInfo::mouseButtons() {
 		return NativeSystemInfo::mouseButtons();
+	}
+	//
+	// CPU機能系メソッド
+	//
+	KTL_INLINE tTVInteger SystemInfo::CPUType() {
+		return NativeSystemInfo::CPUType();
 	}
 }	// namespace ktl
 
