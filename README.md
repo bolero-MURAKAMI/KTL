@@ -1,6 +1,6 @@
 # KTL (KiriKiri Trivial Library) DLL
 
-吉里吉里２のための拡張機能ライブラリ KTL の DLL プロジェクト  
+吉里吉里2/吉里吉里Z のための拡張機能ライブラリ KTL の DLL プロジェクト  
 
 
 
