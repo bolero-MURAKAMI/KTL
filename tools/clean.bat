@@ -7,10 +7,16 @@
 : =============================================================================
 @echo off
 setlocal
+cd /d %~dp0
 
 
 echo clean files...
 
+if "%1"=="vc8" call :PROCESS_VC vc8
+if "%1"=="vc9" call :PROCESS_VC vc9
+if "%1"=="vc10" call :PROCESS_VC vc10
+if "%1"=="vc11" call :PROCESS_VC vc11
+if "%1"=="vc12" call :PROCESS_VC vc12
 if "%1"=="" (
     call :PROCESS_VC vc8
     call :PROCESS_VC vc9
@@ -18,11 +24,6 @@ if "%1"=="" (
     call :PROCESS_VC vc11
     call :PROCESS_VC vc12
 )
-if "%1"=="vc8" call :PROCESS_VC vc8
-if "%1"=="vc9" call :PROCESS_VC vc9
-if "%1"=="vc10" call :PROCESS_VC vc10
-if "%1"=="vc11" call :PROCESS_VC vc11
-if "%1"=="vc12" call :PROCESS_VC vc12
 goto :END
 
 
@@ -37,6 +38,7 @@ cd ..\..\lib\ms%1
 del /s /q *.exp
 del /s /q *.pdb
 del /s /q *.lib
+del /s /q *.log
 
 cd ..\..\tools
 exit /b
