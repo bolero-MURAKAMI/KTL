@@ -29,46 +29,63 @@
 	</script>
 	<!-- end Google Analytics -->
 </head>
+
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	<!-- Fixed navbar -->
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="brand" href="http://bolero-murakami.github.io/">Bolero's website</a>
-				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li><a href="http://bolero-murakami.github.io/">Home</a></li>
-						<li><a href="http://bolero-murakami.github.io/Sprout/">Sprout C++ Libraries</a></li>
-						<li class="active"><a href="#">KTL (KiriKiri Trivial Libraries)</a></li>
-					</ul>
-				</div>
+				<a class="navbar-brand" href="http://bolero-murakami.github.io/">Bolero's website</a>
 			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="http://bolero-murakami.github.io/">Home</a></li>
+					<li><a href="http://bolero-murakami.github.io/Sprout/">Sprout C++ Libraries</a></li>
+					<li class="active"><a href="./index.html">KTL (KiriKiri Trivial Libraries)</a></li>
+				</ul>
+				<ul class="nav navbar-nav pull-right">
+					<li><a href="http://dark-constexpr.github.io/" target="_blank">The Dark constexpr <font color="silver">&raquo;</font></a></li>
+				</ul>
+			</div><!--/.nav-collapse -->
 		</div>
 	</div>
 
-	<div class="container" style="padding-top: 60px; padding-bottom: 40px;">
-		<div class="hero-unit">
+	<div class="container" style="padding-top: 60px; padding-bottom: 40px;" role="main">
+		<div class="page-header">
 			<h1>KTL (KiriKiri Trivial Libraries)</h1>
-			<p>Extension libraries for Kirikiri2/KirikiriZ.</p>
-			</p>
-				<a href="https://github.com/bolero-MURAKAMI/KTL/" class="btn btn-primary btn-large" target="_blank">DLL Repository (Github) &raquo;</a>
-				<a href="https://github.com/bolero-MURAKAMI/KTL-Script" class="btn btn-primary btn-large" target="_blank">Script Repository (Github) &raquo;</a>
-			</p>
-			<p>User Wiki is here. Libraries Information and files.</p>
-			<p>
-				<a href="http://www.boleros.x0.com/doc/ktlwiki/" class="btn btn-info btn-large">KTLWiki &raquo;</a>
-				<a href="http://www.boleros.x0.com/doc/ktlwiki/#downloads-" class="btn btn-info btn-large">Downloads &raquo;</a>
-			<p>
+			<p class="lead">Extension libraries for Kirikiri2/KirikiriZ.<p>
 		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<p>
+					<a href="https://github.com/bolero-MURAKAMI/KTL/" class="btn btn-primary btn-large" target="_blank"><span class="lead">DLL Repository (Github) &raquo;</span></a>
+					<a href="https://github.com/bolero-MURAKAMI/KTL-Script" class="btn btn-primary btn-large" target="_blank"><span class="lead">Script Repository (Github) &raquo;</span></a>
+					<br />
+					Source codes are here.
+				</p>
+				<br />
+
+				<p>
+					<a href="http://www.boleros.x0.com/doc/ktlwiki/" class="btn btn-info btn-large"><span class="lead">KTLWiki &raquo;</span></a>
+					<a href="http://www.boleros.x0.com/doc/ktlwiki/#downloads-" class="btn btn-info btn-large"><span class="lead">Downloads &raquo;</span></a>
+					<br />
+					User Wiki is here. Libraries Information and files.
+				<p>
+			</div>
+		</div>
+		<br />
 
 		<h3>Author</h3>
 		<p>Bolero MURAKAMI <a href="mailto:contact-lib@boleros.x0.com">(E-Mail)</a></p>
 		<div class="row">
-			<div class="span6">
+			<div class="col-md-6">
 				<table class="table">
 					<tbody>
 						<tr>
@@ -83,7 +100,7 @@
 			</div>
 		</div>
 		<div id="footer">
-			<p class="muted credit">Copyright (C) 2013-2014 Bolero MURAKAMI.</p>
+			<p class="text-muted">Copyright (C) 2013-2014 Bolero MURAKAMI.</p>
 		</div>
 	</div>
 </body>
