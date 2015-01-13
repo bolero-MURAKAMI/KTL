@@ -1,5 +1,5 @@
 /*=============================================================================
-  Copyright (c) 2010-2014 Bolero MURAKAMI
+  Copyright (c) 2010-2015 Bolero MURAKAMI
   https://github.com/bolero-MURAKAMI/KTL
 
   Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -126,7 +126,7 @@ namespace ktl {
 		tTJSVariant const* ar_v,
 		key_type const& key,
 		tTJSVariant const* v,
-		boost::optional<key_type const&> ser_key
+		boost::optional<key_type> ser_key
 		)
 	{
 		ScopedStackCache cache(stack_cache_manager_, *ar_v);
@@ -272,7 +272,7 @@ namespace ktl {
 		tTJSVariant const* ar_v,
 		tTJSString const& key,
 		tTJSVariant const* v,
-		boost::optional<tTJSString const&> ser_key
+		boost::optional<tTJSString> ser_key
 		)
 	{
 		if (ser_key) {

@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "big_int", "big_int\big_int.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "math_ex", "math_ex\math_ex.vcxproj", "{2C122850-4F6F-43CD-98E7-A2B966E1DFB0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "geometry", "geometry\geometry.vcxproj", "{434114AA-8E20-441B-A809-AC38497A317D}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "splash_window", "splash_window\splash_window.vcxproj", "{F12BCD32-AF8B-4FB2-B59A-9E194485C016}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serialization", "serialization\serialization.vcxproj", "{D9CAE3F0-9B64-4A93-8A3A-8889EE3A9143}"
@@ -111,6 +113,10 @@ Global
 		{2C122850-4F6F-43CD-98E7-A2B966E1DFB0}.Debug|Win32.Build.0 = Debug|Win32
 		{2C122850-4F6F-43CD-98E7-A2B966E1DFB0}.Release|Win32.ActiveCfg = Release|Win32
 		{2C122850-4F6F-43CD-98E7-A2B966E1DFB0}.Release|Win32.Build.0 = Release|Win32
+		{434114AA-8E20-441B-A809-AC38497A317D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{434114AA-8E20-441B-A809-AC38497A317D}.Debug|Win32.Build.0 = Debug|Win32
+		{434114AA-8E20-441B-A809-AC38497A317D}.Release|Win32.ActiveCfg = Release|Win32
+		{434114AA-8E20-441B-A809-AC38497A317D}.Release|Win32.Build.0 = Release|Win32
 		{F12BCD32-AF8B-4FB2-B59A-9E194485C016}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F12BCD32-AF8B-4FB2-B59A-9E194485C016}.Debug|Win32.Build.0 = Debug|Win32
 		{F12BCD32-AF8B-4FB2-B59A-9E194485C016}.Release|Win32.ActiveCfg = Release|Win32

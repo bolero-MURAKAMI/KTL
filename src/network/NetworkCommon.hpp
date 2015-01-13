@@ -1,5 +1,5 @@
 /*=============================================================================
-  Copyright (c) 2010-2014 Bolero MURAKAMI
+  Copyright (c) 2010-2015 Bolero MURAKAMI
   https://github.com/bolero-MURAKAMI/KTL
 
   Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -747,7 +747,7 @@ namespace ktl {
 			error_code_.reset();
 		}
 		bool enable() const {
-			return error_code_;
+			return static_cast<bool>(error_code_);
 		}
 		boost::shared_ptr<boost::asio::ip::tcp::resolver>& resolver() {
 			return resolver_;
@@ -787,7 +787,7 @@ namespace ktl {
 			error_code_.reset();
 		}
 		bool enable() const {
-			return error_code_;
+			return static_cast<bool>(error_code_);
 		}
 		boost::shared_ptr<boost::asio::ssl::context>& context() {
 			return context_;
@@ -818,7 +818,7 @@ namespace ktl {
 			error_code_.reset();
 		}
 		bool enable() const {
-			return error_code_;
+			return static_cast<bool>(error_code_);
 		}
 		boost::shared_ptr<boost::asio::ssl::context>& context() {
 			return context_;
@@ -856,7 +856,7 @@ namespace ktl {
 			error_code_.reset();
 		}
 		bool enable() const {
-			return error_code_;
+			return static_cast<bool>(error_code_);
 		}
 		boost::optional<boost::system::error_code>& error_code() {
 			return error_code_;
@@ -876,7 +876,7 @@ namespace ktl {
 			error_code_.reset();
 		}
 		bool enable() const {
-			return error_code_;
+			return static_cast<bool>(error_code_);
 		}
 		boost::optional<boost::system::error_code>& error_code() {
 			return error_code_;
@@ -896,7 +896,7 @@ namespace ktl {
 			error_code_.reset();
 		}
 		bool enable() const {
-			return error_code_;
+			return static_cast<bool>(error_code_);
 		}
 		boost::optional<boost::system::error_code>& error_code() {
 			return error_code_;
@@ -916,7 +916,7 @@ namespace ktl {
 			error_code_.reset();
 		}
 		bool enable() const {
-			return error_code_;
+			return static_cast<bool>(error_code_);
 		}
 		boost::optional<boost::system::error_code>& error_code() {
 			return error_code_;

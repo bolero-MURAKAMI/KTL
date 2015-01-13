@@ -42,12 +42,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>ktl_$(ProjectName)-d</TargetName>
-    <OutDir>..\..\..\lib\msvc11</OutDir>
+    <OutDir>..\..\..\lib\msvc11\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>ktl_$(ProjectName)</TargetName>
-    <OutDir>..\..\..\lib\msvc11</OutDir>
+    <OutDir>..\..\..\lib\msvc11\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

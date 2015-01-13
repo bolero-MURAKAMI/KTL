@@ -1,5 +1,5 @@
 /*=============================================================================
-  Copyright (c) 2010-2014 Bolero MURAKAMI
+  Copyright (c) 2010-2015 Bolero MURAKAMI
   https://github.com/bolero-MURAKAMI/KTL
 
   Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -9,6 +9,7 @@
 #define SRC_PTREE_PTREE_HPP
 
 #include <iterator>
+#include <string>
 #include <sstream>
 #include <functional>
 #include <boost/smart_ptr/make_shared.hpp>
@@ -449,8 +450,8 @@ namespace ktl {
 				),
 			sep
 			);
-		bool req_parent = parent;
-		bool req_where = where;
+		bool req_parent = static_cast<bool>(parent);
+		bool req_where = static_cast<bool>(where);
 		if (req_parent) {
 			*parent = boost::none;
 		}
@@ -606,8 +607,8 @@ namespace ktl {
 				),
 			sep
 			);
-		bool req_parent = parent;
-		bool req_where = where;
+		bool req_parent = static_cast<bool>(parent);
+		bool req_where = static_cast<bool>(where);
 		if (req_parent) {
 			*parent = boost::none;
 		}
@@ -786,7 +787,7 @@ namespace ktl {
 			path_separator_,
 			path_sharp_
 			);
-		return node;
+		return static_cast<bool>(node);
 	}
 	KTL_INLINE NativePTree::int_type NativePTree::size(tjs_char const* path_exists) const {
 		boost::optional<pt_ptree_type const&> node = getNodeExists(
@@ -1369,7 +1370,7 @@ namespace ktl {
 		boost::property_tree::write_xml(
 			os,
 			ptree_,
-			boost::property_tree::xml_writer_settings<tjs_char>(
+			boost::property_tree::xml_writer_settings<std::basic_string<tjs_char> >(
 				indent_char ? *indent_char : SPRIG_KRKR_TJS_W(' '),
 				indent_count ? *indent_count : 4,
 				SPRIG_KRKR_TJS_W("UTF-16")
@@ -1387,7 +1388,7 @@ namespace ktl {
 		boost::property_tree::write_xml(
 			os,
 			ptree_,
-			boost::property_tree::xml_writer_settings<tjs_char>(
+			boost::property_tree::xml_writer_settings<std::basic_string<tjs_char> >(
 				indent_char ? *indent_char : SPRIG_KRKR_TJS_W(' '),
 				indent_count ? *indent_count : 4,
 				code
@@ -1419,7 +1420,7 @@ namespace ktl {
 		boost::property_tree::write_xml(
 			os,
 			ptree_,
-			boost::property_tree::xml_writer_settings<tjs_char>(
+			boost::property_tree::xml_writer_settings<std::basic_string<tjs_char> >(
 				indent_char ? *indent_char : SPRIG_KRKR_TJS_W(' '),
 				indent_count ? *indent_count : 4,
 				code ? code : SPRIG_KRKR_TJS_W("UTF-16")

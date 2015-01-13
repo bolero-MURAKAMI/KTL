@@ -1,5 +1,5 @@
 /*=============================================================================
-  Copyright (c) 2010-2014 Bolero MURAKAMI
+  Copyright (c) 2010-2015 Bolero MURAKAMI
   https://github.com/bolero-MURAKAMI/KTL
 
   Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -2012,7 +2012,7 @@ namespace ktl {
 	}
 	KTL_INLINE bool NativeDownloader::isWaitingTimeout() const {
 		scoped_lock_type lock(mutex_);
-		return timeout_timers2_.error_code();
+		return static_cast<bool>(timeout_timers2_.error_code());
 	}
 	KTL_INLINE NativeDownloader::rep_type NativeDownloader::expiresTimeoutFromNow() const {
 		scoped_lock_type lock(mutex_);
