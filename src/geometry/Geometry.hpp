@@ -460,7 +460,7 @@ namespace ktl {
 		return result;
 	}
 	template<typename F>
-	KTL_INLINE typename F::result_type NativeGeometry::dispatch(F fn, tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
+	KTL_INLINE typename F::result_type NativeGeometry::dispatch(F fn, tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
 		typedef typename F::result_type result_type;
 		result_type result = result_type();
 		switch (f0) {
@@ -882,32 +882,32 @@ namespace ktl {
 	//
 	//	SUMMARY: 二項系メソッド
 	//
-	KTL_INLINE bool NativeGeometry::disjoint(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-		return dispatch(DisjointFunc(), g0, g1, f0, f1);
+	KTL_INLINE bool NativeGeometry::disjoint(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+		return dispatch(DisjointFunc(), g0, f0, g1, f1);
 	}
-	KTL_INLINE bool NativeGeometry::coveredBy(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-		return dispatch(CoveredByFunc(), g0, g1, f0, f1);
+	KTL_INLINE bool NativeGeometry::coveredBy(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+		return dispatch(CoveredByFunc(), g0, f0, g1, f1);
 	}
-	KTL_INLINE bool NativeGeometry::within(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-		return dispatch(WithinFunc(), g0, g1, f0, f1);
+	KTL_INLINE bool NativeGeometry::within(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+		return dispatch(WithinFunc(), g0, f0, g1, f1);
 	}
-	KTL_INLINE bool NativeGeometry::equals(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-		return dispatch(EqualsFunc(), g0, g1, f0, f1);
+	KTL_INLINE bool NativeGeometry::equals(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+		return dispatch(EqualsFunc(), g0, f0, g1, f1);
 	}
-	KTL_INLINE bool NativeGeometry::overlaps(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-		return dispatch(OverlapsFunc(), g0, g1, f0, f1);
+	KTL_INLINE bool NativeGeometry::overlaps(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+		return dispatch(OverlapsFunc(), g0, f0, g1, f1);
 	}
-	//KTL_INLINE bool NativeGeometry::touches(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-	//	return dispatch(TouchesFunc(), g0, g1, f0, f1);
+	//KTL_INLINE bool NativeGeometry::touches(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+	//	return dispatch(TouchesFunc(), g0, f0, g1, f1);
 	//}
-	//KTL_INLINE bool NativeGeometry::crosses(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-	//	return dispatch(CrossesFunc(), g0, g1, f0, f1);
+	//KTL_INLINE bool NativeGeometry::crosses(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+	//	return dispatch(CrossesFunc(), g0, f0, g1, f1);
 	//}
-	//KTL_INLINE bool NativeGeometry::intersects(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-	//	return dispatch(IntersectsFunc(), g0, g1, f0, f1);
+	//KTL_INLINE bool NativeGeometry::intersects(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+	//	return dispatch(IntersectsFunc(), g0, f0, g1, f1);
 	//}
-	KTL_INLINE NativeGeometry::element_type NativeGeometry::distance(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, flag_type f0, flag_type f1) {
-		return dispatch(DistanceFunc(), g0, g1, f0, f1);
+	KTL_INLINE NativeGeometry::element_type NativeGeometry::distance(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+		return dispatch(DistanceFunc(), g0, f0, g1, f1);
 	}
 
 	//
@@ -933,151 +933,129 @@ namespace ktl {
 	//
 	KTL_INLINE bool Geometry::isValid(tTJSVariantClosure const& g, tTVInteger f) {
 		return NativeGeometry::isValid(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f)
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 			);
 	}
 	KTL_INLINE bool Geometry::isSimple(tTJSVariantClosure const& g, tTVInteger f) {
 		return NativeGeometry::isSimple(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f)
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 			);
 	}
 	//KTL_INLINE bool Geometry::intersects(tTJSVariantClosure const& g, tTVInteger f) {
 	//	return NativeGeometry::intersects(
-	//		g,
-	//		boost::numeric_cast<NativeGeometry::flag_type>(f)
+	//		g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 	//		);
 	//}
 	//KTL_INLINE bool Geometry::touches(tTJSVariantClosure const& g, tTVInteger f) {
 	//	return NativeGeometry::touches(
-	//		g,
-	//		boost::numeric_cast<NativeGeometry::flag_type>(f)
+	//		g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 	//		);
 	//}
 	KTL_INLINE tTVReal Geometry::length(tTJSVariantClosure const& g, tTVInteger f) {
 		return NativeGeometry::length(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f)
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 			);
 	}
 	KTL_INLINE tTVReal Geometry::perimeter(tTJSVariantClosure const& g, tTVInteger f) {
 		return NativeGeometry::perimeter(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f)
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 			);
 	}
 	KTL_INLINE tTVReal Geometry::area(tTJSVariantClosure const& g, tTVInteger f) {
 		return NativeGeometry::area(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f)
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 			);
 	}
 	KTL_INLINE tTJSVariant Geometry::centroid(tTJSVariantClosure const& g, tTVInteger f) {
 		return NativeGeometry::centroid(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f)
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 			);
 	}
 	KTL_INLINE tTJSVariant Geometry::translate(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t) {
 		return NativeGeometry::translate(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f),
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f),
 			t
 			);
 	}
 	KTL_INLINE tTJSVariant Geometry::scale(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t) {
 		return NativeGeometry::scale(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f),
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f),
 			t
 			);
 	}
 	KTL_INLINE tTJSVariant Geometry::scale(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t, tTJSVariant const& o) {
 		return NativeGeometry::scale(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f),
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f),
 			t, o
 			);
 	}
 	KTL_INLINE tTJSVariant Geometry::rotate(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t) {
 		return NativeGeometry::rotate(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f),
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f),
 			t
 			);
 	}
 	KTL_INLINE tTJSVariant Geometry::rotate(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t, tTJSVariant const& o) {
 		return NativeGeometry::rotate(
-			g,
-			boost::numeric_cast<NativeGeometry::flag_type>(f),
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f),
 			t, o
 			);
 	}
 	//
 	//	SUMMARY: 二項系メソッド
 	//
-	KTL_INLINE bool Geometry::disjoint(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	KTL_INLINE bool Geometry::disjoint(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 		return NativeGeometry::disjoint(
-			g0, g1,
-			boost::numeric_cast<NativeGeometry::flag_type>(f0),
-			boost::numeric_cast<NativeGeometry::flag_type>(f1)
+			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 			);
 	}
-	KTL_INLINE bool Geometry::coveredBy(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	KTL_INLINE bool Geometry::coveredBy(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 		return NativeGeometry::coveredBy(
-			g0, g1,
-			boost::numeric_cast<NativeGeometry::flag_type>(f0),
-			boost::numeric_cast<NativeGeometry::flag_type>(f1)
+			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 			);
 	}
-	KTL_INLINE bool Geometry::within(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	KTL_INLINE bool Geometry::within(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 		return NativeGeometry::within(
-			g0, g1,
-			boost::numeric_cast<NativeGeometry::flag_type>(f0),
-			boost::numeric_cast<NativeGeometry::flag_type>(f1)
+			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 			);
 	}
-	KTL_INLINE bool Geometry::equals(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	KTL_INLINE bool Geometry::equals(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 		return NativeGeometry::equals(
-			g0, g1,
-			boost::numeric_cast<NativeGeometry::flag_type>(f0),
-			boost::numeric_cast<NativeGeometry::flag_type>(f1)
+			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 			);
 	}
-	KTL_INLINE bool Geometry::overlaps(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	KTL_INLINE bool Geometry::overlaps(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 		return NativeGeometry::overlaps(
-			g0, g1,
-			boost::numeric_cast<NativeGeometry::flag_type>(f0),
-			boost::numeric_cast<NativeGeometry::flag_type>(f1)
+			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 			);
 	}
-	//KTL_INLINE bool Geometry::touches(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	//KTL_INLINE bool Geometry::touches(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 	//	return NativeGeometry::touches(
-	//		g0, g1,
-	//		boost::numeric_cast<NativeGeometry::flag_type>(f0),
-	//		boost::numeric_cast<NativeGeometry::flag_type>(f1)
+	//		g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+	//		g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 	//		);
 	//}
-	//KTL_INLINE bool Geometry::crosses(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	//KTL_INLINE bool Geometry::crosses(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 	//	return NativeGeometry::crosses(
-	//		g0, g1,
-	//		boost::numeric_cast<NativeGeometry::flag_type>(f0),
-	//		boost::numeric_cast<NativeGeometry::flag_type>(f1)
+	//		g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+	//		g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 	//		);
 	//}
-	//KTL_INLINE bool Geometry::intersects(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	//KTL_INLINE bool Geometry::intersects(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 	//	return NativeGeometry::intersects(
-	//		g0, g1,
-	//		boost::numeric_cast<NativeGeometry::flag_type>(f0),
-	//		boost::numeric_cast<NativeGeometry::flag_type>(f1)
+	//		g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+	//		g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 	//		);
 	//}
-	KTL_INLINE tTVReal Geometry::distance(tTJSVariantClosure const& g0, tTJSVariantClosure const& g1, tTVInteger f0, tTVInteger f1) {
+	KTL_INLINE tTVReal Geometry::distance(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 		return NativeGeometry::distance(
-			g0, g1,
-			boost::numeric_cast<NativeGeometry::flag_type>(f0),
-			boost::numeric_cast<NativeGeometry::flag_type>(f1)
+			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 			);
 	}
 }	// namespace ktl
