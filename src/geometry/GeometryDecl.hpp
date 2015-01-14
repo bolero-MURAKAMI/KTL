@@ -45,6 +45,7 @@ namespace ktl {
 		typedef boost::geometry::strategy::transform::translate_transformer<element_type, 2, 2> translate_type;
 		typedef boost::geometry::strategy::transform::scale_transformer<element_type, 2, 2> scale_type;
 		typedef boost::geometry::strategy::transform::rotate_transformer<boost::geometry::radian, element_type, 2, 2> rotate_type;
+		typedef boost::geometry::strategy::transform::ublas_transformer<element_type, 2, 2> matrix_type;
 	private:
 		template<typename Result, typename Derived>
 		class UnaryFuncBase;
@@ -64,13 +65,13 @@ namespace ktl {
 		class CentroidFunc;
 
 		class DisjointFunc;
+		class IntersectsFunc;
 		class CoveredByFunc;
 		class WithinFunc;
 		class EqualsFunc;
 		class OverlapsFunc;
 		class TouchesFunc;
 		class CrossesFunc;
-		class IntersectsFunc;
 		class DistanceFunc;
 	private:
 		static point_type to_point(tTJSVariantClosure const& g);
@@ -87,6 +88,7 @@ namespace ktl {
 		static translate_type to_negate_translate(tTJSVariant const& s);
 		static scale_type to_scale(tTJSVariant const& s);
 		static rotate_type to_rotate(tTJSVariant const& s);
+		static matrix_type to_matrix(tTJSVariant const& s);
 
 		static tTJSVariant to_variant(point_type const& g);
 		static tTJSVariant to_variant(segment_type const& g);
@@ -141,17 +143,18 @@ namespace ktl {
 		static tTJSVariant scale(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t, tTJSVariant const& o);
 		static tTJSVariant rotate(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t);
 		static tTJSVariant rotate(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t, tTJSVariant const& o);
+		static tTJSVariant matrixTransform(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t);
 		//
 		//	SUMMARY: 二項系メソッド
 		//
 		static bool disjoint(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
+		static bool intersects(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static bool coveredBy(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static bool within(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static bool equals(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static bool overlaps(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		//static bool touches(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		//static bool crosses(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
-		//static bool intersects(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static element_type distance(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 	};
 
@@ -201,17 +204,18 @@ namespace ktl {
 		static tTJSVariant scale(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t, tTJSVariant const& o);
 		static tTJSVariant rotate(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t);
 		static tTJSVariant rotate(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t, tTJSVariant const& o);
+		static tTJSVariant matrixTransform(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t);
 		//
 		//	SUMMARY: 二項系メソッド
 		//
 		static bool disjoint(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
+		static bool intersects(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static bool coveredBy(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static bool within(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static bool equals(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static bool overlaps(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		//static bool touches(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		//static bool crosses(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
-		//static bool intersects(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static tTVReal distance(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 	};
 }	// namespace ktl
