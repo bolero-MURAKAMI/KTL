@@ -35,6 +35,12 @@ namespace ktl {
 		NativeMathEx();
 	public:
 		//
+		//	SUMMARY: 数値系メソッド
+		//
+		static tTVReal bernoulliB2n(int i);
+		static tTVReal tangentT2n(int i);
+		static boost::uint32_t prime(unsigned n);
+		//
 		//	SUMMARY: 算術系メソッド
 		//
 		static tTVReal abs(tTVReal x);
@@ -158,10 +164,18 @@ namespace ktl {
 		//
 		static tTVReal cylBesselJ(tTVReal v, tTVReal x);
 		static tTVReal cylNeumann(tTVReal v, tTVReal x);
+		static tTVReal cylBesselJZero(tTVReal v, int m);
+		static tTVReal cylNeumannZero(tTVReal v, int m);
 		static tTVReal cylBesselI(tTVReal v, tTVReal x);
 		static tTVReal cylBesselK(tTVReal v, tTVReal x);
 		static tTVReal sphBessel(unsigned v, tTVReal x);
 		static tTVReal sphNeumann(unsigned v, tTVReal x);
+		static tTVReal cylBesselJPrime(tTVReal v, tTVReal x);
+		static tTVReal cylNeumannPrime(tTVReal v, tTVReal x);
+		static tTVReal cylBesselIPrime(tTVReal v, tTVReal x);
+		static tTVReal cylBesselKPrime(tTVReal v, tTVReal x);
+		static tTVReal sphBesselPrime(unsigned v, tTVReal x);
+		static tTVReal sphNeumannPrime(unsigned v, tTVReal x);
 		//
 		//	SUMMARY: ハンケル関数系メソッド
 		//
@@ -276,6 +290,12 @@ namespace ktl {
 			);
 		void TJS_INTF_METHOD Invalidate();
 	public:
+		//
+		//	SUMMARY: 数値系メソッド
+		//
+		static tTVReal bernoulliB2n(tTVInteger i);
+		static tTVReal tangentT2n(tTVInteger i);
+		static tTVInteger prime(tTVInteger n);
 		//
 		//	SUMMARY: 算術系メソッド
 		//
@@ -400,10 +420,18 @@ namespace ktl {
 		//
 		static tTVReal cylBesselJ(tTVReal v, tTVReal x);
 		static tTVReal cylNeumann(tTVReal v, tTVReal x);
+		static tTVReal cylBesselJZero(tTVReal v, tTVInteger m);
+		static tTVReal cylNeumannZero(tTVReal v, tTVInteger m);
 		static tTVReal cylBesselI(tTVReal v, tTVReal x);
 		static tTVReal cylBesselK(tTVReal v, tTVReal x);
 		static tTVReal sphBessel(tTVInteger v, tTVReal x);
 		static tTVReal sphNeumann(tTVInteger v, tTVReal x);
+		static tTVReal cylBesselJPrime(tTVReal v, tTVReal x);
+		static tTVReal cylNeumannPrime(tTVReal v, tTVReal x);
+		static tTVReal cylBesselIPrime(tTVReal v, tTVReal x);
+		static tTVReal cylBesselKPrime(tTVReal v, tTVReal x);
+		static tTVReal sphBesselPrime(tTVInteger v, tTVReal x);
+		static tTVReal sphNeumannPrime(tTVInteger v, tTVReal x);
 		//
 		//	SUMMARY: ハンケル関数系メソッド
 		//

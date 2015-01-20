@@ -15,6 +15,8 @@
 #include <boost/smart_ptr/make_shared.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <boost/math/common_factor_rt.hpp>
+#include <boost/math/special_functions/bernoulli.hpp>
+#include <boost/math/special_functions/prime.hpp>
 #include <boost/math/special_functions/asinh.hpp>
 #include <boost/math/special_functions/acosh.hpp>
 #include <boost/math/special_functions/atanh.hpp>
@@ -30,6 +32,7 @@
 #include <boost/math/special_functions/hermite.hpp>
 #include <boost/math/special_functions/spherical_harmonic.hpp>
 #include <boost/math/special_functions/bessel.hpp>
+#include <boost/math/special_functions/bessel_prime.hpp>
 #include <boost/math/special_functions/hankel.hpp>
 #include <boost/math/special_functions/airy.hpp>
 #include <boost/math/special_functions/zeta.hpp>
@@ -85,6 +88,18 @@ namespace ktl {
 		return true;
 	}
 	NativeMathEx::NativeMathEx() {}
+	//
+	//	SUMMARY: 数値系メソッド
+	//
+	KTL_INLINE tTVReal NativeMathEx::bernoulliB2n(int i) {
+		return boost::math::bernoulli_b2n<tTVReal>(i);
+	}
+	KTL_INLINE tTVReal NativeMathEx::tangentT2n(int i) {
+		return boost::math::tangent_t2n<tTVReal>(i);
+	}
+	KTL_INLINE boost::uint32_t NativeMathEx::prime(unsigned n) {
+		return boost::math::prime(n);
+	}
 	//
 	//	SUMMARY: 算術系メソッド
 	//
@@ -473,6 +488,12 @@ namespace ktl {
 	KTL_INLINE tTVReal NativeMathEx::cylNeumann(tTVReal v, tTVReal x) {
 		return boost::math::cyl_neumann(v, x);
 	}
+	KTL_INLINE tTVReal NativeMathEx::cylBesselJZero(tTVReal v, int m) {
+		return boost::math::cyl_bessel_j_zero(v, m);
+	}
+	KTL_INLINE tTVReal NativeMathEx::cylNeumannZero(tTVReal v, int m) {
+		return boost::math::cyl_neumann_zero(v, m);
+	}
 	KTL_INLINE tTVReal NativeMathEx::cylBesselI(tTVReal v, tTVReal x) {
 		return boost::math::cyl_bessel_i(v, x);
 	}
@@ -484,6 +505,24 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal NativeMathEx::sphNeumann(unsigned v, tTVReal x) {
 		return boost::math::sph_neumann(v, x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::cylBesselJPrime(tTVReal v, tTVReal x) {
+		return boost::math::cyl_bessel_j_prime(v, x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::cylNeumannPrime(tTVReal v, tTVReal x) {
+		return boost::math::cyl_neumann_prime(v, x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::cylBesselIPrime(tTVReal v, tTVReal x) {
+		return boost::math::cyl_bessel_i_prime(v, x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::cylBesselKPrime(tTVReal v, tTVReal x) {
+		return boost::math::cyl_bessel_k_prime(v, x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::sphBesselPrime(unsigned v, tTVReal x) {
+		return boost::math::sph_bessel_prime(v, x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::sphNeumannPrime(unsigned v, tTVReal x) {
+		return boost::math::sph_neumann_prime(v, x);
 	}
 	//
 	//	SUMMARY: ハンケル関数系メソッド
@@ -714,6 +753,18 @@ namespace ktl {
 	void TJS_INTF_METHOD MathEx::Invalidate() {
 		SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("MathEx::Invalidate"), SPRIG_KRKR_LOG_LEVEL_NORMAL);
 		instance_.reset();
+	}
+	//
+	//	SUMMARY: 数値系メソッド
+	//
+	KTL_INLINE tTVReal MathEx::bernoulliB2n(tTVInteger i) {
+		return NativeMathEx::bernoulliB2n(boost::numeric_cast<int>(i));
+	}
+	KTL_INLINE tTVReal MathEx::tangentT2n(tTVInteger i) {
+		return NativeMathEx::tangentT2n(boost::numeric_cast<int>(i));
+	}
+	KTL_INLINE tTVInteger MathEx::prime(tTVInteger n) {
+		return NativeMathEx::prime(boost::numeric_cast<unsigned>(n));
 	}
 	//
 	//	SUMMARY: 算術系メソッド
@@ -1021,6 +1072,12 @@ namespace ktl {
 	KTL_INLINE tTVReal MathEx::cylNeumann(tTVReal v, tTVReal x) {
 		return NativeMathEx::cylNeumann(v, x);
 	}
+	KTL_INLINE tTVReal MathEx::cylBesselJZero(tTVReal v, tTVInteger m) {
+		return NativeMathEx::cylBesselJZero(v, boost::numeric_cast<int>(m));
+	}
+	KTL_INLINE tTVReal MathEx::cylNeumannZero(tTVReal v, tTVInteger m) {
+		return NativeMathEx::cylNeumannZero(v, boost::numeric_cast<int>(m));
+	}
 	KTL_INLINE tTVReal MathEx::cylBesselI(tTVReal v, tTVReal x) {
 		return NativeMathEx::cylBesselI(v, x);
 	}
@@ -1032,6 +1089,24 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal MathEx::sphNeumann(tTVInteger v, tTVReal x) {
 		return NativeMathEx::sphNeumann(boost::numeric_cast<unsigned>(v), x);
+	}
+	KTL_INLINE tTVReal MathEx::cylBesselJPrime(tTVReal v, tTVReal x) {
+		return NativeMathEx::cylBesselJPrime(v, x);
+	}
+	KTL_INLINE tTVReal MathEx::cylNeumannPrime(tTVReal v, tTVReal x) {
+		return NativeMathEx::cylNeumannPrime(v, x);
+	}
+	KTL_INLINE tTVReal MathEx::cylBesselIPrime(tTVReal v, tTVReal x) {
+		return NativeMathEx::cylBesselIPrime(v, x);
+	}
+	KTL_INLINE tTVReal MathEx::cylBesselKPrime(tTVReal v, tTVReal x) {
+		return NativeMathEx::cylBesselKPrime(v, x);
+	}
+	KTL_INLINE tTVReal MathEx::sphBesselPrime(tTVInteger v, tTVReal x) {
+		return NativeMathEx::sphBesselPrime(boost::numeric_cast<unsigned>(v), x);
+	}
+	KTL_INLINE tTVReal MathEx::sphNeumannPrime(tTVInteger v, tTVReal x) {
+		return NativeMathEx::sphNeumannPrime(boost::numeric_cast<unsigned>(v), x);
 	}
 	//
 	//	SUMMARY: ハンケル関数系メソッド
