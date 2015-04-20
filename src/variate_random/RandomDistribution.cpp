@@ -153,8 +153,22 @@ namespace ktl {
 	//
 	// CreateNativeClassExtremeValueDistribution
 	//
-#define TJS_NATIVE_CLASSID_NAMEExtremeValueDistributionClassID
+#define TJS_NATIVE_CLASSID_NAME ExtremeValueDistributionClassID
 	RANDOM_DISTRIBUTION_CREATE_NATIVE_CLASS(CreateNativeClassExtremeValueDistribution, RandomDistribution<ktl::RandomUtils::extreme_value_distribution>, ExtremeValueDistribution);
+#undef TJS_NATIVE_CLASSID_NAME
+
+	//
+	// CreateNativeClassBetaDistribution
+	//
+#define TJS_NATIVE_CLASSID_NAME BetaDistributionClassID
+	RANDOM_DISTRIBUTION_CREATE_NATIVE_CLASS(CreateNativeClassBetaDistribution, RandomDistribution<ktl::RandomUtils::beta_distribution>, BetaDistribution);
+#undef TJS_NATIVE_CLASSID_NAME
+
+	//
+	// CreateNativeClassLaplaceDistribution
+	//
+#define TJS_NATIVE_CLASSID_NAME LaplaceDistributionClassID
+	RANDOM_DISTRIBUTION_CREATE_NATIVE_CLASS(CreateNativeClassLaplaceDistribution, RandomDistribution<ktl::RandomUtils::laplace_distribution>, LaplaceDistribution);
 #undef TJS_NATIVE_CLASSID_NAME
 
 	//
@@ -176,6 +190,13 @@ namespace ktl {
 	//
 #define TJS_NATIVE_CLASSID_NAME ChiSquaredDistributionClassID
 	RANDOM_DISTRIBUTION_CREATE_NATIVE_CLASS(CreateNativeClassChiSquaredDistribution, RandomDistribution<ktl::RandomUtils::chi_squared_distribution>, ChiSquaredDistribution);
+#undef TJS_NATIVE_CLASSID_NAME
+
+	//
+	// CreateNativeClassNonCentralChiSquaredDistribution
+	//
+#define TJS_NATIVE_CLASSID_NAME NonCentralChiSquaredDistributionClassID
+	RANDOM_DISTRIBUTION_CREATE_NATIVE_CLASS(CreateNativeClassNonCentralChiSquaredDistribution, RandomDistribution<ktl::RandomUtils::non_central_chi_squared_distribution>, NonCentralChiSquaredDistribution);
 #undef TJS_NATIVE_CLASSID_NAME
 
 	//
@@ -264,9 +285,12 @@ static void regist_ktl_random_distribution() {
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("GammaDistribution"), ktl::CreateNativeClassGammaDistribution());
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("WeibullDistribution"), ktl::CreateNativeClassWeibullDistribution());
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("ExtremeValueDistribution"), ktl::CreateNativeClassExtremeValueDistribution());
+		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("BetaDistribution"), ktl::CreateNativeClassBetaDistribution());
+		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("LaplaceDistribution"), ktl::CreateNativeClassLaplaceDistribution());
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("NormalDistribution"), ktl::CreateNativeClassNormalDistribution());
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("LognormalDistribution"), ktl::CreateNativeClassLognormalDistribution());
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("ChiSquaredDistribution"), ktl::CreateNativeClassChiSquaredDistribution());
+		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("NonCentralChiSquaredDistribution"), ktl::CreateNativeClassNonCentralChiSquaredDistribution());
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("CauchyDistribution"), ktl::CreateNativeClassCauchyDistribution());
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("FisherFDistribution"), ktl::CreateNativeClassFisherFDistribution());
 		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("StudentTDistribution"), ktl::CreateNativeClassStudentTDistribution());
@@ -296,9 +320,12 @@ static void unregist_ktl_random_distribution() {
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("GammaDistribution"));
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("WeibullDistribution"));
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("ExtremeValueDistribution"));
+		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("BetaDistribution"));
+		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("LaplaceDistribution"));
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("NormalDistribution"));
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("LognormalDistribution"));
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("ChiSquaredDistribution"));
+		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("NonCentralChiSquaredDistribution"));
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("CauchyDistribution"));
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("FisherFDistribution"));
 		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("StudentTDistribution"));

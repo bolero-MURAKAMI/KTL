@@ -11,6 +11,8 @@
 #include <boost/foreach.hpp>
 #include <boost/variant.hpp>
 #include <boost/random.hpp>
+#include <boost/random/beta_distribution.hpp>
+#include <boost/random/laplace_distribution.hpp>
 #include <boost/range/reference.hpp>
 #include <boost/type_traits/is_unsigned.hpp>
 #include <boost/type_traits/is_same.hpp>
@@ -161,7 +163,7 @@ namespace ktl {
 	public:
 		//	CHECK: fatal error C1060
 #define KTL_VARIATE_RANDOM_ENGINE_SEQ_NUM 29/*31*/
-#define KTL_VARIATE_RANDOM_DISTRIBUTION_SEQ_NUM 24
+#define KTL_VARIATE_RANDOM_DISTRIBUTION_SEQ_NUM 27
 
 		typedef sprig::random::any_variate_generator<RandomResult> variate_generator_type;
 		typedef boost::random::minstd_rand0 minstd_rand0;
@@ -243,9 +245,12 @@ namespace ktl {
 		typedef boost::random::gamma_distribution<tTVReal> gamma_distribution;
 		typedef boost::random::weibull_distribution<tTVReal> weibull_distribution;
 		typedef boost::random::extreme_value_distribution<tTVReal> extreme_value_distribution;
+		typedef boost::random::beta_distribution<tTVReal> beta_distribution;
+		typedef boost::random::laplace_distribution<tTVReal> laplace_distribution;
 		typedef boost::random::normal_distribution<tTVReal> normal_distribution;
 		typedef boost::random::lognormal_distribution<tTVReal> lognormal_distribution;
 		typedef boost::random::chi_squared_distribution<tTVReal> chi_squared_distribution;
+		typedef boost::random::non_central_chi_squared_distribution<tTVReal> non_central_chi_squared_distribution;
 		typedef boost::random::cauchy_distribution<tTVReal> cauchy_distribution;
 		typedef boost::random::fisher_f_distribution<tTVReal> fisher_f_distribution;
 		typedef boost::random::student_t_distribution<tTVReal> student_t_distribution;
@@ -268,9 +273,12 @@ namespace ktl {
 			gamma_distribution,
 			weibull_distribution,
 			extreme_value_distribution,
+			beta_distribution,
+			laplace_distribution,
 			normal_distribution,
 			lognormal_distribution,
 			chi_squared_distribution,
+			non_central_chi_squared_distribution,
 			cauchy_distribution,
 			fisher_f_distribution,
 			student_t_distribution,

@@ -1,5 +1,5 @@
 /*=============================================================================
-  Copyright (c) 2010-2014 Bolero MURAKAMI
+  Copyright (c) 2010-2015 Bolero MURAKAMI
   https://github.com/bolero-MURAKAMI/KTL
 
   Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -130,7 +130,7 @@
 #define KTL_FILE_DESCRIPTION				KTL_FULL_MODULE_NAME " (KiriKiri Plug-in DLL)\0"
 #define KTL_FILE_VERSION					KTL_STRINGIZE(KTL_RC_VERSION) "\0"
 #define KTL_INTERNAL_NAME					KTL_FULL_PROJECT_NAME "\0"
-#define KTL_LEGAL_COPYRIGHT					"Copyright (C) 2009-2014 Bolero MURAKAMI.\0"
+#define KTL_LEGAL_COPYRIGHT					"Copyright (C) 2009-2015 Bolero MURAKAMI.\0"
 #define KTL_LEGAL_TRADEMARKS				"\0"
 #ifdef NDEBUG
 #	define KTL_ORIGINAL_FILENAME			KTL_FULL_PROJECT_NAME ".dll\0"

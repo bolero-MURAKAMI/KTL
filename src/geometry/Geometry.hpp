@@ -94,17 +94,45 @@ namespace ktl {
 	class NativeGeometry::DisjointDispatch
 		: public boost::geometry::dispatch::disjoint<G0, G1>
 	{};
-	template<typename G0>
-	class NativeGeometry::DisjointDispatch<G0, NativeGeometry::multi_point_type>
-		: public boost::geometry::not_implemented<G0, multi_point_type>
-	{};
-	template<typename G1>
-	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_point_type, G1>
-		: public boost::geometry::not_implemented<multi_point_type, G1>
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_point_type, NativeGeometry::linestring_type>
+		: public boost::geometry::not_implemented<multi_point_type, linestring_type>
 	{};
 	template<>
-	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_point_type, NativeGeometry::multi_point_type>
-		: public boost::geometry::not_implemented<multi_point_type, multi_point_type>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_point_type, NativeGeometry::ring_type>
+		: public boost::geometry::not_implemented<multi_point_type, ring_type>
+	{};
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_point_type, NativeGeometry::polygon_type>
+		: public boost::geometry::not_implemented<multi_point_type, polygon_type>
+	{};
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_point_type, NativeGeometry::multi_linestring_type>
+		: public boost::geometry::not_implemented<multi_point_type, multi_linestring_type>
+	{};
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_point_type, NativeGeometry::multi_polygon_type>
+		: public boost::geometry::not_implemented<multi_point_type, multi_polygon_type>
+	{};
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::linestring_type, NativeGeometry::multi_point_type>
+		: public boost::geometry::not_implemented<linestring_type, multi_point_type>
+	{};
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::ring_type, NativeGeometry::multi_point_type>
+		: public boost::geometry::not_implemented<ring_type, multi_point_type>
+	{};
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::polygon_type, NativeGeometry::multi_point_type>
+		: public boost::geometry::not_implemented<polygon_type, multi_point_type>
+	{};
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_linestring_type, NativeGeometry::multi_point_type>
+		: public boost::geometry::not_implemented<multi_linestring_type, multi_point_type>
+	{};
+	template<>
+	class NativeGeometry::DisjointDispatch<NativeGeometry::multi_polygon_type, NativeGeometry::multi_point_type>
+		: public boost::geometry::not_implemented<multi_polygon_type, multi_point_type>
 	{};
 
 #define KTL_GEOMETRY_UNARY_FUNC_DEF(NAME, RESULT, FUNC, DISP) \

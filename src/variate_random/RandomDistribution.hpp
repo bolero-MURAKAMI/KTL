@@ -255,6 +255,44 @@ namespace ktl {
 		}
 	}
 	template<>
+	KTL_INLINE void NativeRandomDistribution<ktl::RandomUtils::beta_distribution>::initialize(
+		tjs_int numparams,
+		tTJSVariant** param
+		)
+	{
+		if (numparams >= 2) {
+			impl_ = boost::make_shared<base_type>(
+				static_cast<base_type::result_type>(*param[0]),
+				static_cast<base_type::result_type>(*param[1])
+				);
+		} else if (numparams >= 1) {
+			impl_ = boost::make_shared<base_type>(
+				static_cast<base_type::result_type>(*param[0])
+				);
+		} else {
+			impl_ = boost::make_shared<base_type>();
+		}
+	}
+	template<>
+	KTL_INLINE void NativeRandomDistribution<ktl::RandomUtils::laplace_distribution>::initialize(
+		tjs_int numparams,
+		tTJSVariant** param
+		)
+	{
+		if (numparams >= 2) {
+			impl_ = boost::make_shared<base_type>(
+				static_cast<base_type::result_type>(*param[0]),
+				static_cast<base_type::result_type>(*param[1])
+				);
+		} else if (numparams >= 1) {
+			impl_ = boost::make_shared<base_type>(
+				static_cast<base_type::result_type>(*param[0])
+				);
+		} else {
+			impl_ = boost::make_shared<base_type>();
+		}
+	}
+	template<>
 	KTL_INLINE void NativeRandomDistribution<ktl::RandomUtils::normal_distribution>::initialize(
 		tjs_int numparams,
 		tTJSVariant** param
@@ -299,6 +337,25 @@ namespace ktl {
 		)
 	{
 		if (numparams >= 1) {
+			impl_ = boost::make_shared<base_type>(
+				static_cast<base_type::result_type>(*param[0])
+				);
+		} else {
+			impl_ = boost::make_shared<base_type>();
+		}
+	}
+	template<>
+	KTL_INLINE void NativeRandomDistribution<ktl::RandomUtils::non_central_chi_squared_distribution>::initialize(
+		tjs_int numparams,
+		tTJSVariant** param
+		)
+	{
+		if (numparams >= 2) {
+			impl_ = boost::make_shared<base_type>(
+				static_cast<base_type::result_type>(*param[0]),
+				static_cast<base_type::result_type>(*param[1])
+				);
+		} else if (numparams >= 1) {
 			impl_ = boost::make_shared<base_type>(
 				static_cast<base_type::result_type>(*param[0])
 				);

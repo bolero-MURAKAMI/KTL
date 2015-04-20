@@ -109,6 +109,8 @@ namespace ktl {
 		static tTVReal tgamma1Pm1(tTVReal x);
 		static tTVReal lgamma(tTVReal x);
 		static tTVReal digamma(tTVReal x);
+		static tTVReal trigamma(tTVReal x);
+		static tTVReal polygamma(int n, tTVReal x);
 		static tTVReal tgammaRatio(tTVReal x, tTVReal y);
 		static tTVReal tgammaDeltaRatio(tTVReal x, tTVReal delta);
 		static tTVReal gammaP(tTVReal a, tTVReal x);
@@ -216,6 +218,10 @@ namespace ktl {
 		static tTVReal ellint2(tTVReal k);
 		static tTVReal ellint3(tTVReal k, tTVReal n, tTVReal phi);
 		static tTVReal ellint3(tTVReal k, tTVReal n);
+		static tTVReal ellintD(tTVReal k, tTVReal phi);
+		static tTVReal ellintD(tTVReal k);
+		static tTVReal jacobiZeta(tTVReal k, tTVReal phi);
+		static tTVReal heumanLambda(tTVReal k, tTVReal phi);
 		//
 		//	SUMMARY: ヤコビの楕円関数系メソッド
 		//
@@ -365,6 +371,8 @@ namespace ktl {
 		static tTVReal tgamma1Pm1(tTVReal x);
 		static tTVReal lgamma(tTVReal x);
 		static tTVReal digamma(tTVReal x);
+		static tTVReal trigamma(tTVReal x);
+		static tTVReal polygamma(tTVInteger n, tTVReal x);
 		static tTVReal tgammaRatio(tTVReal x, tTVReal y);
 		static tTVReal tgammaDeltaRatio(tTVReal x, tTVReal delta);
 		static tTVReal gammaP(tTVReal a, tTVReal x);
@@ -472,6 +480,10 @@ namespace ktl {
 		static tTVReal ellint2(tTVReal k);
 		static tTVReal ellint3(tTVReal k, tTVReal n, tTVReal phi);
 		static tTVReal ellint3(tTVReal k, tTVReal n);
+		static tTVReal ellintD(tTVReal k, tTVReal phi);
+		static tTVReal ellintD(tTVReal k);
+		static tTVReal jacobiZeta(tTVReal k, tTVReal phi);
+		static tTVReal heumanLambda(tTVReal k, tTVReal phi);
 		//
 		//	SUMMARY: ヤコビの楕円関数系メソッド
 		//

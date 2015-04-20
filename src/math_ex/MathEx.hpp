@@ -25,6 +25,8 @@
 #include <boost/math/special_functions/modf.hpp>
 #include <boost/math/special_functions/gamma.hpp>
 #include <boost/math/special_functions/digamma.hpp>
+#include <boost/math/special_functions/trigamma.hpp>
+#include <boost/math/special_functions/polygamma.hpp>
 #include <boost/math/special_functions/beta.hpp>
 #include <boost/math/special_functions/erf.hpp>
 #include <boost/math/special_functions/legendre.hpp>
@@ -46,6 +48,9 @@
 #include <boost/math/special_functions/ellint_1.hpp>
 #include <boost/math/special_functions/ellint_2.hpp>
 #include <boost/math/special_functions/ellint_3.hpp>
+#include <boost/math/special_functions/ellint_d.hpp>
+#include <boost/math/special_functions/jacobi_zeta.hpp>
+#include <boost/math/special_functions/heuman_lambda.hpp>
 #include <boost/math/special_functions/jacobi_elliptic.hpp>
 #include <boost/math/special_functions/expint.hpp>
 #include <boost/math/special_functions/factorials.hpp>
@@ -321,6 +326,12 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal NativeMathEx::digamma(tTVReal x) {
 		return boost::math::digamma(x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::trigamma(tTVReal x) {
+		return boost::math::trigamma(x);
+	}
+	KTL_INLINE tTVReal NativeMathEx::polygamma(int n, tTVReal x) {
+		return boost::math::polygamma(n, x);
 	}
 	KTL_INLINE tTVReal NativeMathEx::tgammaRatio(tTVReal x, tTVReal y) {
 		return boost::math::tgamma_ratio(x, y);
@@ -607,6 +618,18 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal NativeMathEx::ellint3(tTVReal k, tTVReal n) {
 		return boost::math::ellint_3(k, n);
+	}
+	KTL_INLINE tTVReal NativeMathEx::ellintD(tTVReal k, tTVReal phi) {
+		return boost::math::ellint_d(k, phi);
+	}
+	KTL_INLINE tTVReal NativeMathEx::ellintD(tTVReal k) {
+		return boost::math::ellint_d(k);
+	}
+	KTL_INLINE tTVReal NativeMathEx::jacobiZeta(tTVReal k, tTVReal phi) {
+		return boost::math::jacobi_zeta(k, phi);
+	}
+	KTL_INLINE tTVReal NativeMathEx::heumanLambda(tTVReal k, tTVReal phi) {
+		return boost::math::heuman_lambda(k, phi);
 	}
 	//
 	//	SUMMARY: ヤコビの楕円関数系メソッド
@@ -930,6 +953,12 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal MathEx::digamma(tTVReal x) {
 		return NativeMathEx::digamma(x);
+	}
+	KTL_INLINE tTVReal MathEx::trigamma(tTVReal x) {
+		return NativeMathEx::trigamma(x);
+	}
+	KTL_INLINE tTVReal MathEx::polygamma(tTVInteger n, tTVReal x) {
+		return NativeMathEx::polygamma(boost::numeric_cast<int>(n), x);
 	}
 	KTL_INLINE tTVReal MathEx::tgammaRatio(tTVReal x, tTVReal y) {
 		return NativeMathEx::tgammaRatio(x, y);
@@ -1263,6 +1292,18 @@ namespace ktl {
 	}
 	KTL_INLINE tTVReal MathEx::ellint3(tTVReal k, tTVReal n) {
 		return NativeMathEx::ellint3(k, n);
+	}
+	KTL_INLINE tTVReal MathEx::ellintD(tTVReal k, tTVReal phi) {
+		return NativeMathEx::ellintD(k, phi);
+	}
+	KTL_INLINE tTVReal MathEx::ellintD(tTVReal k) {
+		return NativeMathEx::ellintD(k);
+	}
+	KTL_INLINE tTVReal MathEx::jacobiZeta(tTVReal k, tTVReal phi) {
+		return NativeMathEx::jacobiZeta(k, phi);
+	}
+	KTL_INLINE tTVReal MathEx::heumanLambda(tTVReal k, tTVReal phi) {
+		return NativeMathEx::heumanLambda(k, phi);
 	}
 	//
 	//	SUMMARY: ヤコビの楕円関数系メソッド
