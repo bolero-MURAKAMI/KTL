@@ -712,10 +712,7 @@ namespace ktl {
 					iTJSDispatch2* result_elem_obj = 0;
 					sprig::krkr::tjs::CreateNewObject(
 						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-						&result_elem_obj,
-						0,
-						0,
-						0
+						&result_elem_obj, 0, 0, 0
 						);
 					result_elem = result_type(result_elem_obj, false);
 					tTJSVariant var(result_elem_obj, result_elem_obj);

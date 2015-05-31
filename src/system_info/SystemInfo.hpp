@@ -135,6 +135,7 @@ namespace ktl {
 				SPRIG_KRKR_TJS_W("error in GlobalMemoryStatusEx()"),
 				sprig::krkr::internal_error
 				);
+			return tTJSVariant();
 		}
 		sprig::krkr::tjs::object_type result;
 		{
@@ -192,6 +193,7 @@ namespace ktl {
 				SPRIG_KRKR_TJS_W("error in GetLogicalDriveStrings()"),
 				sprig::krkr::internal_error
 				);
+			return tTJSVariant();
 		}
 		if (size > default_size) {
 			buffer.resize(size);
@@ -201,6 +203,7 @@ namespace ktl {
 					SPRIG_KRKR_TJS_W("error in GetLogicalDriveStrings()"),
 					sprig::krkr::internal_error
 					);
+				return tTJSVariant();
 			}
 		}
 		sprig::krkr::tjs::object_type result;
@@ -259,6 +262,7 @@ namespace ktl {
 				SPRIG_KRKR_TJS_W("error in GetVolumeInformation()"),
 				sprig::krkr::internal_error
 				);
+			return tTJSVariant();
 		}
 		sprig::krkr::tjs::object_type result;
 		{
