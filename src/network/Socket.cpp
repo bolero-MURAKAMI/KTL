@@ -110,6 +110,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->connect(SPRIG_KRKR_ARG(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -125,6 +126,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->connectSSL(SPRIG_KRKR_ARG(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -174,6 +176,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->asyncConnect(SPRIG_KRKR_ARG(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -189,6 +192,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->asyncConnectSSL(SPRIG_KRKR_ARG(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -407,10 +411,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getWritingBufferAsOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getWritingBufferAsOctet(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -426,10 +432,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getWritingBufferAsString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getWritingBufferAsString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -445,10 +453,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getWritingBufferAsNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getWritingBufferAsNarrowString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -464,6 +474,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->consumeWritingBuffer(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -491,6 +502,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->popString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -506,6 +518,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->popNarrowString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -521,6 +534,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->popOctet(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -545,11 +559,13 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->read(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->read(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -630,11 +646,13 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->asyncRead(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->asyncRead(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -722,10 +740,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getReadingBufferAsOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getReadingBufferAsOctet(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -741,10 +761,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getReadingBufferAsString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getReadingBufferAsString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -760,10 +782,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getReadingBufferAsNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getReadingBufferAsNarrowString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -779,6 +803,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Socket);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->consumeReadingBuffer(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -871,7 +896,7 @@ static void regist_ktl_socket() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Socket:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Socket"), ktl::CreateNativeClassSocket());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Socket"), ktl::CreateNativeClassSocket());
 	}
 }
 static void unregist_ktl_socket() {

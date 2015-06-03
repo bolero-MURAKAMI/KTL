@@ -29,21 +29,19 @@ namespace ktl {
 	NativeThreadTask::NativeThreadTask()
 		: impl_(boost::make_shared<ThreadTaskImpl>())
 	{
-		sprig::krkr::tjs::object_type control_obj;
-		{
-			iTJSDispatch2* obj = 0;
+		sprig::krkr::tjs::object_type control_obj(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("ThreadControl")),
-				&obj, 0, 0, 0
-				);
-			control_obj = sprig::krkr::tjs::object_type(obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		ThreadControl* control = reinterpret_cast<ThreadControl*>(
 			sprig::krkr::tjs::GetPropValue<sprig::krkr::tjs::intptr_type>(
-				sprig::krkr::tjs::GetMemberNoAddRef(
+				sprig::krkr::tjs::GetClassMember(
 					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("ThreadControl")),
 					SPRIG_KRKR_TJS_W("instance")
-					),
+					).AsObjectNoAddRef(),
 					control_obj.get()
 				)
 			);

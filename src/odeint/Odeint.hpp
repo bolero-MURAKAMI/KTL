@@ -11,6 +11,7 @@
 #include <boost/smart_ptr/make_shared.hpp>
 #include <boost/numeric/odeint/integrate/integrate.hpp>
 #include <sprig/external/tp_stub.hpp>
+#include <sprig/get_pointer.hpp>
 #include <sprig/str_compare.hpp>
 #include <sprig/krkr/exception.hpp>
 #include <sprig/krkr/tjs.hpp>
@@ -37,20 +38,17 @@ namespace ktl {
 		}
 		if (sprig::str_compare(membername, SPRIG_KRKR_TJS_W("asArray")) == 0) {
 			if (result) {
-				sprig::krkr::tjs::object_type res;
-				{
-					iTJSDispatch2* result_obj = 0;
+				sprig::krkr::tjs::object_type res(
 					sprig::krkr::tjs::CreateNewObject(
 						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-						&result_obj, 0, 0, 0
-						);
-					res = sprig::krkr::tjs::object_type(result_obj, false);
-				}
+						0, 0, 0
+						),
+					false
+					);
 				{
 					tjs_int num = 0;
 					for (state_type::const_iterator it = s_->begin(), last = s_->end(); it != last; ++it) {
-						tTJSVariant var(*it);
-						sprig::krkr::tjs::AddMemberByNum(res.get(), num, &var);
+						sprig::krkr::tjs::AddMember(sprig::get_pointer(res), num, tTJSVariant(*it));
 						++num;
 					}
 				}
@@ -107,20 +105,17 @@ namespace ktl {
 		}
 		if (sprig::str_compare(membername, SPRIG_KRKR_TJS_W("asArray")) == 0) {
 			if (result) {
-				sprig::krkr::tjs::object_type res;
-				{
-					iTJSDispatch2* result_obj = 0;
+				sprig::krkr::tjs::object_type res(
 					sprig::krkr::tjs::CreateNewObject(
 						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-						&result_obj, 0, 0, 0
-						);
-					res = sprig::krkr::tjs::object_type(result_obj, false);
-				}
+						0, 0, 0
+						),
+					false
+					);
 				{
 					tjs_int num = 0;
 					for (state_type::const_iterator it = s_->begin(), last = s_->end(); it != last; ++it) {
-						tTJSVariant var(*it);
-						sprig::krkr::tjs::AddMemberByNum(res.get(), num, &var);
+						sprig::krkr::tjs::AddMember(sprig::get_pointer(res), num, tTJSVariant(*it));
 						++num;
 					}
 				}
@@ -202,13 +197,12 @@ namespace ktl {
 		tjs_int const count = sprig::krkr::tjs::GetPropValue<tjs_int>(start_state, SPRIG_KRKR_TJS_W("count"));
 		for (tjs_int i = 0; i != count; ++i) {
 			state.push_back(
-				sprig::krkr::tjs::GetPropValue<value_type>(i, start_state)
+				sprig::krkr::tjs::GetPropValue<value_type>(start_state, i)
 				);
 		}
 		std::size_t ret = boost::numeric::odeint::integrate(sys, state, start_time, end_time, dt);
 		for (tjs_int i = 0; i != count; ++i) {
-			tTJSVariant var(state[i]);
-			sprig::krkr::tjs::AddMemberByNum(start_state.Object, i, &var);
+			sprig::krkr::tjs::AddMember(start_state.Object, i, tTJSVariant(state[i]));
 		}
 		return ret;
 	}
@@ -223,13 +217,12 @@ namespace ktl {
 		tjs_int const count = sprig::krkr::tjs::GetPropValue<tjs_int>(start_state, SPRIG_KRKR_TJS_W("count"));
 		for (tjs_int i = 0; i != count; ++i) {
 			state.push_back(
-				sprig::krkr::tjs::GetPropValue<value_type>(i, start_state)
+				sprig::krkr::tjs::GetPropValue<value_type>(start_state, i)
 				);
 		}
 		std::size_t ret = boost::numeric::odeint::integrate(sys, state, start_time, end_time, dt, obs);
 		for (tjs_int i = 0; i != count; ++i) {
-			tTJSVariant var(state[i]);
-			sprig::krkr::tjs::AddMemberByNum(start_state.Object, i, &var);
+			sprig::krkr::tjs::AddMember(start_state.Object, i, tTJSVariant(state[i]));
 		}
 		return ret;
 	}

@@ -211,7 +211,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(readXML)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, PTree);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			if (numparams >= 2) {
@@ -226,7 +226,7 @@ namespace ktl {
 			}
 			break;
 		case tvtOctet:
-			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 			SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 			if (numparams >= 3) {
 				SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
@@ -417,7 +417,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(readYAML)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, PTree);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			if (numparams >= 2) {
@@ -432,7 +432,7 @@ namespace ktl {
 			}
 			break;
 		case tvtOctet:
-			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 			SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 			if (numparams >= 3) {
 				SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
@@ -491,7 +491,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(readHTML)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, PTree);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			if (numparams >= 2) {
@@ -506,7 +506,7 @@ namespace ktl {
 			}
 			break;
 		case tvtOctet:
-			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 			SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 			if (numparams >= 3) {
 				SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
@@ -528,7 +528,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(readStorageHTML)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, PTree);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
 			SPRIG_KRKR_TYPE_CHECK(1, tvtString);
@@ -918,7 +918,7 @@ static void regist_ktl_ptree() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:PTree:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("PTree"), ktl::CreateNativeClassPTree());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("PTree"), ktl::CreateNativeClassPTree());
 	}
 }
 static void unregist_ktl_ptree() {

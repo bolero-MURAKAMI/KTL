@@ -132,7 +132,7 @@ static void regist_ktl_layered_window() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:LayeredSplashWindow:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("LayeredSplashWindow"), ktl::CreateNativeClassLayeredSplashWindow());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("LayeredSplashWindow"), ktl::CreateNativeClassLayeredSplashWindow());
 	}
 }
 static void unregist_ktl_layered_window() {

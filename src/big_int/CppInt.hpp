@@ -107,20 +107,21 @@ namespace ktl {
 	}
 	KTL_INLINE sprig::krkr::tjs::intptr_type NativeCppInt::getInstance(iTJSDispatch2* obj) {
 		return sprig::krkr::tjs::GetPropValue<sprig::krkr::tjs::intptr_type>(
-			sprig::krkr::tjs::GetMemberNoAddRef(
+			sprig::krkr::tjs::GetClassMember(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("CppInt")),
 				SPRIG_KRKR_TJS_W("instance")
-				),
+				).AsObjectNoAddRef(),
 			obj
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativeCppInt::createNew(tjs_int numparams, tTJSVariant** param) {
-		iTJSDispatch2* result_obj = 0;
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("CppInt")),
-			&result_obj, numparams, param, 0
+		return sprig::krkr::tjs::object_type(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("CppInt")),
+				numparams, param, 0
+				),
+			false
 			);
-		return sprig::krkr::tjs::object_type(result_obj, false);
 	}
 	NativeCppInt::NativeCppInt() {}
 	NativeCppInt::NativeCppInt(big_int_type const& value)

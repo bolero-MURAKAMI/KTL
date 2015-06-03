@@ -186,7 +186,7 @@ static void regist_ktl_big_int() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:BigInt:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("BigInt"), ktl::CreateNativeClassBigInt());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("BigInt"), ktl::CreateNativeClassBigInt());
 	}
 }
 static void unregist_ktl_big_int() {

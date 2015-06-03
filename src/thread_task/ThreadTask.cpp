@@ -99,8 +99,8 @@ static void regist_ktl_thread_task() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:ThreadTask:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("ThreadTask"), ktl::CreateNativeClassThreadTask());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("ThreadControl"), ktl::CreateNativeClassThreadControl());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("ThreadTask"), ktl::CreateNativeClassThreadTask());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("ThreadControl"), ktl::CreateNativeClassThreadControl());
 	}
 }
 static void unregist_ktl_thread_task() {

@@ -499,8 +499,9 @@ namespace ktl {
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(tgamma)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::tgamma(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -654,6 +655,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::beta(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -801,6 +803,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::legendreP(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -825,6 +828,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(4);
 		if (numparams >= 5) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(4, 5);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::legendreNext(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3), SPRIG_KRKR_ARG_VARIANT(4))
 				);
@@ -840,6 +844,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::laguerre(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -855,6 +860,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(4);
 		if (numparams >= 5) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(4, 5);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::laguerreNext(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3), SPRIG_KRKR_ARG_VARIANT(4))
 				);
@@ -1206,6 +1212,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::ellint1(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -1221,6 +1228,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::ellint2(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -1236,6 +1244,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::ellint3(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -1251,6 +1260,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::ellintD(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -1408,6 +1418,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				MathEx::expint(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -1552,7 +1563,7 @@ static void regist_ktl_math_ex() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:MathEx:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("MathEx"), ktl::CreateNativeClassMathEx());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("MathEx"), ktl::CreateNativeClassMathEx());
 	}
 }
 static void unregist_ktl_math_ex() {

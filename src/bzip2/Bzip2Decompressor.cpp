@@ -74,13 +74,15 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(processOctet)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Bzip2Decompressor);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->processOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->processOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -95,13 +97,15 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(processStorage)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Bzip2Decompressor);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->processStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->processStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -121,10 +125,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Bzip2Decompressor);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK(2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK(1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asOctet(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -140,10 +146,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Bzip2Decompressor);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK(2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK(1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -159,10 +167,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Bzip2Decompressor);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK(2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK(1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asNarrowString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -180,13 +190,15 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(saveStorage)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Bzip2Decompressor);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->saveStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->saveStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -211,7 +223,7 @@ static void regist_ktl_inflate() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Bzip2Decompressor:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Bzip2Decompressor"), ktl::CreateNativeClassBzip2Decompressor());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Bzip2Decompressor"), ktl::CreateNativeClassBzip2Decompressor());
 	}
 }
 static void unregist_ktl_inflate() {

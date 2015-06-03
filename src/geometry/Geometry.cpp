@@ -60,28 +60,44 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(isSimple);
-	//SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(intersects)
-	//{
-	//	SPRIG_KRKR_NUMPARAMS_CHECK(2);
-	//	SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
-	//	SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
-	//	SPRIG_KRKR_RESULT_SET(
-	//		Geometry::intersects(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1))
-	//		);
-	//	return TJS_S_OK;
-	//}
-	//SPRIG_KRKR_END_NATIVE_METHOD_DECL(intersects);
-	//SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(touches)
-	//{
-	//	SPRIG_KRKR_NUMPARAMS_CHECK(2);
-	//	SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
-	//	SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
-	//	SPRIG_KRKR_RESULT_SET(
-	//		Geometry::touches(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1))
-	//		);
-	//	return TJS_S_OK;
-	//}
-	//SPRIG_KRKR_END_NATIVE_METHOD_DECL(touches);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(intersects)
+	{
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
+		SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
+		if (numparams >= 4) {
+			SPRIG_KRKR_TYPE_CHECK(2, tvtObject);
+			SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
+			SPRIG_KRKR_RESULT_SET(
+				Geometry::intersects(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_CLOSURE(2), SPRIG_KRKR_ARG_VARIANT(3))
+				);
+		} else {
+			SPRIG_KRKR_RESULT_SET(
+				Geometry::intersects(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1))
+				);
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(intersects);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(touches)
+	{
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
+		SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
+		if (numparams >= 4) {
+			SPRIG_KRKR_TYPE_CHECK(2, tvtObject);
+			SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
+			SPRIG_KRKR_RESULT_SET(
+				Geometry::touches(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_CLOSURE(2), SPRIG_KRKR_ARG_VARIANT(3))
+				);
+		} else {
+			SPRIG_KRKR_RESULT_SET(
+				Geometry::touches(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1))
+				);
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(touches);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(length)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
@@ -126,6 +142,17 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(centroid);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(envelope)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
+		SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
+		SPRIG_KRKR_RESULT_SET(
+			Geometry::envelope(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(envelope);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(translate)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(3);
@@ -140,9 +167,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(translate);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(scale)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(3);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(3);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
+		SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 		if (numparams >= 4) {
 			SPRIG_KRKR_TYPE_CHECK(3, tvtObject);
 			SPRIG_KRKR_RESULT_SET(
@@ -158,9 +186,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(scale);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(rotate)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(3);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(3);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
+		SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 		if (numparams >= 4) {
 			SPRIG_KRKR_TYPE_CHECK(3, tvtObject);
 			SPRIG_KRKR_RESULT_SET(
@@ -202,19 +231,7 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(disjoint);
-	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(intersects)
-	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(4);
-		SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
-		SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
-		SPRIG_KRKR_TYPE_CHECK(2, tvtObject);
-		SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
-		SPRIG_KRKR_RESULT_SET(
-			Geometry::intersects(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_CLOSURE(2), SPRIG_KRKR_ARG_VARIANT(3))
-			);
-		return TJS_S_OK;
-	}
-	SPRIG_KRKR_END_NATIVE_METHOD_DECL(intersects);
+	// intersects
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(coveredBy)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(4);
@@ -267,32 +284,20 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(overlaps);
-	//SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(touches)
-	//{
-	//	SPRIG_KRKR_NUMPARAMS_CHECK(4);
-	//	SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
-	//	SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
-	//	SPRIG_KRKR_TYPE_CHECK(2, tvtObject);
-	//	SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
-	//	SPRIG_KRKR_RESULT_SET(
-	//		Geometry::touches(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_CLOSURE(2), SPRIG_KRKR_ARG_VARIANT(3))
-	//		);
-	//	return TJS_S_OK;
-	//}
-	//SPRIG_KRKR_END_NATIVE_METHOD_DECL(touches);
-	//SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(crosses)
-	//{
-	//	SPRIG_KRKR_NUMPARAMS_CHECK(4);
-	//	SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
-	//	SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
-	//	SPRIG_KRKR_TYPE_CHECK(2, tvtObject);
-	//	SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
-	//	SPRIG_KRKR_RESULT_SET(
-	//		Geometry::crosses(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_CLOSURE(2), SPRIG_KRKR_ARG_VARIANT(3))
-	//		);
-	//	return TJS_S_OK;
-	//}
-	//SPRIG_KRKR_END_NATIVE_METHOD_DECL(crosses);
+	// touches
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(crosses)
+	{
+		SPRIG_KRKR_NUMPARAMS_CHECK(4);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
+		SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
+		SPRIG_KRKR_TYPE_CHECK(2, tvtObject);
+		SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
+		SPRIG_KRKR_RESULT_SET(
+			Geometry::crosses(SPRIG_KRKR_ARG_CLOSURE(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_CLOSURE(2), SPRIG_KRKR_ARG_VARIANT(3))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(crosses);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(distance)
 	{
 		SPRIG_KRKR_NUMPARAMS_CHECK(4);
@@ -319,7 +324,7 @@ static void regist_ktl_geometry() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Geometry:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Geometry"), ktl::CreateNativeClassGeometry());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Geometry"), ktl::CreateNativeClassGeometry());
 	}
 }
 static void unregist_ktl_geometry() {

@@ -150,10 +150,11 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(calculateStorageAsOctet); \
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(calculateBlockAsHex) \
 	{ \
-		SPRIG_KRKR_NUMPARAMS_CHECK(2); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtInteger); \
 		SPRIG_KRKR_TYPE_CHECK(1, tvtInteger); \
 		if (numparams >= 3) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3); \
 			SPRIG_KRKR_RESULT_SET( \
 				CLASS_NAME::calculateBlockAsHex(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_BOOL(2)) \
 				); \
@@ -167,9 +168,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(calculateBlockAsHex); \
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(calculateBytesAsHex) \
 	{ \
-		SPRIG_KRKR_NUMPARAMS_CHECK(2); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtInteger); \
 		if (numparams >= 3) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3); \
 			SPRIG_KRKR_RESULT_SET( \
 				CLASS_NAME::calculateBytesAsHex(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_BOOL(2)) \
 				); \
@@ -183,9 +185,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(calculateBytesAsHex); \
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(calculateOctetAsHex) \
 	{ \
-		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet); \
 		if (numparams >= 2) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2); \
 			SPRIG_KRKR_RESULT_SET( \
 				CLASS_NAME::calculateOctetAsHex(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_BOOL(1)) \
 				); \
@@ -199,9 +202,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(calculateOctetAsHex); \
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(calculateStringAsHex) \
 	{ \
-		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString); \
 		if (numparams >= 2) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2); \
 			SPRIG_KRKR_RESULT_SET( \
 				CLASS_NAME::calculateStringAsHex(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_BOOL(1)) \
 				); \
@@ -215,9 +219,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(calculateStringAsHex); \
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(calculateNarrowStringAsHex) \
 	{ \
-		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString); \
 		if (numparams >= 2) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2); \
 			SPRIG_KRKR_RESULT_SET( \
 				CLASS_NAME::calculateNarrowStringAsHex(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_BOOL(1)) \
 				); \
@@ -231,9 +236,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(calculateNarrowStringAsHex); \
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(calculateStorageAsHex) \
 	{ \
-		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString); \
 		if (numparams >= 2) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2); \
 			SPRIG_KRKR_RESULT_SET( \
 				CLASS_NAME::calculateStorageAsHex(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_BOOL(1)) \
 				); \
@@ -285,13 +291,15 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(processOctet) \
 	{ \
 		TJS_GET_NATIVE_INSTANCE(this_, CLASS_NAME); \
-		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet); \
 		if (numparams >= 3) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3); \
 			SPRIG_KRKR_INVOKE_RESULT_SET( \
 				this_->processOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2)) \
 				); \
 		} else if (numparams >= 2) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2); \
 			SPRIG_KRKR_INVOKE_RESULT_SET( \
 				this_->processOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1)) \
 				); \
@@ -306,13 +314,15 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(processString) \
 	{ \
 		TJS_GET_NATIVE_INSTANCE(this_, CLASS_NAME); \
-		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString); \
 		if (numparams >= 3) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3); \
 			SPRIG_KRKR_INVOKE_RESULT_SET( \
 				this_->processString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2)) \
 				); \
 		} else if (numparams >= 2) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2); \
 			SPRIG_KRKR_INVOKE_RESULT_SET( \
 				this_->processString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1)) \
 				); \
@@ -327,13 +337,15 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(processNarrowString) \
 	{ \
 		TJS_GET_NATIVE_INSTANCE(this_, CLASS_NAME); \
-		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString); \
 		if (numparams >= 3) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3); \
 			SPRIG_KRKR_INVOKE_RESULT_SET( \
 				this_->processNarrowString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2)) \
 				); \
 		} else if (numparams >= 2) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2); \
 			SPRIG_KRKR_INVOKE_RESULT_SET( \
 				this_->processNarrowString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1)) \
 				); \
@@ -348,13 +360,15 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(processStorage) \
 	{ \
 		TJS_GET_NATIVE_INSTANCE(this_, CLASS_NAME); \
-		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1); \
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString); \
 		if (numparams >= 3) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3); \
 			SPRIG_KRKR_INVOKE_RESULT_SET( \
 				this_->processStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2)) \
 				); \
 		} else if (numparams >= 2) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2); \
 			SPRIG_KRKR_INVOKE_RESULT_SET( \
 				this_->processStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1)) \
 				); \
@@ -375,6 +389,7 @@ namespace ktl {
 	{ \
 		TJS_GET_NATIVE_INSTANCE(this_, CLASS_NAME); \
 		if (numparams >= 1) { \
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1); \
 			SPRIG_KRKR_RESULT_SET( \
 				this_->checksumHex(SPRIG_KRKR_ARG_BOOL(0)) \
 				); \
@@ -435,12 +450,12 @@ static void regist_ktl_checksum() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Checksum:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("CRC_16"), ktl::CreateNativeClassCRC_16());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("CRC_CCITT"), ktl::CreateNativeClassCRC_CCITT());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("CRC_XMODEM"), ktl::CreateNativeClassCRC_XMODEM());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("CRC_32"), ktl::CreateNativeClassCRC_32());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("MD5"), ktl::CreateNativeClassMD5());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("SHA1"), ktl::CreateNativeClassSHA1());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CRC_16"), ktl::CreateNativeClassCRC_16());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CRC_CCITT"), ktl::CreateNativeClassCRC_CCITT());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CRC_XMODEM"), ktl::CreateNativeClassCRC_XMODEM());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CRC_32"), ktl::CreateNativeClassCRC_32());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("MD5"), ktl::CreateNativeClassMD5());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("SHA1"), ktl::CreateNativeClassSHA1());
 	}
 }
 static void unregist_ktl_checksum() {

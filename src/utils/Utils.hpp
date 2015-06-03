@@ -39,12 +39,13 @@ namespace ktl {
 	// NativeUtils::CallbackEnumMembers
 	//
 	NativeUtils::CallbackEnumMembers::CallbackEnumMembers()
-		: result_obj_(0)
+		: result_obj_(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
+				0, 0, 0
+				)
+			)
 	{
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-			&result_obj_, 0, 0, 0
-			);
 		sprig::krkr::tjs::object_type result(result_obj_, false);
 		result_ = tTJSVariant(result_obj_, result_obj_);
 	}
@@ -61,7 +62,7 @@ namespace ktl {
 			return TJS_E_BADPARAMCOUNT;
 		}
 		if (param[1]->AsInteger() == 0) {
-			sprig::krkr::tjs::AddMember(result_obj_, tTJSString(*param[0]).c_str(), param[2]);
+			sprig::krkr::tjs::AddMember(result_obj_, tTJSString(*param[0]).c_str(), *param[2]);
 		}
 		if (result) {
 			*result = true;
@@ -75,13 +76,14 @@ namespace ktl {
 	// NativeUtils::CallbackEnumMembersName
 	//
 	NativeUtils::CallbackEnumMembersName::CallbackEnumMembersName()
-		: result_obj_(0)
+		: result_obj_(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
+				)
+			)
 		, num_(0)
 	{
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-			&result_obj_, 0, 0, 0
-			);
 		sprig::krkr::tjs::object_type result(result_obj_, false);
 		result_ = tTJSVariant(result_obj_, result_obj_);
 	}
@@ -98,7 +100,7 @@ namespace ktl {
 			return TJS_E_BADPARAMCOUNT;
 		}
 		if (param[1]->AsInteger() == 0) {
-			sprig::krkr::tjs::AddMemberByNum(result_obj_, num_++, param[0]);
+			sprig::krkr::tjs::AddMember(result_obj_, num_++, *param[0]);
 		}
 		if (result) {
 			*result = true;

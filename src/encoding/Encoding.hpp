@@ -21,6 +21,7 @@
 #include <sprig/external/unicode/urename.hpp>
 #include <sprig/external/unicode/ucsdet.hpp>
 #include <sprig/external/tp_stub.hpp>
+#include <sprig/get_pointer.hpp>
 #include <sprig/locale_saver.hpp>
 #include <sprig/numeric/conversion/cast.hpp>
 #include <sprig/str_cast.hpp>
@@ -447,27 +448,16 @@ namespace ktl {
 			return tTJSVariant();
 		}
 		//	COMMENT: åãâ ê∂ê¨
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(name);
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("name"), &var);
-		}
-		{
-			tTJSVariant var(language);
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("language"), &var);
-		}
-		{
-			tTJSVariant var(confidence);
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("confidence"), &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("name"), tTJSVariant(name));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("language"), tTJSVariant(language));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("confidence"), tTJSVariant(confidence));
 		return tTJSVariant(result.get(), result.get());
 	}
 	NativeEncoding::NativeEncoding() {}
@@ -924,21 +914,19 @@ namespace ktl {
 				);
 			return tTJSVariant();
 		}
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		for (int32_t i = 0; i < num_found; ++i) {
 			tTJSVariant var = makeMatchResult(matchers[i], confidence_threshold);
 			if (var.Type() == tvtVoid) {
 				break;
 			}
-			sprig::krkr::tjs::AddMemberByNum(result.get(), i, &var);
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, var);
 		}
 		return tTJSVariant(result.get(), result.get());
 	}

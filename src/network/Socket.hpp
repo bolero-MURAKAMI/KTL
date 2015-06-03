@@ -27,6 +27,7 @@
 #include <sprig/config/lib/openssl.hpp>
 #include <sprig/external/tp_stub.hpp>
 #include <sprig/numeric/conversion/cast.hpp>
+#include <sprig/get_pointer.hpp>
 #include <sprig/as_const.hpp>
 #include <sprig/str_cast.hpp>
 #include <sprig/str_length.hpp>
@@ -176,20 +177,21 @@ namespace ktl {
 	}
 	sprig::krkr::tjs::intptr_type NativeSocket::getInstance(iTJSDispatch2* obj) {
 		return sprig::krkr::tjs::GetPropValue<sprig::krkr::tjs::intptr_type>(
-			sprig::krkr::tjs::GetMemberNoAddRef(
+			sprig::krkr::tjs::GetClassMember(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Socket")),
 				SPRIG_KRKR_TJS_W("instance")
-				),
+				).AsObjectNoAddRef(),
 			obj
 			);
 	}
 	sprig::krkr::tjs::object_type NativeSocket::createNew(tjs_int numparams, tTJSVariant** param) {
-		iTJSDispatch2* result_obj = 0;
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Socket")),
-			&result_obj, numparams, param, 0
+		return sprig::krkr::tjs::object_type(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Socket")),
+				numparams, param, 0
+				),
+			false
 			);
-		return sprig::krkr::tjs::object_type(result_obj, false);
 	}
 	void NativeSocket::callOnFinished() {
 		tTJSVariant on_finished;
@@ -1067,36 +1069,32 @@ namespace ktl {
 		if (!resolvers_.error_code() || *resolvers_.error_code()) {
 			return tTJSVariant();
 		}
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		{
 			tjs_int index = 0;
 			for (boost::asio::ip::tcp::resolver::iterator i = *resolvers_.iterator(), last = boost::asio::ip::tcp::resolver::iterator(); i != last; ++i, ++index) {
 				boost::asio::ip::tcp::endpoint endpoint(*i);
-				sprig::krkr::tjs::object_type elem;
-				{
-					iTJSDispatch2* elem_obj = 0;
+				sprig::krkr::tjs::object_type elem(
 					sprig::krkr::tjs::CreateNewObject(
 						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-						&elem_obj, 0, 0, 0
-						);
-					elem = sprig::krkr::tjs::object_type(elem_obj, false);
-				}
-				{
-					tTJSVariant var(tTVInteger(
+						0, 0, 0
+						),
+					false
+					);
+				sprig::krkr::tjs::AddMember(
+					sprig::get_pointer(elem), SPRIG_KRKR_TJS_W("protocol"),
+					tTVInteger(
 						endpoint.protocol() == boost::asio::ip::tcp::v6()
 							? pfIPv6
 							: pfIPv4
-						));
-					sprig::krkr::tjs::AddMember(elem.get(), SPRIG_KRKR_TJS_W("protocol"), &var);
-				}
+						)
+					);
 				{
 					boost::asio::ip::address addr(endpoint.address());
 					boost::system::error_code error;
@@ -1104,17 +1102,10 @@ namespace ktl {
 					if (error) {
 						return tTJSVariant();
 					}
-					tTJSVariant var(address.c_str());
-					sprig::krkr::tjs::AddMember(elem.get(), SPRIG_KRKR_TJS_W("address"), &var);
+					sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), SPRIG_KRKR_TJS_W("address"), tTJSVariant(address.c_str()));
 				}
-				{
-					tTJSVariant var(endpoint.port());
-					sprig::krkr::tjs::AddMember(elem.get(), SPRIG_KRKR_TJS_W("port"), &var);
-				}
-				{
-					tTJSVariant var(elem.get(), elem.get());
-					sprig::krkr::tjs::AddMemberByNum(result.get(), index, &var);
-				}
+				sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), SPRIG_KRKR_TJS_W("port"), tTJSVariant(endpoint.port()));
+				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), index, tTJSVariant(sprig::get_pointer(elem), sprig::get_pointer(elem)));
 			}
 		}
 		return tTJSVariant(result.get(), result.get());

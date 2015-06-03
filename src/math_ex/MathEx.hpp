@@ -65,6 +65,7 @@
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/random/random_device.hpp>
 #include <sprig/external/tp_stub.hpp>
+#include <sprig/get_pointer.hpp>
 #include <sprig/krkr/exception.hpp>
 #include <sprig/krkr/tjs.hpp>
 #include <sprig/krkr/macro.hpp>
@@ -141,12 +142,13 @@ namespace ktl {
 	KTL_INLINE tTJSVariant NativeMathEx::modf(tTVReal x) {
 		tTVReal i_part;
 		tTVReal f_part = boost::math::modf(x, &i_part);
-		iTJSDispatch2* result_obj = 0;
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-			&result_obj, 0, 0, 0
+		sprig::krkr::tjs::object_type obj(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
+				),
+			false
 			);
-		sprig::krkr::tjs::object_type obj(result_obj, false);
 		{
 			tTJSVariant param = i_part;
 			sprig::krkr::tjs::PropSetByNum(
@@ -176,12 +178,13 @@ namespace ktl {
 	KTL_INLINE tTJSVariant NativeMathEx::frexp(tTVReal x) {
 		int exponent;
 		tTVReal mantissa = std::frexp(x, &exponent);
-		iTJSDispatch2* result_obj = 0;
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-			&result_obj, 0, 0, 0
+		sprig::krkr::tjs::object_type obj(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
+				),
+			false
 			);
-		sprig::krkr::tjs::object_type obj(result_obj, false);
 		{
 			tTJSVariant param = mantissa;
 			sprig::krkr::tjs::PropSetByNum(
@@ -458,12 +461,13 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant NativeMathEx::sphericalHarmonic(unsigned n, int m, tTVReal theta, tTVReal phi) {
 		std::complex<tTVReal> result(boost::math::spherical_harmonic(n, m, theta, phi));
-		iTJSDispatch2* result_obj = 0;
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-			&result_obj, 0, 0, 0
+		sprig::krkr::tjs::object_type obj(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
+				),
+			false
 			);
-		sprig::krkr::tjs::object_type obj(result_obj, false);
 		{
 			tTJSVariant param = result.real();
 			sprig::krkr::tjs::PropSetByNum(
@@ -1142,86 +1146,54 @@ namespace ktl {
 	//
 	KTL_INLINE tTJSVariant MathEx::cylHankel1(tTVReal v, tTVReal x) {
 		std::complex<tTVReal> t(NativeMathEx::cylHankel1(v, x));
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(t.real());
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
-		}
-		{
-			tTJSVariant var(t.imag());
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t.real()));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t.imag()));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant MathEx::cylHankel2(tTVReal v, tTVReal x) {
 		std::complex<tTVReal> t(NativeMathEx::cylHankel2(v, x));
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(t.real());
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
-		}
-		{
-			tTJSVariant var(t.imag());
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t.real()));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t.imag()));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant MathEx::sphHankel1(tTVReal v, tTVReal x) {
 		std::complex<tTVReal> t(NativeMathEx::sphHankel1(v, x));
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(t.real());
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
-		}
-		{
-			tTJSVariant var(t.imag());
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t.real()));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t.imag()));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant MathEx::sphHankel2(tTVReal v, tTVReal x) {
 		std::complex<tTVReal> t(NativeMathEx::sphHankel2(v, x));
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(t.real());
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
-		}
-		{
-			tTJSVariant var(t.imag());
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t.real()));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t.imag()));
 		return tTJSVariant(result.get(), result.get());
 	}
 	//
@@ -1310,27 +1282,16 @@ namespace ktl {
 	//
 	KTL_INLINE tTJSVariant MathEx::jacobiElliptic(tTVReal k, tTVReal u) {
 		boost::array<tTVReal, 3> t(NativeMathEx::jacobiElliptic(k, u));
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(t[0]);
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 0, &var);
-		}
-		{
-			tTJSVariant var(t[1]);
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 1, &var);
-		}
-		{
-			tTJSVariant var(t[2]);
-			sprig::krkr::tjs::AddMemberByNum(result.get(), 2, &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t[0]));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t[1]));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 2, tTJSVariant(t[2]));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTVReal MathEx::jacobiCd(tTVReal k, tTVReal u) {

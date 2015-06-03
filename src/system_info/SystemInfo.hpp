@@ -14,6 +14,7 @@
 #include <boost/numeric/conversion/cast.hpp>
 #include <sprig/external/windows.hpp>
 #include <sprig/external/tp_stub.hpp>
+#include <sprig/get_pointer.hpp>
 #include <sprig/krkr/exception.hpp>
 #include <sprig/krkr/tjs.hpp>
 #include <sprig/krkr/macro.hpp>
@@ -137,47 +138,21 @@ namespace ktl {
 				);
 			return tTJSVariant();
 		}
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.dwMemoryLoad));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("memoryLoad"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullTotalPhys));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("totalPhys"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullAvailPhys));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("availPhys"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullTotalPageFile));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("totalPageFile"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullAvailPageFile));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("availPageFile"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullTotalVirtual));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("totalVirtual"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullAvailVirtual));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("availVirtual"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(status.ullAvailExtendedVirtual));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("availExtendedVirtual"), &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("memoryLoad"), tTJSVariant(boost::numeric_cast<tTVInteger>(status.dwMemoryLoad)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("totalPhys"), tTJSVariant(boost::numeric_cast<tTVInteger>(status.ullTotalPhys)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("availPhys"), tTJSVariant(boost::numeric_cast<tTVInteger>(status.ullAvailPhys)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("totalPageFile"), tTJSVariant(boost::numeric_cast<tTVInteger>(status.ullTotalPageFile)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("availPageFile"), tTJSVariant(boost::numeric_cast<tTVInteger>(status.ullAvailPageFile)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("totalVirtual"), tTJSVariant(boost::numeric_cast<tTVInteger>(status.ullTotalVirtual)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("availVirtual"), tTJSVariant(boost::numeric_cast<tTVInteger>(status.ullAvailVirtual)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("availExtendedVirtual"), tTJSVariant(boost::numeric_cast<tTVInteger>(status.ullAvailExtendedVirtual)));
 		return tTJSVariant(result.get(), result.get());
 	}
 	//
@@ -206,20 +181,17 @@ namespace ktl {
 				return tTJSVariant();
 			}
 		}
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		{
 			tjs_int num = 0;
 			for (std::vector<TCHAR>::const_iterator it = buffer.begin(), last = buffer.end(); *it != TCHAR(); it = std::find(it, last, TCHAR()) + 1) {
-				tTJSVariant var(&*it);
-				sprig::krkr::tjs::AddMemberByNum(result.get(), num, &var);
+				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), num, tTJSVariant(&*it));
 				++num;
 			}
 		}
@@ -264,35 +236,18 @@ namespace ktl {
 				);
 			return tTJSVariant();
 		}
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(&volumeName[0]);
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("volumeName"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(serialNumber));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("serialNumber"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(maximumComponentLength));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("maximumComponentLength"), &var);
-		}
-		{
-			tTJSVariant var(boost::numeric_cast<tTVInteger>(fileSystemFlags));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("fileSystemFlags"), &var);
-		}
-		{
-			tTJSVariant var(&fileSystemName[0]);
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("fileSystemName"), &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("volumeName"), tTJSVariant(&volumeName[0]));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("serialNumber"), tTJSVariant(boost::numeric_cast<tTVInteger>(serialNumber)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("maximumComponentLength"), tTJSVariant(boost::numeric_cast<tTVInteger>(maximumComponentLength)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("fileSystemFlags"), tTJSVariant(boost::numeric_cast<tTVInteger>(fileSystemFlags)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("fileSystemName"), tTJSVariant(&fileSystemName[0]));
 		return tTJSVariant(result.get(), result.get());
 	}
 	//

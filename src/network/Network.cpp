@@ -55,6 +55,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(run)
 	{
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			Network::run(SPRIG_KRKR_ARG_VARIANT(0));
 		} else {
 			Network::run();
@@ -147,7 +148,7 @@ static void regist_ktl_network() {
 #endif
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Network"), ktl::CreateNativeClassNetwork());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Network"), ktl::CreateNativeClassNetwork());
 	}
 }
 static void unregist_ktl_network() {

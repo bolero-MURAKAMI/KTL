@@ -186,7 +186,7 @@ static void regist_ktl_cpp_int() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:CppInt:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("CppInt"), ktl::CreateNativeClassCppInt());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CppInt"), ktl::CreateNativeClassCppInt());
 	}
 }
 static void unregist_ktl_cpp_int() {

@@ -36,6 +36,7 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtObject);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				Utils::getCii(SPRIG_KRKR_ARG_OBJECT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -169,6 +170,7 @@ namespace ktl {
 	{
 		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				Utils::toReadableString(SPRIG_KRKR_ARG(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -239,7 +241,7 @@ static void regist_ktl_utils() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Utils:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Utils"), ktl::CreateNativeClassUtils());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Utils"), ktl::CreateNativeClassUtils());
 	}
 }
 static void unregist_ktl_utils() {

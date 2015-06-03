@@ -52,8 +52,16 @@ namespace ktl {
 		template<typename Result, typename Derived>
 		class BinaryFuncBase;
 
+		template<typename G>
+		class Intersects1Dispatch;
+		template<typename G>
+		class Touches1Dispatch;
 		template<typename G0, typename G1>
 		class DisjointDispatch;
+		template<typename G0, typename G1>
+		class TouchesDispatch;
+		template<typename G0, typename G1>
+		class CrossesDispatch;
 
 		class IsValidFunc;
 		class IsSimpleFunc;
@@ -63,6 +71,7 @@ namespace ktl {
 		class PerimeterFunc;
 		class AreaFunc;
 		class CentroidFunc;
+		class EnvelopeFunc;
 
 		class DisjointFunc;
 		class IntersectsFunc;
@@ -132,12 +141,13 @@ namespace ktl {
 		//
 		static bool isValid(tTJSVariantClosure const& g, flag_type f);
 		static bool isSimple(tTJSVariantClosure const& g, flag_type f);
-		//static bool intersects(tTJSVariantClosure const& g, flag_type f);
-		//static bool touches(tTJSVariantClosure const& g, flag_type f);
+		static bool intersects(tTJSVariantClosure const& g, flag_type f);
+		static bool touches(tTJSVariantClosure const& g, flag_type f);
 		static element_type length(tTJSVariantClosure const& g, flag_type f);
 		static element_type perimeter(tTJSVariantClosure const& g, flag_type f);
 		static element_type area(tTJSVariantClosure const& g, flag_type f);
 		static tTJSVariant centroid(tTJSVariantClosure const& g, flag_type f);
+		static tTJSVariant envelope(tTJSVariantClosure const& g, flag_type f);
 		static tTJSVariant translate(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t);
 		static tTJSVariant scale(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t);
 		static tTJSVariant scale(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t, tTJSVariant const& o);
@@ -153,8 +163,8 @@ namespace ktl {
 		static bool within(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static bool equals(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static bool overlaps(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
-		//static bool touches(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
-		//static bool crosses(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
+		static bool touches(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
+		static bool crosses(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static element_type distance(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 	};
 
@@ -193,12 +203,13 @@ namespace ktl {
 		//
 		static bool isValid(tTJSVariantClosure const& g, tTVInteger f);
 		static bool isSimple(tTJSVariantClosure const& g, tTVInteger f);
-		//static bool intersects(tTJSVariantClosure const& g, tTVInteger f);
-		//static bool touches(tTJSVariantClosure const& g, tTVInteger f);
+		static bool intersects(tTJSVariantClosure const& g, tTVInteger f);
+		static bool touches(tTJSVariantClosure const& g, tTVInteger f);
 		static tTVReal length(tTJSVariantClosure const& g, tTVInteger f);
 		static tTVReal perimeter(tTJSVariantClosure const& g, tTVInteger f);
 		static tTVReal area(tTJSVariantClosure const& g, tTVInteger f);
 		static tTJSVariant centroid(tTJSVariantClosure const& g, tTVInteger f);
+		static tTJSVariant envelope(tTJSVariantClosure const& g, tTVInteger f);
 		static tTJSVariant translate(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t);
 		static tTJSVariant scale(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t);
 		static tTJSVariant scale(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t, tTJSVariant const& o);
@@ -214,8 +225,8 @@ namespace ktl {
 		static bool within(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static bool equals(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static bool overlaps(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
-		//static bool touches(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
-		//static bool crosses(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
+		static bool touches(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
+		static bool crosses(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static tTVReal distance(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 	};
 }	// namespace ktl

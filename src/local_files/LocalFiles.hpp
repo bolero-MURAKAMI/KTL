@@ -21,6 +21,7 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <sprig/external/tp_stub.hpp>
+#include <sprig/get_pointer.hpp>
 #include <sprig/str_compare.hpp>
 #include <sprig/str_cast.hpp>
 #include <sprig/predicate.hpp>
@@ -144,27 +145,16 @@ namespace ktl {
 	//
 	KTL_INLINE tTJSVariant NativeLocalFiles::space(tjs_char const* p) {
 		boost::filesystem::space_info info(boost::filesystem::space(getLocalName(p).c_str()));
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(tTVInteger(info.capacity));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("capacity"), &var);
-		}
-		{
-			tTJSVariant var(tTVInteger(info.free));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("free"), &var);
-		}
-		{
-			tTJSVariant var(tTVInteger(info.available));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("available"), &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("capacity"), tTJSVariant(tTVInteger(info.capacity)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("free"), tTJSVariant(tTVInteger(info.free)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("available"), tTJSVariant(tTVInteger(info.available)));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE NativeLocalFiles::uint_type NativeLocalFiles::spaceCapacity(tjs_char const* p) {
@@ -178,23 +168,15 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant NativeLocalFiles::status(tjs_char const* p) {
 		boost::filesystem::file_status stat(boost::filesystem::status(getLocalName(p).c_str()));
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(tTVInteger(stat.type()));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("type"), &var);
-		}
-		{
-			tTJSVariant var(tTVInteger(stat.permissions()));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("permissions"), &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("type"), tTJSVariant(tTVInteger(stat.type())));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("permissions"), tTJSVariant(tTVInteger(stat.permissions())));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE NativeLocalFiles::file_type_flag_type NativeLocalFiles::statusType(tjs_char const* p) {
@@ -208,23 +190,15 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant NativeLocalFiles::symlinkStatus(tjs_char const* p) {
 		boost::filesystem::file_status stat(boost::filesystem::symlink_status(getLocalName(p).c_str()));
-		sprig::krkr::tjs::object_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&result_obj, 0, 0, 0
-				);
-			result = sprig::krkr::tjs::object_type(result_obj, false);
-		}
-		{
-			tTJSVariant var(tTVInteger(stat.type()));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("type"), &var);
-		}
-		{
-			tTJSVariant var(tTVInteger(stat.permissions()));
-			sprig::krkr::tjs::AddMember(result.get(), SPRIG_KRKR_TJS_W("permissions"), &var);
-		}
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("type"), tTJSVariant(tTVInteger(stat.type())));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("permissions"), tTJSVariant(tTVInteger(stat.permissions())));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE NativeLocalFiles::file_type_flag_type NativeLocalFiles::symlinkStatusType(tjs_char const* p) {
@@ -299,12 +273,13 @@ namespace ktl {
 				std::back_inserter(v)
 				);
 		}
-		iTJSDispatch2* result_obj = 0;
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-			&result_obj, 0, 0, 0
+		sprig::krkr::tjs::object_type obj(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
+				),
+			false
 			);
-		sprig::krkr::tjs::object_type obj(result_obj, false);
 		if (sort_comp && sort_comp->Type() != tvtVoid) {
 			typedef std::vector<sprig::krkr::tjs::string_type> string_vector_type;
 

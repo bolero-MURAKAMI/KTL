@@ -50,7 +50,7 @@ static void regist_ktl_variate_random() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:VariateRandom:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("VariateRandom"), ktl::CreateNativeClassVariateRandom());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("VariateRandom"), ktl::CreateNativeClassVariateRandom());
 	}
 }
 static void unregist_ktl_variate_random() {

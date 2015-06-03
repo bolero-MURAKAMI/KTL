@@ -92,17 +92,17 @@ static void regist_ktl_serialization() {
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
 		sprig::krkr::tjs::object_type serialization_object(ktl::CreateNativeClassSerializationObject(), false);
-		sprig::krkr::tjs::AddMemberNoRelease(global.get(), SPRIG_KRKR_TJS_W("SerializationObject"), serialization_object.get());
-		sprig::krkr::tjs::object_type serialization;
+		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("SerializationObject"), tTJSVariant(serialization_object.get()));
 		{
-			iTJSDispatch2* serialization_obj = 0;
-			sprig::krkr::tjs::CreateNewObject(
-				serialization_object.get(),
-				&serialization_obj, 0, 0, 0
+			sprig::krkr::tjs::object_type serialization(
+				sprig::krkr::tjs::CreateNewObject(
+					serialization_object.get(),
+					0, 0, 0
+					),
+				false
 				);
-			serialization = sprig::krkr::tjs::object_type(serialization_obj, false);
+			sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Serialization"), tTJSVariant(serialization.get(), serialization.get()));
 		}
-		sprig::krkr::tjs::AddMemberNoRelease(global.get(), SPRIG_KRKR_TJS_W("Serialization"), serialization.get());
 	}
 }
 static void unregist_ktl_serialization() {

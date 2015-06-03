@@ -102,10 +102,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_INSTANCEOF_CHECK(1, SPRIG_KRKR_TJS_W("OctetBuilder"));
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setBuilder(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OBJECT(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3))
 				);
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setBuilder(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OBJECT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -123,10 +125,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtOctet);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3))
 				);
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -144,10 +148,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3))
 				);
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -165,10 +171,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3))
 				);
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -186,10 +194,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setStorage(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3))
 				);
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->setStorage(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -254,8 +264,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_INSTANCEOF_CHECK(0, SPRIG_KRKR_TJS_W("OctetBuilder"));
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			this_->assignBuilder(SPRIG_KRKR_ARG_OBJECT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			this_->assignBuilder(SPRIG_KRKR_ARG_OBJECT(0), SPRIG_KRKR_ARG_VARIANT(1));
 		} else {
 			this_->assignBuilder(SPRIG_KRKR_ARG_OBJECT(0));
@@ -269,8 +281,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			this_->assignOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			this_->assignOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1));
 		} else {
 			this_->assignOctet(SPRIG_KRKR_ARG_OCTET(0));
@@ -284,8 +298,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			this_->assignString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			this_->assignString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1));
 		} else {
 			this_->assignString(SPRIG_KRKR_ARG_STRING(0));
@@ -299,8 +315,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			this_->assignNarrowString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			this_->assignNarrowString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1));
 		} else {
 			this_->assignNarrowString(SPRIG_KRKR_ARG_STRING(0));
@@ -314,8 +332,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			this_->assignStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			this_->assignStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1));
 		} else {
 			this_->assignStorage(SPRIG_KRKR_ARG_STRING(0));
@@ -372,8 +392,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_INSTANCEOF_CHECK(1, SPRIG_KRKR_TJS_W("OctetBuilder"));
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			this_->insertBuilder(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OBJECT(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3));
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			this_->insertBuilder(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OBJECT(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else {
 			this_->insertBuilder(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OBJECT(1));
@@ -387,8 +409,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtOctet);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			this_->insertOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3));
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			this_->insertOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else {
 			this_->insertOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_OCTET(1));
@@ -402,8 +426,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			this_->insertString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3));
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			this_->insertString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else {
 			this_->insertString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1));
@@ -417,8 +443,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			this_->insertNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3));
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			this_->insertNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else {
 			this_->insertNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1));
@@ -432,8 +460,10 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			this_->insertStorage(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3));
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			this_->insertStorage(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1), SPRIG_KRKR_ARG_VARIANT(2));
 		} else {
 			this_->insertStorage(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_STRING(1));
@@ -496,10 +526,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_INSTANCEOF_CHECK(0, SPRIG_KRKR_TJS_W("OctetBuilder"));
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addBuilder(SPRIG_KRKR_ARG_OBJECT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addBuilder(SPRIG_KRKR_ARG_OBJECT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -517,10 +549,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -538,10 +572,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -559,10 +595,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addNarrowString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addNarrowString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -580,10 +618,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->addStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -626,6 +666,7 @@ namespace ktl {
 		TJS_GET_NATIVE_INSTANCE(this_, OctetBuilder);
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			this_->erase(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1));
 		} else {
 			this_->erase(SPRIG_KRKR_ARG_VARIANT(0));
@@ -640,6 +681,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, OctetBuilder);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->pop(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -655,6 +697,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, OctetBuilder);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->shift(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -690,10 +733,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, OctetBuilder);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asBuilder(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asBuilder(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -709,10 +754,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, OctetBuilder);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asOctet(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -728,10 +775,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, OctetBuilder);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -747,10 +796,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, OctetBuilder);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->asNarrowString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -771,10 +822,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->saveStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->saveStorage(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -836,10 +889,12 @@ namespace ktl {
 		TJS_GET_NATIVE_INSTANCE(this_, OctetBuilder);
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_RESULT_SET(
 				this_->findByte(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->findByte(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -893,7 +948,7 @@ static void regist_ktl_octet_builder() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:OctetBuilder:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("OctetBuilder"), ktl::CreateNativeClassOctetBuilder());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("OctetBuilder"), ktl::CreateNativeClassOctetBuilder());
 	}
 }
 static void unregist_ktl_octet_builder() {

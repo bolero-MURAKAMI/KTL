@@ -19,6 +19,7 @@
 #include <boost/preprocessor/wstringize.hpp>
 #include <sprig/external/tp_stub.hpp>
 #include <sprig/external/ncbind/ncbind.hpp>
+#include <sprig/get_pointer.hpp>
 #include <sprig/krkr/tjs.hpp>
 #include <sprig/krkr/macro.hpp>
 #include <sprig/krkr/ncb.hpp>
@@ -90,49 +91,28 @@ static void regist_ktl_dll() {
 			}
 		}
 		if (!ktl_dll) {
-			{
-				iTJSDispatch2* obj = 0;
+			ktl_dll = sprig::krkr::tjs::object_type(
 				sprig::krkr::tjs::CreateNewObject(
 					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-					&obj, 0, 0, 0
-					);
-				ktl_dll = sprig::krkr::tjs::object_type(obj, false);
-			}
-			{
-				tTJSVariant var(ktl_dll.get());
-				sprig::krkr::tjs::AddMemberNoRelease(global.get(), SPRIG_KRKR_TJS_W("ktldll"), ktl_dll.get());
-			}
+					0, 0, 0
+					),
+				false
+				);
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(global), SPRIG_KRKR_TJS_W("ktldll"), tTJSVariant(sprig::get_pointer(ktldll), sprig::get_pointer(ktldll)));
 		}
-		sprig::krkr::tjs::object_type module;
-		{
-			iTJSDispatch2* obj = 0;
+		sprig::krkr::tjs::object_type module(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				&obj, 0, 0, 0
-				);
-			module = sprig::krkr::tjs::object_type(obj, false);
-		}
-		{
-			tTJSVariant var(KTL_VERSION_NUMBER_X(KTL_RC_VERSION));
-			sprig::krkr::tjs::AddMember(module.get(), SPRIG_KRKR_TJS_W("version"), &var);
-		}
-		{
-			tTJSVariant var(KTL_DLL_DEBUG);
-			sprig::krkr::tjs::AddMember(module.get(), SPRIG_KRKR_TJS_W("debug"), &var);
-		}
-		{
-			tTJSVariant var(SPRIG_KRKR_TJS_W(__DATE__));
-			sprig::krkr::tjs::AddMember(module.get(), SPRIG_KRKR_TJS_W("date"), &var);
-		}
-		{
-			tTJSVariant var(SPRIG_KRKR_TJS_W(__TIME__));
-			sprig::krkr::tjs::AddMember(module.get(), SPRIG_KRKR_TJS_W("time"), &var);
-		}
-		{
-			tTJSVariant var(KTL_DLL_PRODUCT);
-			sprig::krkr::tjs::AddMember(module.get(), SPRIG_KRKR_TJS_W("product"), &var);
-		}
-		sprig::krkr::tjs::AddMemberNoRelease(ktl_dll.get(), SPRIG_KRKR_TJS_W(KTL_RC_PROJECT_NAME), module.get());
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(module), SPRIG_KRKR_TJS_W("version"), tTJSVariant(KTL_VERSION_NUMBER_X(KTL_RC_VERSION)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(module), SPRIG_KRKR_TJS_W("debug"), tTJSVariant(KTL_DLL_DEBUG));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(module), SPRIG_KRKR_TJS_W("date"), tTJSVariant(SPRIG_KRKR_TJS_W(__DATE__)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(module), SPRIG_KRKR_TJS_W("time"), tTJSVariant(SPRIG_KRKR_TJS_W(__TIME__)));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(module), SPRIG_KRKR_TJS_W("product"), tTJSVariant(KTL_DLL_PRODUCT));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(ktl_dll), SPRIG_KRKR_TJS_W(KTL_RC_PROJECT_NAME), tTJSVariant(module.get(), module.get()));
 	}
 }
 static void unregist_ktl_dll() {

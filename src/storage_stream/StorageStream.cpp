@@ -68,6 +68,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, StorageStream);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->readOctet(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -83,6 +84,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, StorageStream);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->readString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -98,6 +100,7 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, StorageStream);
 		if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->readNarrowString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -118,10 +121,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->writeOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->writeOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -139,10 +144,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->writeString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->writeString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -160,10 +167,12 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->writeNarrowString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_INVOKE_RESULT_SET(
 				this_->writeNarrowString(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -227,7 +236,7 @@ static void regist_ktl_storage_stream() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:StorageStream:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("StorageStream"), ktl::CreateNativeClassStorageStream());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("StorageStream"), ktl::CreateNativeClassStorageStream());
 	}
 }
 static void unregist_ktl_storage_stream() {

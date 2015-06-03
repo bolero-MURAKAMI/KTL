@@ -91,11 +91,11 @@ namespace ktl {
 		: sprite_buffer_(new sprite_buffer_type())
 		, clear_color_(D3DCOLOR_ARGB(0x00, 0x00, 0x00, 0x00))
 		, layer_obj_(sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Layer")))
-		, layer_buffer_for_write_prop_(sprig::krkr::tjs::GetMemberNoAddRef(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBufferForWrite")))
-		, layer_buffer_prop_(sprig::krkr::tjs::GetMemberNoAddRef(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBuffer")))
-		, layer_pitch_prop_(sprig::krkr::tjs::GetMemberNoAddRef(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBufferPitch")))
-		, layer_image_width_prop_(sprig::krkr::tjs::GetMemberNoAddRef(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("imageWidth")))
-		, layer_image_height_prop_(sprig::krkr::tjs::GetMemberNoAddRef(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("imageHeight")))
+		, layer_buffer_for_write_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBufferForWrite")).AsObjectNoAddRef())
+		, layer_buffer_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBuffer")).AsObjectNoAddRef())
+		, layer_pitch_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBufferPitch")).AsObjectNoAddRef())
+		, layer_image_width_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("imageWidth")).AsObjectNoAddRef())
+		, layer_image_height_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("imageHeight")).AsObjectNoAddRef())
 		, enable_(false)
 		, run_(false)
 		, requested_update_(false)
@@ -590,18 +590,17 @@ namespace ktl {
 				);
 			return result;
 		}
-		{
-			iTJSDispatch2* result_obj = 0;
+		result = result_type(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		{
 			std::deque<key_type>::const_iterator k = key.begin();
 			for (std::size_t i = 0; i != hit; ++i, ++k) {
-				sprig::krkr::tjs::SetPropValue(tTJSVariant(*k), i, sprig::get_pointer(result));
+				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, tTJSVariant(*k));
 			}
 		}
 		return result;
@@ -626,8 +625,8 @@ namespace ktl {
 			}
 			iTJSDispatch2* param_obj = param[i]->AsObjectNoAddRef();
 			point.push_back(coord_type(
-				static_cast<FLOAT>(sprig::krkr::tjs::GetPropValue<tjs_int>(0, param_obj)),
-				static_cast<FLOAT>(sprig::krkr::tjs::GetPropValue<tjs_int>(1, param_obj)),
+				static_cast<FLOAT>(sprig::krkr::tjs::GetPropValue<tjs_int>(param_obj, 0)),
+				static_cast<FLOAT>(sprig::krkr::tjs::GetPropValue<tjs_int>(param_obj, 1)),
 				0.0f
 				));
 		}
@@ -639,19 +638,18 @@ namespace ktl {
 				);
 			return result;
 		}
-		{
-			iTJSDispatch2* result_obj = 0;
+		result = result_type(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		{
 			std::deque<bool>::const_iterator h = hit.begin();
 			std::deque<key_type>::const_iterator k = key.begin();
 			for (std::size_t i = 0; i != numparams; ++i, ++h, ++k) {
-				sprig::krkr::tjs::SetPropValue(*h ? tTJSVariant(*k) : tTJSVariant(), i, sprig::get_pointer(result));
+				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, *h ? tTJSVariant(*k) : tTJSVariant());
 			}
 		}
 		return result;
@@ -676,8 +674,8 @@ namespace ktl {
 			}
 			iTJSDispatch2* param_obj = param[i]->AsObjectNoAddRef();
 			point.push_back(coord_type(
-				static_cast<FLOAT>(sprig::krkr::tjs::GetPropValue<tjs_int>(0, param_obj)),
-				static_cast<FLOAT>(sprig::krkr::tjs::GetPropValue<tjs_int>(1, param_obj)),
+				static_cast<FLOAT>(sprig::krkr::tjs::GetPropValue<tjs_int>(param_obj, 0)),
+				static_cast<FLOAT>(sprig::krkr::tjs::GetPropValue<tjs_int>(param_obj, 1)),
 				0.0f
 				));
 		}
@@ -695,34 +693,29 @@ namespace ktl {
 				return result;
 			}
 		}
-		{
-			iTJSDispatch2* result_obj = 0;
+		result = result_type(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		{
 			std::deque<std::size_t>::const_iterator h = hit.begin();
 			std::deque<std::deque<key_type> >::const_iterator key = keys.begin();
 			for (std::size_t i = 0; i != numparams; ++i, ++h, ++key) {
-				result_type result_elem;
-				{
-					iTJSDispatch2* result_elem_obj = 0;
+				result_type result_elem(
 					sprig::krkr::tjs::CreateNewObject(
 						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-						&result_elem_obj, 0, 0, 0
-						);
-					result_elem = result_type(result_elem_obj, false);
-					tTJSVariant var(result_elem_obj, result_elem_obj);
-					result_elem->AddRef();
-					sprig::krkr::tjs::SetPropValue(var, i, sprig::get_pointer(result));
-				}
+						0, 0, 0
+						),
+					false
+					);
+				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, tTJSVariant(sprig::get_pointer(result_elem), sprig::get_pointer(result_elem)));
 				std::deque<key_type>::const_iterator k = key->begin();
 				std::size_t count = *h;
 				for (std::size_t j = 0; j != count; ++j, ++k) {
-					sprig::krkr::tjs::SetPropValue(tTJSVariant(*k), j, sprig::get_pointer(result_elem));
+					sprig::krkr::tjs::AddMember(sprig::get_pointer(result_elem), j, tTJSVariant(*k));
 				}
 			}
 		}
@@ -743,16 +736,15 @@ namespace ktl {
 		}
 		sprite_drawer_concrete_type sprite_drawer = FindSpriteDrawer(key); \
 		coord_type coord = sprite_drawer->to_local_coord(v);
-		{
-			iTJSDispatch2* result_obj = 0;
+		result = result_type(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
-		sprig::krkr::tjs::SetPropValue(coord.x, 0, sprig::get_pointer(result));
-		sprig::krkr::tjs::SetPropValue(coord.y, 1, sprig::get_pointer(result));
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, coord.x);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, coord.y);
 		return result;
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativeSprites::toGlobalCoord(
@@ -767,16 +759,15 @@ namespace ktl {
 		}
 		sprite_drawer_concrete_type sprite_drawer = FindSpriteDrawer(key); \
 		coord_type coord = sprite_drawer->to_global_coord(v);
-		{
-			iTJSDispatch2* result_obj = 0;
+		result = result_type(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
-		sprig::krkr::tjs::SetPropValue(coord.x, 0, sprig::get_pointer(result));
-		sprig::krkr::tjs::SetPropValue(coord.y, 1, sprig::get_pointer(result));
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, coord.x);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, coord.y);
 		return result;
 	}
 	//
@@ -868,15 +859,23 @@ namespace ktl {
 		if (params && params->Type() == tvtObject) {
 			sprig::krkr::tjs::object_type obj = params->AsObjectNoAddRef();
 			NativeSprites::init_params_type sbip;
-			tTJSVariant v;
-			if (sprig::krkr::tjs::MemberGet(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("name"), &v)->Type() != tvtVoid) {
-				sbip.name = static_cast<tTJSString>(v).c_str();
+			{
+				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("name"));
+				if (v.Type() != tvtVoid) {
+					sbip.name = static_cast<tTJSString>(v).c_str();
+				}
 			}
-			if (sprig::krkr::tjs::MemberGet(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("width"), &v)->Type() != tvtVoid) {
-				sbip.tmip.width = static_cast<tjs_int>(v);
+			{
+				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("width"));
+				if (v.Type() != tvtVoid) {
+					sbip.tmip.width = static_cast<tjs_int>(v);
+				}
 			}
-			if (sprig::krkr::tjs::MemberGet(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("height"), &v)->Type() != tvtVoid) {
-				sbip.tmip.height = static_cast<tjs_int>(v);
+			{
+				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("height"));
+				if (v.Type() != tvtVoid) {
+					sbip.tmip.height = static_cast<tjs_int>(v);
+				}
 			}
 			sbip.tmip.format = D3DFMT_A8R8G8B8;
 			result = SUCCEEDED(instance_->initialize(sbip));
@@ -933,12 +932,17 @@ namespace ktl {
 		if (params && params->Type() == tvtObject) {
 			sprig::krkr::tjs::object_type obj = params->AsObjectNoAddRef();
 			sprig::dg::texture_manager_init_params tmip;
-			tTJSVariant v;
-			if (sprig::krkr::tjs::MemberGet(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("width"), &v)->Type() != tvtVoid) {
-				tmip.width = static_cast<tjs_int>(v);
+			{
+				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("width"));
+				if (v.Type() != tvtVoid) {
+					tmip.width = static_cast<tjs_int>(v);
+				}
 			}
-			if (sprig::krkr::tjs::MemberGet(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("height"), &v)->Type() != tvtVoid) {
-				tmip.height = static_cast<tjs_int>(v);
+			{
+				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("height"));
+				if (v.Type() != tvtVoid) {
+					tmip.height = static_cast<tjs_int>(v);
+				}
 			}
 			tmip.format = D3DFMT_A8R8G8B8;
 			return result = instance_->generateSpriteDrawer(key, priority, tmip);

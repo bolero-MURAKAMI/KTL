@@ -1279,6 +1279,7 @@ namespace ktl {
 					std::istream reading_istream(reading_streambuf_.get());
 					reading_istream.read(&cr_lf[0], readable_size);
 				}
+				chunk_size = 0;
 			} else {
 				{
 					impl_string_type chunk_size_piece;

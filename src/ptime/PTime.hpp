@@ -36,20 +36,21 @@ namespace ktl {
 	//
 	KTL_INLINE sprig::krkr::tjs::intptr_type NativePTime::getInstance(iTJSDispatch2* obj) {
 		return sprig::krkr::tjs::GetPropValue<sprig::krkr::tjs::intptr_type>(
-			sprig::krkr::tjs::GetMemberNoAddRef(
+			sprig::krkr::tjs::GetClassMember(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("PTime")),
 				SPRIG_KRKR_TJS_W("instance")
-				),
+				).AsObjectNoAddRef(),
 			obj
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativePTime::createNew(tjs_int numparams, tTJSVariant** param) {
-		iTJSDispatch2* result_obj = 0;
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("PTime")),
-			&result_obj, numparams, param, 0
+		return sprig::krkr::tjs::object_type(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("PTime")),
+				numparams, param, 0
+				),
+			false
 			);
-		return sprig::krkr::tjs::object_type(result_obj, false);
 	}
 	NativePTime::NativePTime()
 		: ptime_(date_type(1970, 1, 1))

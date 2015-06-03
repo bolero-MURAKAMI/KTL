@@ -95,12 +95,13 @@ namespace ktl {
 		{}
 		RandomResult(boost::random::uniform_on_sphere<tTVReal>::result_type const& t) {
 			typedef boost::random::uniform_on_sphere<tTVReal>::result_type const range_type;
-			iTJSDispatch2* result_obj = 0;
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
+			sprig::krkr::tjs::object_type obj(
+				sprig::krkr::tjs::CreateNewObject(
+					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+					0, 0, 0
+					),
+				false
 				);
-			sprig::krkr::tjs::object_type obj(result_obj, false);
 			{
 				tjs_int num = 0;
 				BOOST_FOREACH(boost::range_reference<range_type>::type e, t) {
@@ -309,13 +310,7 @@ namespace ktl {
 		BOOST_MPL_ASSERT((boost::mpl::equal_to<boost::mpl::size<distribution_seq_type>, boost::mpl::size_t<KTL_VARIATE_RANDOM_DISTRIBUTION_SEQ_NUM> >));
 	public:
 		static sprig::krkr::tjs::intptr_type getBase(iTJSDispatch2* obj) {
-			tTJSVariant result;
-			sprig::krkr::tjs::MemberGet(
-				obj,
-				SPRIG_KRKR_TJS_W("base"),
-				&result
-				);
-			return static_cast<sprig::krkr::tjs::intptr_type>(result);
+			return static_cast<sprig::krkr::tjs::intptr_type>(sprig::krkr::tjs::GetMember(obj, SPRIG_KRKR_TJS_W("base")));
 		}
 	};
 	//

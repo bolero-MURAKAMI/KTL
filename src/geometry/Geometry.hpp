@@ -10,7 +10,7 @@
 
 #include <boost/smart_ptr/make_shared.hpp>
 #include <boost/numeric/conversion/cast.hpp>
-#include <boost/type_traits/common_type.hpp>
+#include <boost/mpl/identity.hpp>
 #include <boost/geometry.hpp>
 #include <boost/geometry/algorithms/is_valid.hpp>
 #include <boost/geometry/algorithms/is_simple.hpp>
@@ -20,6 +20,7 @@
 #include <boost/geometry/algorithms/perimeter.hpp>
 #include <boost/geometry/algorithms/area.hpp>
 #include <boost/geometry/algorithms/centroid.hpp>
+#include <boost/geometry/algorithms/envelope.hpp>
 #include <boost/geometry/algorithms/transform.hpp>
 #include <boost/geometry/algorithms/disjoint.hpp>
 #include <boost/geometry/algorithms/covered_by.hpp>
@@ -28,6 +29,7 @@
 #include <boost/geometry/algorithms/overlaps.hpp>
 #include <boost/geometry/algorithms/crosses.hpp>
 #include <boost/geometry/algorithms/distance.hpp>
+#include <boost/geometry/algorithms/not_implemented.hpp>
 #include <sprig/external/tp_stub.hpp>
 #include <sprig/get_pointer.hpp>
 #include <sprig/geometry/algorithms/is_not_implemented.hpp>
@@ -90,6 +92,56 @@ namespace ktl {
 		}
 	};
 
+	template<typename G>
+	class NativeGeometry::Intersects1Dispatch
+		: public boost::geometry::not_implemented<G>
+	{};
+	template<>
+	class NativeGeometry::Intersects1Dispatch<NativeGeometry::linestring_type>
+		: public boost::mpl::identity<NativeGeometry::linestring_type>
+	{};
+	template<>
+	class NativeGeometry::Intersects1Dispatch<NativeGeometry::ring_type>
+		: public boost::mpl::identity<NativeGeometry::ring_type>
+	{};
+	template<>
+	class NativeGeometry::Intersects1Dispatch<NativeGeometry::polygon_type>
+		: public boost::mpl::identity<NativeGeometry::polygon_type>
+	{};
+	template<>
+	class NativeGeometry::Intersects1Dispatch<NativeGeometry::multi_linestring_type>
+		: public boost::mpl::identity<NativeGeometry::multi_linestring_type>
+	{};
+	template<>
+	class NativeGeometry::Intersects1Dispatch<NativeGeometry::multi_polygon_type>
+		: public boost::mpl::identity<NativeGeometry::multi_polygon_type>
+	{};
+
+	template<typename G>
+	class NativeGeometry::Touches1Dispatch
+		: public boost::geometry::not_implemented<G>
+	{};
+	template<>
+	class NativeGeometry::Touches1Dispatch<NativeGeometry::linestring_type>
+		: public boost::mpl::identity<NativeGeometry::linestring_type>
+	{};
+	template<>
+	class NativeGeometry::Touches1Dispatch<NativeGeometry::ring_type>
+		: public boost::mpl::identity<NativeGeometry::ring_type>
+	{};
+	template<>
+	class NativeGeometry::Touches1Dispatch<NativeGeometry::polygon_type>
+		: public boost::mpl::identity<NativeGeometry::polygon_type>
+	{};
+	template<>
+	class NativeGeometry::Touches1Dispatch<NativeGeometry::multi_linestring_type>
+		: public boost::mpl::identity<NativeGeometry::multi_linestring_type>
+	{};
+	template<>
+	class NativeGeometry::Touches1Dispatch<NativeGeometry::multi_polygon_type>
+		: public boost::mpl::identity<NativeGeometry::multi_polygon_type>
+	{};
+
 	template<typename G0, typename G1>
 	class NativeGeometry::DisjointDispatch
 		: public boost::geometry::dispatch::disjoint<G0, G1>
@@ -135,6 +187,68 @@ namespace ktl {
 		: public boost::geometry::not_implemented<multi_polygon_type, multi_point_type>
 	{};
 
+	template<typename G0, typename G1>
+	class NativeGeometry::TouchesDispatch
+		: public boost::geometry::dispatch::touches<G0, G1>
+	{};
+	template<>
+	class NativeGeometry::TouchesDispatch<NativeGeometry::point_type, NativeGeometry::point_type>
+		: public boost::geometry::not_implemented<point_type, point_type>
+	{};
+	template<>
+	class NativeGeometry::TouchesDispatch<NativeGeometry::point_type, NativeGeometry::box_type>
+		: public boost::geometry::not_implemented<point_type, box_type>
+	{};
+	template<>
+	class NativeGeometry::TouchesDispatch<NativeGeometry::point_type, NativeGeometry::multi_point_type>
+		: public boost::geometry::not_implemented<point_type, multi_point_type>
+	{};
+	template<>
+	class NativeGeometry::TouchesDispatch<NativeGeometry::box_type, NativeGeometry::point_type>
+		: public boost::geometry::not_implemented<box_type, point_type>
+	{};
+	template<>
+	class NativeGeometry::TouchesDispatch<NativeGeometry::multi_point_type, NativeGeometry::point_type>
+		: public boost::geometry::not_implemented<multi_point_type, point_type>
+	{};
+	template<>
+	class NativeGeometry::TouchesDispatch<NativeGeometry::polygon_type, NativeGeometry::multi_linestring_type>
+		: public boost::geometry::not_implemented<polygon_type, multi_linestring_type>
+	{};
+	template<>
+	class NativeGeometry::TouchesDispatch<NativeGeometry::multi_linestring_type, NativeGeometry::polygon_type>
+		: public boost::geometry::not_implemented<multi_linestring_type, polygon_type>
+	{};
+
+	template<typename G0, typename G1>
+	class NativeGeometry::CrossesDispatch
+		: public boost::geometry::dispatch::crosses<G0, G1>
+	{};
+	template<>
+	class NativeGeometry::CrossesDispatch<NativeGeometry::ring_type, NativeGeometry::linestring_type>
+		: public boost::geometry::not_implemented<ring_type, linestring_type>
+	{};
+	template<>
+	class NativeGeometry::CrossesDispatch<NativeGeometry::ring_type, NativeGeometry::multi_linestring_type>
+		: public boost::geometry::not_implemented<ring_type, multi_linestring_type>
+	{};
+	template<>
+	class NativeGeometry::CrossesDispatch<NativeGeometry::polygon_type, NativeGeometry::linestring_type>
+		: public boost::geometry::not_implemented<polygon_type, linestring_type>
+	{};
+	template<>
+	class NativeGeometry::CrossesDispatch<NativeGeometry::polygon_type, NativeGeometry::multi_linestring_type>
+		: public boost::geometry::not_implemented<polygon_type, multi_linestring_type>
+	{};
+	template<>
+	class NativeGeometry::CrossesDispatch<NativeGeometry::multi_polygon_type, NativeGeometry::linestring_type>
+		: public boost::geometry::not_implemented<multi_polygon_type, linestring_type>
+	{};
+	template<>
+	class NativeGeometry::CrossesDispatch<NativeGeometry::multi_polygon_type, NativeGeometry::multi_linestring_type>
+		: public boost::geometry::not_implemented<multi_polygon_type, multi_linestring_type>
+	{};
+
 #define KTL_GEOMETRY_UNARY_FUNC_DEF(NAME, RESULT, FUNC, DISP) \
 	class NativeGeometry::NAME \
 		: public UnaryFuncBase<RESULT, NAME> \
@@ -155,12 +269,13 @@ namespace ktl {
 	}
 	KTL_GEOMETRY_UNARY_FUNC_DEF(IsValidFunc, bool, boost::geometry::is_valid, boost::geometry::dispatch::is_valid);
 	KTL_GEOMETRY_UNARY_FUNC_DEF(IsSimpleFunc, bool, boost::geometry::is_simple, boost::geometry::dispatch::is_simple);
-	//KTL_GEOMETRY_UNARY_FUNC_DEF(Intersects1Func, bool, boost::geometry::intersects, boost::common_type);
-	//KTL_GEOMETRY_UNARY_FUNC_DEF(Touches1Func, bool, boost::geometry::touches, boost::common_type);
+	KTL_GEOMETRY_UNARY_FUNC_DEF(Intersects1Func, bool, boost::geometry::intersects, Intersects1Dispatch);
+	KTL_GEOMETRY_UNARY_FUNC_DEF(Touches1Func, bool, boost::geometry::touches, Touches1Dispatch);
 	KTL_GEOMETRY_UNARY_FUNC_DEF(LengthFunc, element_type, boost::geometry::length, boost::geometry::dispatch::length);
 	KTL_GEOMETRY_UNARY_FUNC_DEF(PerimeterFunc, element_type, boost::geometry::perimeter, boost::geometry::dispatch::perimeter);
 	KTL_GEOMETRY_UNARY_FUNC_DEF(AreaFunc, element_type, boost::geometry::area, boost::geometry::dispatch::area);
 	KTL_GEOMETRY_UNARY_FUNC_DEF(CentroidFunc, point_type, boost::geometry::return_centroid<point_type>, boost::geometry::dispatch::centroid);
+	KTL_GEOMETRY_UNARY_FUNC_DEF(EnvelopeFunc, box_type, boost::geometry::return_envelope<box_type>, boost::geometry::dispatch::envelope);
 
 #define KTL_GEOMETRY_BINARY_FUNC_DEF(NAME, RESULT, FUNC, DISP) \
 	class NativeGeometry::NAME \
@@ -186,26 +301,26 @@ namespace ktl {
 	KTL_GEOMETRY_BINARY_FUNC_DEF(WithinFunc, bool, boost::geometry::within, boost::geometry::dispatch::within);
 	KTL_GEOMETRY_BINARY_FUNC_DEF(EqualsFunc, bool, boost::geometry::equals, boost::geometry::dispatch::equals);
 	KTL_GEOMETRY_BINARY_FUNC_DEF(OverlapsFunc, bool, boost::geometry::overlaps, boost::geometry::dispatch::overlaps);
-	KTL_GEOMETRY_BINARY_FUNC_DEF(TouchesFunc, bool, boost::geometry::touches, boost::geometry::dispatch::touches);
-	//KTL_GEOMETRY_BINARY_FUNC_DEF(CrossesFunc, bool, boost::geometry::crosses, boost::geometry::dispatch::crosses);
+	KTL_GEOMETRY_BINARY_FUNC_DEF(TouchesFunc, bool, boost::geometry::touches, TouchesDispatch);
+	KTL_GEOMETRY_BINARY_FUNC_DEF(CrossesFunc, bool, boost::geometry::crosses, CrossesDispatch);
 	KTL_GEOMETRY_BINARY_FUNC_DEF(DistanceFunc, element_type, boost::geometry::distance, boost::geometry::dispatch::distance);
 
 	KTL_INLINE NativeGeometry::point_type NativeGeometry::to_point(tTJSVariantClosure const& g) {
 		return point_type(
-			sprig::krkr::tjs::GetPropValue<tTVReal>(0, g),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(1, g)
+			sprig::krkr::tjs::GetPropValue<tTVReal>(g, 0),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(g, 1)
 			);
 	}
 	KTL_INLINE NativeGeometry::segment_type NativeGeometry::to_segment(tTJSVariantClosure const& g) {
 		return segment_type(
-			to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(0, g).AsObjectClosureNoAddRef()),
-			to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(1, g).AsObjectClosureNoAddRef())
+			to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, 0).AsObjectClosureNoAddRef()),
+			to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, 1).AsObjectClosureNoAddRef())
 			);
 	}
 	KTL_INLINE NativeGeometry::box_type NativeGeometry::to_box(tTJSVariantClosure const& g) {
 		return box_type(
-			to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(0, g).AsObjectClosureNoAddRef()),
-			to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(1, g).AsObjectClosureNoAddRef())
+			to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, 0).AsObjectClosureNoAddRef()),
+			to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, 1).AsObjectClosureNoAddRef())
 			);
 	}
 	KTL_INLINE NativeGeometry::linestring_type NativeGeometry::to_linestring(tTJSVariantClosure const& g) {
@@ -213,7 +328,7 @@ namespace ktl {
 		tjs_int count = sprig::krkr::tjs::GetPropValue<tjs_int>(g, SPRIG_KRKR_TJS_W("count"));
 		for (tjs_int i = 0; i != count; ++i) {
 			result.push_back(
-				to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(i, g).AsObjectClosureNoAddRef())
+				to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, i).AsObjectClosureNoAddRef())
 				);
 		}
 		return result;
@@ -223,7 +338,7 @@ namespace ktl {
 		tjs_int count = sprig::krkr::tjs::GetPropValue<tjs_int>(g, SPRIG_KRKR_TJS_W("count"));
 		for (tjs_int i = 0; i != count; ++i) {
 			result.push_back(
-				to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(i, g).AsObjectClosureNoAddRef())
+				to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, i).AsObjectClosureNoAddRef())
 				);
 		}
 		return result;
@@ -231,14 +346,14 @@ namespace ktl {
 	KTL_INLINE NativeGeometry::polygon_type NativeGeometry::to_polygon(tTJSVariantClosure const& g) {
 		polygon_type result;
 		boost::geometry::exterior_ring(result)
-			= to_ring(sprig::krkr::tjs::GetPropValue<tTJSVariant>(0, g).AsObjectClosureNoAddRef())
+			= to_ring(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, 0).AsObjectClosureNoAddRef())
 			;
 		{
-			tTJSVariantClosure inners = sprig::krkr::tjs::GetPropValue<tTJSVariant>(1, g).AsObjectClosureNoAddRef();
+			tTJSVariantClosure inners = sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, 1).AsObjectClosureNoAddRef();
 			tjs_int inners_count = sprig::krkr::tjs::GetPropValue<tjs_int>(inners, SPRIG_KRKR_TJS_W("count"));
 			for (tjs_int i = 0; i != inners_count; ++i) {
 				boost::geometry::interior_rings(result).push_back(
-					to_ring(sprig::krkr::tjs::GetPropValue<tTJSVariant>(i, inners).AsObjectClosureNoAddRef())
+					to_ring(sprig::krkr::tjs::GetPropValue<tTJSVariant>(inners, i).AsObjectClosureNoAddRef())
 					);
 			}
 		}
@@ -249,7 +364,7 @@ namespace ktl {
 		tjs_int count = sprig::krkr::tjs::GetPropValue<tjs_int>(g, SPRIG_KRKR_TJS_W("count"));
 		for (tjs_int i = 0; i != count; ++i) {
 			result.push_back(
-				to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(i, g).AsObjectClosureNoAddRef())
+				to_point(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, i).AsObjectClosureNoAddRef())
 				);
 		}
 		return result;
@@ -259,7 +374,7 @@ namespace ktl {
 		tjs_int count = sprig::krkr::tjs::GetPropValue<tjs_int>(g, SPRIG_KRKR_TJS_W("count"));
 		for (tjs_int i = 0; i != count; ++i) {
 			result.push_back(
-				to_linestring(sprig::krkr::tjs::GetPropValue<tTJSVariant>(i, g).AsObjectClosureNoAddRef())
+				to_linestring(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, i).AsObjectClosureNoAddRef())
 				);
 		}
 		return result;
@@ -269,7 +384,7 @@ namespace ktl {
 		tjs_int count = sprig::krkr::tjs::GetPropValue<tjs_int>(g, SPRIG_KRKR_TJS_W("count"));
 		for (tjs_int i = 0; i != count; ++i) {
 			result.push_back(
-				to_polygon(sprig::krkr::tjs::GetPropValue<tTJSVariant>(i, g).AsObjectClosureNoAddRef())
+				to_polygon(sprig::krkr::tjs::GetPropValue<tTJSVariant>(g, i).AsObjectClosureNoAddRef())
 				);
 		}
 		return result;
@@ -277,23 +392,23 @@ namespace ktl {
 	KTL_INLINE NativeGeometry::translate_type NativeGeometry::to_translate(tTJSVariant const& s) {
 		tTJSVariantClosure c = s.AsObjectClosureNoAddRef();
 		return translate_type(
-			sprig::krkr::tjs::GetPropValue<tTVReal>(0, c),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(1, c)
+			sprig::krkr::tjs::GetPropValue<tTVReal>(c, 0),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(c, 1)
 			);
 	}
 	KTL_INLINE NativeGeometry::translate_type NativeGeometry::to_negate_translate(tTJSVariant const& s) {
 		tTJSVariantClosure c = s.AsObjectClosureNoAddRef();
 		return translate_type(
-			-sprig::krkr::tjs::GetPropValue<tTVReal>(0, c),
-			-sprig::krkr::tjs::GetPropValue<tTVReal>(1, c)
+			-sprig::krkr::tjs::GetPropValue<tTVReal>(c, 0),
+			-sprig::krkr::tjs::GetPropValue<tTVReal>(c, 1)
 			);
 	}
 	KTL_INLINE NativeGeometry::scale_type NativeGeometry::to_scale(tTJSVariant const& s) {
 		if (s.Type() == tvtObject) {
 			tTJSVariantClosure c = s.AsObjectClosureNoAddRef();
 			return scale_type(
-				sprig::krkr::tjs::GetPropValue<tTVReal>(0, c),
-				sprig::krkr::tjs::GetPropValue<tTVReal>(1, c)
+				sprig::krkr::tjs::GetPropValue<tTVReal>(c, 0),
+				sprig::krkr::tjs::GetPropValue<tTVReal>(c, 1)
 				);
 		}
 		return scale_type(
@@ -308,50 +423,44 @@ namespace ktl {
 	KTL_INLINE NativeGeometry::matrix_type NativeGeometry::to_matrix(tTJSVariant const& s) {
 		tTJSVariantClosure c = s.AsObjectClosureNoAddRef();
 		tTJSVariantClosure cs[3] = {
-			sprig::krkr::tjs::GetPropValue<tTJSVariant>(0, c).AsObjectClosureNoAddRef(),
-			sprig::krkr::tjs::GetPropValue<tTJSVariant>(1, c).AsObjectClosureNoAddRef(),
-			sprig::krkr::tjs::GetPropValue<tTJSVariant>(2, c).AsObjectClosureNoAddRef()
+			sprig::krkr::tjs::GetPropValue<tTJSVariant>(c, 0).AsObjectClosureNoAddRef(),
+			sprig::krkr::tjs::GetPropValue<tTJSVariant>(c, 1).AsObjectClosureNoAddRef(),
+			sprig::krkr::tjs::GetPropValue<tTJSVariant>(c, 2).AsObjectClosureNoAddRef()
 		};
 		return matrix_type(
-			sprig::krkr::tjs::GetPropValue<tTVReal>(0, cs[0]),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(1, cs[0]),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(2, cs[0]),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(0, cs[1]),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(1, cs[1]),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(2, cs[1]),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(0, cs[2]),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(1, cs[2]),
-			sprig::krkr::tjs::GetPropValue<tTVReal>(2, cs[2])
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[0], 0),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[0], 1),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[0], 2),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[1], 0),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[1], 1),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[1], 2),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[2], 0),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[2], 1),
+			sprig::krkr::tjs::GetPropValue<tTVReal>(cs[2], 2)
 			);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(point_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
-		sprig::krkr::tjs::SetPropValue(tTJSVariant(g.x()), 0, sprig::get_pointer(result));
-		sprig::krkr::tjs::SetPropValue(tTJSVariant(g.y()), 1, sprig::get_pointer(result));
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(g.x()));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(g.y()));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(segment_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
-		sprig::krkr::tjs::SetPropValue(to_variant(g.first), 0, sprig::get_pointer(result));
-		sprig::krkr::tjs::SetPropValue(to_variant(g.second), 1, sprig::get_pointer(result));
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, to_variant(g.first));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, to_variant(g.second));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(box_type const& g) {
@@ -365,116 +474,96 @@ namespace ktl {
 				);
 			result = result_type(result_obj, false);
 		}
-		sprig::krkr::tjs::SetPropValue(to_variant(g.min_corner()), 0, sprig::get_pointer(result));
-		sprig::krkr::tjs::SetPropValue(to_variant(g.max_corner()), 1, sprig::get_pointer(result));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, to_variant(g.min_corner()));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, to_variant(g.max_corner()));
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(linestring_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::SetPropValue(to_variant(g.at(i)), i, sprig::get_pointer(result));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
 		}
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(ring_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::SetPropValue(to_variant(g.at(i)), i, sprig::get_pointer(result));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
 		}
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(polygon_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
-		sprig::krkr::tjs::SetPropValue(to_variant(boost::geometry::exterior_ring(g)), 0, sprig::get_pointer(result));
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, to_variant(boost::geometry::exterior_ring(g)));
 		{
-			result_type inners;
-			{
-				iTJSDispatch2* inners_obj = 0;
+			sprig::krkr::tjs::object_type inners(
 				sprig::krkr::tjs::CreateNewObject(
 					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-					&inners_obj, 0, 0, 0
-					);
-				inners = result_type(inners_obj, false);
-			}
+					0, 0, 0
+					),
+				false
+				);
 			for (tjs_int i = 0, size = boost::geometry::interior_rings(g).size(); i != size; ++i) {
-				sprig::krkr::tjs::SetPropValue(to_variant(boost::geometry::interior_rings(g).at(i)), i, sprig::get_pointer(inners));
+				sprig::krkr::tjs::AddMember(sprig::get_pointer(inners), i, to_variant(boost::geometry::interior_rings(g).at(i)));
 			}
-			sprig::krkr::tjs::SetPropValue(tTJSVariant(inners.get(), inners.get()), 1, sprig::get_pointer(result));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(sprig::get_pointer(inners), sprig::get_pointer(inners)));
 		}
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(multi_point_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::SetPropValue(to_variant(g.at(i)), i, sprig::get_pointer(result));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
 		}
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(multi_linestring_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::SetPropValue(to_variant(g.at(i)), i, sprig::get_pointer(result));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
 		}
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(multi_polygon_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
+				0, 0, 0
+				),
+			false
+			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::SetPropValue(to_variant(g.at(i)), i, sprig::get_pointer(result));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
 		}
 		return tTJSVariant(result.get(), result.get());
 	}
@@ -887,12 +976,12 @@ namespace ktl {
 	KTL_INLINE bool NativeGeometry::isSimple(tTJSVariantClosure const& g, flag_type f) {
 		return dispatch(IsSimpleFunc(), g, f);
 	}
-	//KTL_INLINE bool NativeGeometry::intersects(tTJSVariantClosure const& g, flag_type f) {
-	//	return dispatch(Intersects1Func(), g, f);
-	//}
-	//KTL_INLINE bool NativeGeometry::touches(tTJSVariantClosure const& g, flag_type f) {
-	//	return dispatch(Touches1Func(), g, f);
-	//}
+	KTL_INLINE bool NativeGeometry::intersects(tTJSVariantClosure const& g, flag_type f) {
+		return dispatch(Intersects1Func(), g, f);
+	}
+	KTL_INLINE bool NativeGeometry::touches(tTJSVariantClosure const& g, flag_type f) {
+		return dispatch(Touches1Func(), g, f);
+	}
 	KTL_INLINE NativeGeometry::element_type NativeGeometry::length(tTJSVariantClosure const& g, flag_type f) {
 		return dispatch(LengthFunc(), g, f);
 	}
@@ -903,19 +992,51 @@ namespace ktl {
 		return dispatch(AreaFunc(), g, f);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::centroid(tTJSVariantClosure const& g, flag_type f) {
-		typedef sprig::krkr::tjs::object_type result_type;
 		point_type p = dispatch(CentroidFunc(), g, f);
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
+		sprig::krkr::tjs::object_type result(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
+				0, 0, 0
+				),
+			false
+			);
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(p.x()));
+		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(p.y()));
+		return tTJSVariant(result.get(), result.get());
+	}
+	KTL_INLINE tTJSVariant NativeGeometry::envelope(tTJSVariantClosure const& g, flag_type f) {
+		box_type p = dispatch(EnvelopeFunc(), g, f);
+		sprig::krkr::tjs::object_type result(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
+				),
+			false
+			);
+		{
+			sprig::krkr::tjs::object_type elem(
+				sprig::krkr::tjs::CreateNewObject(
+					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+					0, 0, 0
+					),
+				false
 				);
-			result = result_type(result_obj, false);
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), 0, tTJSVariant(p.min_corner().x()));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), 1, tTJSVariant(p.min_corner().y()));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(sprig::get_pointer(elem), sprig::get_pointer(elem)));
 		}
-		sprig::krkr::tjs::SetPropValue(tTJSVariant(p.x()), 0, sprig::get_pointer(result));
-		sprig::krkr::tjs::SetPropValue(tTJSVariant(p.y()), 1, sprig::get_pointer(result));
+		{
+			sprig::krkr::tjs::object_type elem(
+				sprig::krkr::tjs::CreateNewObject(
+					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+					0, 0, 0
+					),
+				false
+				);
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), 0, tTJSVariant(p.max_corner().x()));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), 1, tTJSVariant(p.max_corner().y()));
+			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(sprig::get_pointer(elem), sprig::get_pointer(elem)));
+		}
 		return tTJSVariant(result.get(), result.get());
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::translate(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t) {
@@ -957,12 +1078,12 @@ namespace ktl {
 	KTL_INLINE bool NativeGeometry::overlaps(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
 		return dispatch(OverlapsFunc(), g0, f0, g1, f1);
 	}
-	//KTL_INLINE bool NativeGeometry::touches(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
-	//	return dispatch(TouchesFunc(), g0, f0, g1, f1);
-	//}
-	//KTL_INLINE bool NativeGeometry::crosses(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
-	//	return dispatch(CrossesFunc(), g0, f0, g1, f1);
-	//}
+	KTL_INLINE bool NativeGeometry::touches(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+		return dispatch(TouchesFunc(), g0, f0, g1, f1);
+	}
+	KTL_INLINE bool NativeGeometry::crosses(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
+		return dispatch(CrossesFunc(), g0, f0, g1, f1);
+	}
 	KTL_INLINE NativeGeometry::element_type NativeGeometry::distance(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1) {
 		return dispatch(DistanceFunc(), g0, f0, g1, f1);
 	}
@@ -998,16 +1119,16 @@ namespace ktl {
 			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 			);
 	}
-	//KTL_INLINE bool Geometry::intersects(tTJSVariantClosure const& g, tTVInteger f) {
-	//	return NativeGeometry::intersects(
-	//		g, boost::numeric_cast<NativeGeometry::flag_type>(f)
-	//		);
-	//}
-	//KTL_INLINE bool Geometry::touches(tTJSVariantClosure const& g, tTVInteger f) {
-	//	return NativeGeometry::touches(
-	//		g, boost::numeric_cast<NativeGeometry::flag_type>(f)
-	//		);
-	//}
+	KTL_INLINE bool Geometry::intersects(tTJSVariantClosure const& g, tTVInteger f) {
+		return NativeGeometry::intersects(
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
+			);
+	}
+	KTL_INLINE bool Geometry::touches(tTJSVariantClosure const& g, tTVInteger f) {
+		return NativeGeometry::touches(
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
+			);
+	}
 	KTL_INLINE tTVReal Geometry::length(tTJSVariantClosure const& g, tTVInteger f) {
 		return NativeGeometry::length(
 			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
@@ -1025,6 +1146,11 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant Geometry::centroid(tTJSVariantClosure const& g, tTVInteger f) {
 		return NativeGeometry::centroid(
+			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
+			);
+	}
+	KTL_INLINE tTJSVariant Geometry::envelope(tTJSVariantClosure const& g, tTVInteger f) {
+		return NativeGeometry::envelope(
 			g, boost::numeric_cast<NativeGeometry::flag_type>(f)
 			);
 	}
@@ -1103,18 +1229,18 @@ namespace ktl {
 			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
 			);
 	}
-	//KTL_INLINE bool Geometry::touches(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
-	//	return NativeGeometry::touches(
-	//		g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
-	//		g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
-	//		);
-	//}
-	//KTL_INLINE bool Geometry::crosses(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
-	//	return NativeGeometry::crosses(
-	//		g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
-	//		g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
-	//		);
-	//}
+	KTL_INLINE bool Geometry::touches(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
+		return NativeGeometry::touches(
+			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
+			);
+	}
+	KTL_INLINE bool Geometry::crosses(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
+		return NativeGeometry::crosses(
+			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),
+			g1, boost::numeric_cast<NativeGeometry::flag_type>(f1)
+			);
+	}
 	KTL_INLINE tTVReal Geometry::distance(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1) {
 		return NativeGeometry::distance(
 			g0, boost::numeric_cast<NativeGeometry::flag_type>(f0),

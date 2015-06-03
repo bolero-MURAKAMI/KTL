@@ -264,41 +264,41 @@ static void regist_ktl_random_distribution() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:RandomDistribution:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("UniformSmallint"), ktl::CreateNativeClassUniformSmallint());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("UniformSmallint"), ktl::CreateNativeClassUniformSmallint());
 		{
 			sprig::krkr::tjs::object_type obj(ktl::CreateNativeClassUniformIntDistribution(), false);
-			sprig::krkr::tjs::AddMemberNoRelease(global.get(), SPRIG_KRKR_TJS_W("UniformIntDistribution"), obj.get());
-			sprig::krkr::tjs::AddMemberNoRelease(global.get(), SPRIG_KRKR_TJS_W("UniformInt"), obj.get());
+			sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("UniformIntDistribution"), tTJSVariant(obj.get()));
+			sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("UniformInt"), tTJSVariant(obj.get()));
 		}
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Uniform01"), ktl::CreateNativeClassUniform01());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Uniform01"), ktl::CreateNativeClassUniform01());
 		{
 			sprig::krkr::tjs::object_type obj(ktl::CreateNativeClassUniformRealDistribution(), false);
-			sprig::krkr::tjs::AddMemberNoRelease(global.get(), SPRIG_KRKR_TJS_W("UniformRealDistribution"), obj.get());
-			sprig::krkr::tjs::AddMemberNoRelease(global.get(), SPRIG_KRKR_TJS_W("UniformReal"), obj.get());
+			sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("UniformRealDistribution"), tTJSVariant(obj.get()));
+			sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("UniformReal"), tTJSVariant(obj.get()));
 		}
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("BernoulliDistribution"), ktl::CreateNativeClassBernoulliDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("BinomialDistribution"), ktl::CreateNativeClassBinomialDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("GeometricDistribution"), ktl::CreateNativeClassGeometricDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("NegativeBinomialDistribution"), ktl::CreateNativeClassNegativeBinomialDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("PoissonDistribution"), ktl::CreateNativeClassPoissonDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("ExponentialDistribution"), ktl::CreateNativeClassExponentialDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("GammaDistribution"), ktl::CreateNativeClassGammaDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("WeibullDistribution"), ktl::CreateNativeClassWeibullDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("ExtremeValueDistribution"), ktl::CreateNativeClassExtremeValueDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("BetaDistribution"), ktl::CreateNativeClassBetaDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("LaplaceDistribution"), ktl::CreateNativeClassLaplaceDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("NormalDistribution"), ktl::CreateNativeClassNormalDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("LognormalDistribution"), ktl::CreateNativeClassLognormalDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("ChiSquaredDistribution"), ktl::CreateNativeClassChiSquaredDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("NonCentralChiSquaredDistribution"), ktl::CreateNativeClassNonCentralChiSquaredDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("CauchyDistribution"), ktl::CreateNativeClassCauchyDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("FisherFDistribution"), ktl::CreateNativeClassFisherFDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("StudentTDistribution"), ktl::CreateNativeClassStudentTDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("DiscreteDistribution"), ktl::CreateNativeClassDiscreteDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("PiecewiseConstantDistribution"), ktl::CreateNativeClassPiecewiseConstantDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("PiecewiseLinearDistribution"), ktl::CreateNativeClassPiecewiseLinearDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("TriangleDistribution"), ktl::CreateNativeClassTriangleDistribution());
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("UniformOnSphere"), ktl::CreateNativeClassUniformOnSphere());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("BernoulliDistribution"), ktl::CreateNativeClassBernoulliDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("BinomialDistribution"), ktl::CreateNativeClassBinomialDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("GeometricDistribution"), ktl::CreateNativeClassGeometricDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("NegativeBinomialDistribution"), ktl::CreateNativeClassNegativeBinomialDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("PoissonDistribution"), ktl::CreateNativeClassPoissonDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("ExponentialDistribution"), ktl::CreateNativeClassExponentialDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("GammaDistribution"), ktl::CreateNativeClassGammaDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("WeibullDistribution"), ktl::CreateNativeClassWeibullDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("ExtremeValueDistribution"), ktl::CreateNativeClassExtremeValueDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("BetaDistribution"), ktl::CreateNativeClassBetaDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("LaplaceDistribution"), ktl::CreateNativeClassLaplaceDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("NormalDistribution"), ktl::CreateNativeClassNormalDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("LognormalDistribution"), ktl::CreateNativeClassLognormalDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("ChiSquaredDistribution"), ktl::CreateNativeClassChiSquaredDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("NonCentralChiSquaredDistribution"), ktl::CreateNativeClassNonCentralChiSquaredDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CauchyDistribution"), ktl::CreateNativeClassCauchyDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("FisherFDistribution"), ktl::CreateNativeClassFisherFDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("StudentTDistribution"), ktl::CreateNativeClassStudentTDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("DiscreteDistribution"), ktl::CreateNativeClassDiscreteDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("PiecewiseConstantDistribution"), ktl::CreateNativeClassPiecewiseConstantDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("PiecewiseLinearDistribution"), ktl::CreateNativeClassPiecewiseLinearDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("TriangleDistribution"), ktl::CreateNativeClassTriangleDistribution());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("UniformOnSphere"), ktl::CreateNativeClassUniformOnSphere());
 	}
 }
 static void unregist_ktl_random_distribution() {

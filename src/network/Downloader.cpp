@@ -47,7 +47,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(downloadHTTP)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		if (numparams >= 3) {
@@ -66,7 +66,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(asyncDownloadHTTP)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		if (numparams >= 3) {
@@ -106,7 +106,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(downloadHTTPToBuffer)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 2) {
 			SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
@@ -124,7 +124,7 @@ namespace ktl {
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(asyncDownloadHTTPToBuffer)
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 2) {
 			SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
@@ -157,10 +157,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getBufferAsOctet(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getBufferAsOctet(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -176,10 +178,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getBufferAsString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getBufferAsString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -195,10 +199,12 @@ namespace ktl {
 	{
 		TJS_GET_NATIVE_INSTANCE(this_, Downloader);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 2);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getBufferAsNarrowString(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
 		} else if (numparams >= 1) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(0, 1);
 			SPRIG_KRKR_RESULT_SET(
 				this_->getBufferAsNarrowString(SPRIG_KRKR_ARG_VARIANT(0))
 				);
@@ -377,7 +383,7 @@ static void regist_ktl_downloader() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Downloader:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Downloader"), ktl::CreateNativeClassDownloader());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Downloader"), ktl::CreateNativeClassDownloader());
 	}
 }
 static void unregist_ktl_downloader() {

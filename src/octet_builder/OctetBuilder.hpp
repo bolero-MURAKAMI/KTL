@@ -44,20 +44,21 @@ namespace ktl {
 	//
 	KTL_INLINE sprig::krkr::tjs::intptr_type NativeOctetBuilder::getInstance(iTJSDispatch2* obj) {
 		return sprig::krkr::tjs::GetPropValue<sprig::krkr::tjs::intptr_type>(
-			sprig::krkr::tjs::GetMemberNoAddRef(
+			sprig::krkr::tjs::GetClassMember(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("OctetBuilder")),
 				SPRIG_KRKR_TJS_W("instance")
-				),
+				).AsObjectNoAddRef(),
 			obj
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativeOctetBuilder::createNew(tjs_int numparams, tTJSVariant** param) {
-		iTJSDispatch2* result_obj = 0;
-		sprig::krkr::tjs::CreateNewObject(
-			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("OctetBuilder")),
-			&result_obj, numparams, param, 0
+		return sprig::krkr::tjs::object_type(
+			sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("OctetBuilder")),
+				numparams, param, 0
+				),
+			false
 			);
-		return sprig::krkr::tjs::object_type(result_obj, false);
 	}
 	KTL_INLINE NativeOctetBuilder::size_type NativeOctetBuilder::getEnableSize(size_type length, size_type spos) {
 		return spos <= length

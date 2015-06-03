@@ -33,10 +33,10 @@ namespace ktl {
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLEncodeToAsciiOctet)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
-			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 			switch (SPRIG_KRKR_ARG_TYPE(1)) {
 			case tvtString:
 				if (numparams >= 3) {
@@ -51,7 +51,7 @@ namespace ktl {
 				}
 				break;
 			case tvtOctet:
-				SPRIG_KRKR_NUMPARAMS_CHECK(3);
+				SPRIG_KRKR_NUMPARAMS_EASY_CHECK(3);
 				SPRIG_KRKR_TYPE_CHECK(2, tvtString);
 				if (numparams >= 4) {
 					SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
@@ -88,10 +88,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLEncodeToAsciiOctet);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLEncodeToOctet)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
-			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 			switch (SPRIG_KRKR_ARG_TYPE(1)) {
 			case tvtString:
 				if (numparams >= 3) {
@@ -106,7 +106,7 @@ namespace ktl {
 				}
 				break;
 			case tvtOctet:
-				SPRIG_KRKR_NUMPARAMS_CHECK(3);
+				SPRIG_KRKR_NUMPARAMS_EASY_CHECK(3);
 				SPRIG_KRKR_TYPE_CHECK(2, tvtString);
 				if (numparams >= 4) {
 					SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
@@ -143,10 +143,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLEncodeToOctet);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLEncodeToString)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
-			SPRIG_KRKR_NUMPARAMS_CHECK(2);
+			SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 			switch (SPRIG_KRKR_ARG_TYPE(1)) {
 			case tvtString:
 				if (numparams >= 3) {
@@ -161,7 +161,7 @@ namespace ktl {
 				}
 				break;
 			case tvtOctet:
-				SPRIG_KRKR_NUMPARAMS_CHECK(3);
+				SPRIG_KRKR_NUMPARAMS_EASY_CHECK(3);
 				SPRIG_KRKR_TYPE_CHECK(2, tvtString);
 				if (numparams >= 4) {
 					SPRIG_KRKR_TYPE_CHECK(3, tvtInteger);
@@ -198,7 +198,7 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLEncodeToString);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLDecodeToOctetData)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			SPRIG_KRKR_RESULT_SET(
@@ -225,7 +225,7 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLDecodeToOctetData);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLDecodeToOctet)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			SPRIG_KRKR_RESULT_SET(
@@ -252,7 +252,7 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(URLDecodeToOctet);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(URLDecodeToString)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		switch (SPRIG_KRKR_ARG_TYPE(1)) {
 		case tvtString:
@@ -283,9 +283,10 @@ namespace ktl {
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64EncodeToAsciiOctet)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::base64EncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -299,9 +300,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(base64EncodeToAsciiOctet);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64EncodeToOctet)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::base64EncodeToAsciiOctet(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -315,9 +317,10 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(base64EncodeToOctet);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64EncodeToString)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::base64EncodeToString(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -331,7 +334,7 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(base64EncodeToString);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64DecodeToOctetData)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			SPRIG_KRKR_RESULT_SET(
@@ -351,7 +354,7 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(base64DecodeToOctetData);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(base64DecodeToOctet)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		switch (SPRIG_KRKR_ARG_TYPE(0)) {
 		case tvtString:
 			SPRIG_KRKR_RESULT_SET(
@@ -374,7 +377,7 @@ namespace ktl {
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(encodeToOctet)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (numparams >= 3) {
 			SPRIG_KRKR_TYPE_CHECK(1, tvtOctet);
@@ -393,7 +396,7 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(encodeToOctet);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(encodeToString)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		SPRIG_KRKR_RESULT_SET(
@@ -407,7 +410,7 @@ namespace ktl {
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(sameCharsetAlias)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtString);
 		SPRIG_KRKR_RESULT_SET(
@@ -421,13 +424,15 @@ namespace ktl {
 	//
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(detect)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::detect(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::detect(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -441,13 +446,15 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(detect);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(detectAll)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(1);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtOctet);
 		if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 3);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::detectAll(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
 		} else if (numparams >= 2) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(1, 2);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::detectAll(SPRIG_KRKR_ARG_OCTET(0), SPRIG_KRKR_ARG_VARIANT(1))
 				);
@@ -461,14 +468,16 @@ namespace ktl {
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(detectAll);
 	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(checkDetected)
 	{
-		SPRIG_KRKR_NUMPARAMS_CHECK(2);
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		SPRIG_KRKR_TYPE_CHECK(1, tvtOctet);
 		if (numparams >= 4) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 4);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::checkDetected(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_VARIANT(2), SPRIG_KRKR_ARG_VARIANT(3))
 				);
 		} else if (numparams >= 3) {
+			SPRIG_KRKR_NUMPARAMS_CHECK_FOR(2, 3);
 			SPRIG_KRKR_RESULT_SET(
 				Encoding::checkDetected(SPRIG_KRKR_ARG_STRING(0), SPRIG_KRKR_ARG_OCTET(1), SPRIG_KRKR_ARG_VARIANT(2))
 				);
@@ -493,7 +502,7 @@ void regist_ktl_encoding() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Encoding:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Encoding"), ktl::CreateNativeClassEncoding());
+		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Encoding"), ktl::CreateNativeClassEncoding());
 	}
 }
 void unregist_ktl_encoding() {
