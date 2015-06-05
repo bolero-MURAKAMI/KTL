@@ -183,6 +183,14 @@
 				RelativePath="..\..\..\src\thread_task\ThreadTask.cpp"
 				>
 			</File>
+			<Filter
+				Name="Projects"
+				>
+				<File
+					RelativePath=".\DLL.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="ヘッダー ファイル"

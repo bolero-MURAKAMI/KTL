@@ -16,6 +16,9 @@
     <Filter Include="リソース ファイル\ktl">
       <UniqueIdentifier>{34e347d0-aca6-4581-a2ef-d78983d1c191}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Projects">
+      <UniqueIdentifier>{4716fcbc-d76e-45c5-a550-7264c5de7e76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\ktl\rc\version.h">
@@ -45,6 +48,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\storage_stream\StorageStream.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DLL.cpp">
+      <Filter>ソース ファイル\Projects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

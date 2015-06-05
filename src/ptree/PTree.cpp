@@ -188,7 +188,7 @@ namespace ktl {
 			sprig::krkr::tjs::object_type obj = this_->clone(
 				SPRIG_KRKR_ARG_STRING(0)
 				);
-			*result = tTJSVariant(obj.get(), obj.get());
+			*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 		}
 		return TJS_S_OK;
 	}
@@ -918,14 +918,14 @@ static void regist_ktl_ptree() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:PTree:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("PTree"), ktl::CreateNativeClassPTree());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("PTree"), ktl::CreateNativeClassPTree());
 	}
 }
 static void unregist_ktl_ptree() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:PTree:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("PTree"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("PTree"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_ptree);

@@ -99,11 +99,12 @@
     <ClInclude Include="ktl_rc_version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\geometry\Geometry.cpp" />
-    <ClCompile Include="..\..\..\src\geometry\Main.cpp" />
+    <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
+    <ClCompile Include="..\..\..\src\geometry\Geometry.cpp" />
+    <ClCompile Include="..\..\..\src\geometry\Main.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

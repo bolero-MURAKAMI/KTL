@@ -185,14 +185,14 @@ static void regist_ktl_archive() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Archive:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Archive"), ktl::CreateNativeClassArchive());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("Archive"), ktl::CreateNativeClassArchive());
 	}
 }
 static void unregist_ktl_archive() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Archive:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("Archive"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("Archive"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_archive);

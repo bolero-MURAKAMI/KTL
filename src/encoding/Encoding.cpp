@@ -502,14 +502,14 @@ void regist_ktl_encoding() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Encoding:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Encoding"), ktl::CreateNativeClassEncoding());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("Encoding"), ktl::CreateNativeClassEncoding());
 	}
 }
 void unregist_ktl_encoding() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Encoding:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("Encoding"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("Encoding"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_encoding);

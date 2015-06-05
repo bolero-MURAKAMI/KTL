@@ -97,11 +97,12 @@
     <ClInclude Include="ktl_rc_version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\odeint\Odeint.cpp" />
-    <ClCompile Include="..\..\..\src\odeint\Main.cpp" />
+    <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
+    <ClCompile Include="..\..\..\src\odeint\Odeint.cpp" />
+    <ClCompile Include="..\..\..\src\odeint\Main.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

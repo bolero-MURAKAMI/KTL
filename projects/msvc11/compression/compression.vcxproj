@@ -107,6 +107,7 @@
     <ClCompile Include="..\..\..\src\compression\Deflate.cpp" />
     <ClCompile Include="..\..\..\src\compression\Inflate.cpp" />
     <ClCompile Include="..\..\..\src\compression\Main.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -103,6 +103,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\sprite_coord\Main.cpp" />
     <ClCompile Include="..\..\..\src\sprite_coord\SpriteCoord.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -176,13 +176,21 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\src\geometry\Main.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\geometry\Geometry.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\src\geometry\Main.cpp"
+				>
+			</File>
+			<Filter
+				Name="Projects"
+				>
+				<File
+					RelativePath=".\DLL.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="ヘッダー ファイル"

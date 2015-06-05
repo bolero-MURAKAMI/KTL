@@ -120,11 +120,11 @@ namespace ktl {
 	//
 	KTL_INLINE tTJSVariant VariateRandom::engine() const {
 		sprig::krkr::tjs::object_type result = instance_->engine();
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant VariateRandom::distribution() const {
 		sprig::krkr::tjs::object_type result = instance_->distribution();
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	//
 	//	SUMMARY: 取得プロパティ系メソッド

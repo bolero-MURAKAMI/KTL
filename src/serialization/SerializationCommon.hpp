@@ -37,7 +37,7 @@ namespace ktl {
 			tjs_char const* membername
 			)
 		{
-			tTJSVariantClosure const& closure = sprig::krkr::tjs::GetMember(object.get(), obj_this.get(), membername).AsObjectClosureNoAddRef();
+			tTJSVariantClosure const& closure = sprig::krkr::tjs::GetMember(object, obj_this, membername).AsObjectClosureNoAddRef();
 			object_ = closure.Object;
 			obj_this_ = closure.ObjThis;
 		}
@@ -55,11 +55,9 @@ namespace ktl {
 			) const
 		{
 			sprig::krkr::tjs::FuncObjectCall(
-				object_.get(),
-				result,
-				numparams,
-				param,
-				obj_this_.get()
+				object_,
+				result, numparams, param,
+				obj_this_
 				);
 		}
 		sprig::krkr::tjs::object_type const& object() const {

@@ -8,9 +8,9 @@
 #ifndef PROJECTS_KTL_RC_VERSION_H
 #define PROJECTS_KTL_RC_VERSION_H
 
-#define KTL_RC_PROJECT_NAME		"network-v500"
-#define KTL_RC_MODULE_NAME		"Network-v500"
-#define KTL_RC_VERSION			0,2,12,0
+#define KTL_RC_PROJECT_NAME		"network"
+#define KTL_RC_MODULE_NAME		"Network"
+#define KTL_RC_VERSION			0,2,13,0
 #define KTL_RC_TARGET			"KiriKiri 2.32rev2 core"
 #define KTL_RC_COMPILER			"Microsoft Visual C++ version 12.0"
 #define KTL_RC_USELIB_0			"Windows SDK 7.1"

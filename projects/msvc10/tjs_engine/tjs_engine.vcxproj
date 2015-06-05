@@ -99,6 +99,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\tjs_engine\Main.cpp" />
     <ClCompile Include="..\..\..\src\tjs_engine\TJSEngine.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />

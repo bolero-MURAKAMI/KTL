@@ -91,9 +91,7 @@ namespace ktl {
 			tTJSVariantClosure closure(on_finished.AsObjectClosureNoAddRef());
 			sprig::krkr::tjs::FuncObjectCall(
 				closure.Object,
-				0,
-				0,
-				0,
+				0, 0, 0,
 				closure.ObjThis
 				);
 		}

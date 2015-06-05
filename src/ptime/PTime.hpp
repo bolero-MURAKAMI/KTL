@@ -44,12 +44,9 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativePTime::createNew(tjs_int numparams, tTJSVariant** param) {
-		return sprig::krkr::tjs::object_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("PTime")),
-				numparams, param, 0
-				),
-			false
+		return sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("PTime")),
+			numparams, param, 0
 			);
 	}
 	NativePTime::NativePTime()

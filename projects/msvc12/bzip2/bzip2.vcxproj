@@ -107,6 +107,7 @@
     <ClCompile Include="..\..\..\src\bzip2\Bzip2Compressor.cpp" />
     <ClCompile Include="..\..\..\src\bzip2\Bzip2Decompressor.cpp" />
     <ClCompile Include="..\..\..\src\bzip2\Main.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

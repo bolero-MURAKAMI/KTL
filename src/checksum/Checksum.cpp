@@ -450,24 +450,24 @@ static void regist_ktl_checksum() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Checksum:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CRC_16"), ktl::CreateNativeClassCRC_16());
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CRC_CCITT"), ktl::CreateNativeClassCRC_CCITT());
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CRC_XMODEM"), ktl::CreateNativeClassCRC_XMODEM());
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("CRC_32"), ktl::CreateNativeClassCRC_32());
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("MD5"), ktl::CreateNativeClassMD5());
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("SHA1"), ktl::CreateNativeClassSHA1());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("CRC_16"), ktl::CreateNativeClassCRC_16());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("CRC_CCITT"), ktl::CreateNativeClassCRC_CCITT());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("CRC_XMODEM"), ktl::CreateNativeClassCRC_XMODEM());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("CRC_32"), ktl::CreateNativeClassCRC_32());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("MD5"), ktl::CreateNativeClassMD5());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("SHA1"), ktl::CreateNativeClassSHA1());
 	}
 }
 static void unregist_ktl_checksum() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Checksum:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("SHA1"));
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("MD5"));
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("CRC_32"));
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("CRC_XMODEM"));
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("CRC_CCITT"));
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("CRC_16"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("SHA1"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("MD5"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("CRC_32"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("CRC_XMODEM"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("CRC_CCITT"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("CRC_16"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_checksum);

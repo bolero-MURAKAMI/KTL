@@ -102,6 +102,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\functor\Functor.cpp" />
     <ClCompile Include="..\..\..\src\functor\Main.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

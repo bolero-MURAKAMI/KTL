@@ -112,6 +112,7 @@
     <ClCompile Include="..\..\..\src\network\Main.cpp" />
     <ClCompile Include="..\..\..\src\network\Network.cpp" />
     <ClCompile Include="..\..\..\src\network\Socket.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

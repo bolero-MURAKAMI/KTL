@@ -105,6 +105,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\checksum\Checksum.cpp" />
     <ClCompile Include="..\..\..\src\checksum\Main.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

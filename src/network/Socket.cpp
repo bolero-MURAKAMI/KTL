@@ -896,14 +896,14 @@ static void regist_ktl_socket() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Socket:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Socket"), ktl::CreateNativeClassSocket());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("Socket"), ktl::CreateNativeClassSocket());
 	}
 }
 static void unregist_ktl_socket() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Socket:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("Socket"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("Socket"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_socket);

@@ -99,11 +99,12 @@
     <ClInclude Include="ktl_rc_version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\tjs_engine\Main.cpp" />
-    <ClCompile Include="..\..\..\src\tjs_engine\TJSEngine.cpp" />
+    <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
+    <ClCompile Include="..\..\..\src\tjs_engine\Main.cpp" />
+    <ClCompile Include="..\..\..\src\tjs_engine\TJSEngine.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

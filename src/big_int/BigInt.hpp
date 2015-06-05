@@ -102,12 +102,9 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativeBigInt::createNew(tjs_int numparams, tTJSVariant** param) {
-		return sprig::krkr::tjs::object_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("BigInt")),
-				numparams, param, 0
-				),
-			false
+		return sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("BigInt")),
+			numparams, param, 0
 			);
 	}
 	NativeBigInt::NativeBigInt() {}

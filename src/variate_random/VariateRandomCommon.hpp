@@ -95,28 +95,18 @@ namespace ktl {
 		{}
 		RandomResult(boost::random::uniform_on_sphere<tTVReal>::result_type const& t) {
 			typedef boost::random::uniform_on_sphere<tTVReal>::result_type const range_type;
-			sprig::krkr::tjs::object_type obj(
-				sprig::krkr::tjs::CreateNewObject(
-					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-					0, 0, 0
-					),
-				false
+			sprig::krkr::tjs::object_type obj = sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
 				);
 			{
 				tjs_int num = 0;
 				BOOST_FOREACH(boost::range_reference<range_type>::type e, t) {
-					tTJSVariant param(e);
-					sprig::krkr::tjs::PropSetByNum(
-						obj.get(),
-						TJS_MEMBERENSURE,
-						num,
-						&param,
-						obj.get()
-						);
+					sprig::krkr::tjs::AddMember(obj, num, tTJSVariant(e));
 					++num;
 				}
 			}
-			t_ = tTJSVariant(obj.get(), obj.get());
+			t_ = sprig::krkr::tjs::as_object_closure_variant(obj);
 		}
 		RandomResult& operator=(RandomResult const& other) {
 			RandomResult temp(other);

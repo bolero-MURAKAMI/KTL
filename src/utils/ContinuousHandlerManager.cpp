@@ -108,14 +108,14 @@ static void regist_ktl_continuous_handler_manager() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:ContinuousHandlerManager:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("ContinuousHandlerManager"), ktl::CreateNativeClassContinuousHandlerManager());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("ContinuousHandlerManager"), ktl::CreateNativeClassContinuousHandlerManager());
 	}
 }
 static void unregist_ktl_continuous_handler_manager() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:ContinuousHandlerManager:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("ContinuousHandlerManager"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("ContinuousHandlerManager"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_continuous_handler_manager);

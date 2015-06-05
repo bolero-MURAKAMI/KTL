@@ -99,16 +99,16 @@ static void regist_ktl_thread_task() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:ThreadTask:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("ThreadTask"), ktl::CreateNativeClassThreadTask());
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("ThreadControl"), ktl::CreateNativeClassThreadControl());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("ThreadTask"), ktl::CreateNativeClassThreadTask());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("ThreadControl"), ktl::CreateNativeClassThreadControl());
 	}
 }
 static void unregist_ktl_thread_task() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:ThreadTask:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("ThreadControl"));
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("ThreadTask"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("ThreadControl"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("ThreadTask"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_thread_task);

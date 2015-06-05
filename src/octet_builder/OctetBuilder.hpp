@@ -52,12 +52,9 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativeOctetBuilder::createNew(tjs_int numparams, tTJSVariant** param) {
-		return sprig::krkr::tjs::object_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("OctetBuilder")),
-				numparams, param, 0
-				),
-			false
+		return sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("OctetBuilder")),
+			numparams, param, 0
 			);
 	}
 	KTL_INLINE NativeOctetBuilder::size_type NativeOctetBuilder::getEnableSize(size_type length, size_type spos) {
@@ -1926,31 +1923,31 @@ namespace ktl {
 		sprig::krkr::tjs::object_type result = createNew(0, 0);
 		size_type result_size = binary_.size();
 		if (!result_size) {
-			return tTJSVariant(result.get(), result.get());
+			return sprig::krkr::tjs::as_object_closure_variant(result);
 		}
 		OctetBuilder* ptr = reinterpret_cast<OctetBuilder*>(getInstance(sprig::get_pointer(result)));
 		ptr->init(&binary_[0], &binary_[0] + result_size);
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeOctetBuilder::asBuilder(size_type pos) const {
 		sprig::krkr::tjs::object_type result = createNew(0, 0);
 		size_type result_size = getEnableSize(binary_.size(), pos);
 		if (!result_size) {
-			return tTJSVariant(result.get(), result.get());
+			return sprig::krkr::tjs::as_object_closure_variant(result);
 		}
 		OctetBuilder* ptr = reinterpret_cast<OctetBuilder*>(getInstance(sprig::get_pointer(result)));
 		ptr->init(&binary_[pos], &binary_[pos] + result_size);
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeOctetBuilder::asBuilder(size_type pos, size_type size) const {
 		sprig::krkr::tjs::object_type result = createNew(0, 0);
 		size_type result_size = getEnableSize(binary_.size(), pos, size);
 		if (!result_size) {
-			return tTJSVariant(result.get(), result.get());
+			return sprig::krkr::tjs::as_object_closure_variant(result);
 		}
 		OctetBuilder* ptr = reinterpret_cast<OctetBuilder*>(getInstance(sprig::get_pointer(result)));
 		ptr->init(&binary_[pos], &binary_[pos] + result_size);
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeOctetBuilder::asOctet() const {
 		size_type result_size = binary_.size();

@@ -89,14 +89,14 @@ void regist_ktl_os_version() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:OSVersion:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("OSVersion"), ktl::CreateNativeClassOSVersion());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("OSVersion"), ktl::CreateNativeClassOSVersion());
 	}
 }
 void unregist_ktl_os_version() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:OSVersion:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("OSVersion"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("OSVersion"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_os_version);

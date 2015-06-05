@@ -101,12 +101,13 @@
     <ClInclude Include="ktl_rc_version.h" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\..\src\big_int\BigInt.cpp" />
     <ClCompile Include="..\..\..\src\big_int\CppInt.cpp" />
     <ClCompile Include="..\..\..\src\big_int\Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

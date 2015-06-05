@@ -95,14 +95,14 @@ static void regist_ktl_splash_window() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:SplashWindow:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("SplashWindow"), ktl::CreateNativeClassSplashWindow());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("SplashWindow"), ktl::CreateNativeClassSplashWindow());
 	}
 }
 static void unregist_ktl_splash_window() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:SplashWindow:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("SplashWindow"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("SplashWindow"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_splash_window);

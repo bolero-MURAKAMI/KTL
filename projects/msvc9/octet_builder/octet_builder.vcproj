@@ -183,6 +183,14 @@
 				RelativePath="..\..\..\src\octet_builder\OctetBuilder.cpp"
 				>
 			</File>
+			<Filter
+				Name="Projects"
+				>
+				<File
+					RelativePath=".\DLL.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="ヘッダー ファイル"

@@ -161,11 +161,9 @@ namespace ktl {
 				param + 0
 			};
 			sprig::krkr::tjs::FuncObjectCall(
-				sprig::get_pointer(e.get_mapped().first),
-				0,
-				1,
-				p_param,
-				sprig::get_pointer(e.get_mapped().second)
+				e.get_mapped().first,
+				0, 1, p_param,
+				e.get_mapped().second
 				);
 		}
 	}
@@ -244,7 +242,7 @@ namespace ktl {
 		tTJSVariant result;
 		NativeContinuousHandlerManager::optional_value_type value = instance_->findValue(key.c_str());
 		if (value) {
-			result = tTJSVariant(sprig::get_pointer(value->get_mapped().first), sprig::get_pointer(value->get_mapped().second));
+			result = sprig::krkr::tjs::as_object_closure_variant(value->get_mapped().first, value->get_mapped().second);
 		}
 		return result;
 	}

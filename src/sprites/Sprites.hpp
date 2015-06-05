@@ -91,11 +91,11 @@ namespace ktl {
 		: sprite_buffer_(new sprite_buffer_type())
 		, clear_color_(D3DCOLOR_ARGB(0x00, 0x00, 0x00, 0x00))
 		, layer_obj_(sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Layer")))
-		, layer_buffer_for_write_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBufferForWrite")).AsObjectNoAddRef())
-		, layer_buffer_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBuffer")).AsObjectNoAddRef())
-		, layer_pitch_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("mainImageBufferPitch")).AsObjectNoAddRef())
-		, layer_image_width_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("imageWidth")).AsObjectNoAddRef())
-		, layer_image_height_prop_(sprig::krkr::tjs::GetClassMember(sprig::get_pointer(layer_obj_), SPRIG_KRKR_TJS_W("imageHeight")).AsObjectNoAddRef())
+		, layer_buffer_for_write_prop_(sprig::krkr::tjs::GetClassMember(layer_obj_, SPRIG_KRKR_TJS_W("mainImageBufferForWrite")).AsObjectNoAddRef())
+		, layer_buffer_prop_(sprig::krkr::tjs::GetClassMember(layer_obj_, SPRIG_KRKR_TJS_W("mainImageBuffer")).AsObjectNoAddRef())
+		, layer_pitch_prop_(sprig::krkr::tjs::GetClassMember(layer_obj_, SPRIG_KRKR_TJS_W("mainImageBufferPitch")).AsObjectNoAddRef())
+		, layer_image_width_prop_(sprig::krkr::tjs::GetClassMember(layer_obj_, SPRIG_KRKR_TJS_W("imageWidth")).AsObjectNoAddRef())
+		, layer_image_height_prop_(sprig::krkr::tjs::GetClassMember(layer_obj_, SPRIG_KRKR_TJS_W("imageHeight")).AsObjectNoAddRef())
 		, enable_(false)
 		, run_(false)
 		, requested_update_(false)
@@ -455,20 +455,20 @@ namespace ktl {
 			return result;
 		}
 		void* const bits = reinterpret_cast<void*>(
-			sprig::krkr::tjs::GetPropValue<tjs_int>(sprig::get_pointer(layer_buffer_for_write_prop_), sprig::get_pointer(layer_))
+			sprig::krkr::tjs::GetPropValue<tjs_int>(layer_buffer_for_write_prop_, layer_)
 			);
 		SIZE const size = {
-			sprig::krkr::tjs::GetPropValue<tjs_int>(sprig::get_pointer(layer_image_width_prop_), sprig::get_pointer(layer_)),
-			sprig::krkr::tjs::GetPropValue<tjs_int>(sprig::get_pointer(layer_image_height_prop_), sprig::get_pointer(layer_)),
+			sprig::krkr::tjs::GetPropValue<tjs_int>(layer_image_width_prop_, layer_),
+			sprig::krkr::tjs::GetPropValue<tjs_int>(layer_image_height_prop_, layer_),
 		};
-		std::size_t const pitch = sprig::krkr::tjs::GetPropValue<tjs_int>(sprig::get_pointer(layer_pitch_prop_), sprig::get_pointer(layer_));
+		std::size_t const pitch = sprig::krkr::tjs::GetPropValue<tjs_int>(layer_pitch_prop_, layer_);
 		std::size_t const pixel_size = 4;
 		POINT const offset = {0, 0};
 		RECT const rect = {0, 0, size.cx, size.cy};
 		if (FAILED(result = sprite_buffer_->transfer(bits, size, pitch, pixel_size, offset, rect))) {
 			return result;
 		}
-		sprig::krkr::tjs::MethodCall(sprig::get_pointer(layer_), SPRIG_KRKR_TJS_W("update"), 0, 0, 0);
+		sprig::krkr::tjs::MethodCall(layer_, SPRIG_KRKR_TJS_W("update"), 0, 0, 0);
 		return result;
 	}
 	KTL_INLINE HRESULT NativeSprites::loadImageFromLayer(
@@ -498,13 +498,13 @@ namespace ktl {
 		{
 			iTJSDispatch2* layer = v->AsObjectNoAddRef();
 			void* const bits = reinterpret_cast<void*>(
-				sprig::krkr::tjs::GetPropValue<tjs_int>(sprig::get_pointer(layer_buffer_prop_), sprig::get_pointer(layer))
+				sprig::krkr::tjs::GetPropValue<tjs_int>(layer_buffer_prop_, layer)
 				);
 			SIZE const size = {
-				sprig::krkr::tjs::GetPropValue<tjs_int>(sprig::get_pointer(layer_image_width_prop_), sprig::get_pointer(layer)),
-				sprig::krkr::tjs::GetPropValue<tjs_int>(sprig::get_pointer(layer_image_height_prop_), sprig::get_pointer(layer))
+				sprig::krkr::tjs::GetPropValue<tjs_int>(layer_image_width_prop_, layer),
+				sprig::krkr::tjs::GetPropValue<tjs_int>(layer_image_height_prop_, layer)
 			};
-			std::size_t const pitch = sprig::krkr::tjs::GetPropValue<tjs_int>(sprig::get_pointer(layer_pitch_prop_), sprig::get_pointer(layer));
+			std::size_t const pitch = sprig::krkr::tjs::GetPropValue<tjs_int>(layer_pitch_prop_, layer);
 			std::size_t const pixel_size = 4;
 			POINT const offset = {0, 0};
 			RECT const rect = {0, 0, size.cx, size.cy};
@@ -590,17 +590,14 @@ namespace ktl {
 				);
 			return result;
 		}
-		result = result_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		{
 			std::deque<key_type>::const_iterator k = key.begin();
 			for (std::size_t i = 0; i != hit; ++i, ++k) {
-				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, tTJSVariant(*k));
+				sprig::krkr::tjs::AddMember(result, i, tTJSVariant(*k));
 			}
 		}
 		return result;
@@ -638,18 +635,15 @@ namespace ktl {
 				);
 			return result;
 		}
-		result = result_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		{
 			std::deque<bool>::const_iterator h = hit.begin();
 			std::deque<key_type>::const_iterator k = key.begin();
 			for (std::size_t i = 0; i != numparams; ++i, ++h, ++k) {
-				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, *h ? tTJSVariant(*k) : tTJSVariant());
+				sprig::krkr::tjs::AddMember(result, i, *h ? tTJSVariant(*k) : tTJSVariant());
 			}
 		}
 		return result;
@@ -693,29 +687,23 @@ namespace ktl {
 				return result;
 			}
 		}
-		result = result_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		{
 			std::deque<std::size_t>::const_iterator h = hit.begin();
 			std::deque<std::deque<key_type> >::const_iterator key = keys.begin();
 			for (std::size_t i = 0; i != numparams; ++i, ++h, ++key) {
-				result_type result_elem(
-					sprig::krkr::tjs::CreateNewObject(
-						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-						0, 0, 0
-						),
-					false
+				result_type result_elem = sprig::krkr::tjs::CreateNewObject(
+					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+					0, 0, 0
 					);
-				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, tTJSVariant(sprig::get_pointer(result_elem), sprig::get_pointer(result_elem)));
+				sprig::krkr::tjs::AddMember(result, i, sprig::krkr::tjs::as_object_closure_variant(result_elem));
 				std::deque<key_type>::const_iterator k = key->begin();
 				std::size_t count = *h;
 				for (std::size_t j = 0; j != count; ++j, ++k) {
-					sprig::krkr::tjs::AddMember(sprig::get_pointer(result_elem), j, tTJSVariant(*k));
+					sprig::krkr::tjs::AddMember(result_elem, j, tTJSVariant(*k));
 				}
 			}
 		}
@@ -736,15 +724,12 @@ namespace ktl {
 		}
 		sprite_drawer_concrete_type sprite_drawer = FindSpriteDrawer(key); \
 		coord_type coord = sprite_drawer->to_local_coord(v);
-		result = result_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, coord.x);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, coord.y);
+		sprig::krkr::tjs::AddMember(result, 0, coord.x);
+		sprig::krkr::tjs::AddMember(result, 1, coord.y);
 		return result;
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativeSprites::toGlobalCoord(
@@ -759,15 +744,12 @@ namespace ktl {
 		}
 		sprite_drawer_concrete_type sprite_drawer = FindSpriteDrawer(key); \
 		coord_type coord = sprite_drawer->to_global_coord(v);
-		result = result_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, coord.x);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, coord.y);
+		sprig::krkr::tjs::AddMember(result, 0, coord.x);
+		sprig::krkr::tjs::AddMember(result, 1, coord.y);
 		return result;
 	}
 	//
@@ -860,19 +842,19 @@ namespace ktl {
 			sprig::krkr::tjs::object_type obj = params->AsObjectNoAddRef();
 			NativeSprites::init_params_type sbip;
 			{
-				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("name"));
+				tTJSVariant v = sprig::krkr::tjs::GetMember(obj, SPRIG_KRKR_TJS_W("name"));
 				if (v.Type() != tvtVoid) {
 					sbip.name = static_cast<tTJSString>(v).c_str();
 				}
 			}
 			{
-				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("width"));
+				tTJSVariant v = sprig::krkr::tjs::GetMember(obj, SPRIG_KRKR_TJS_W("width"));
 				if (v.Type() != tvtVoid) {
 					sbip.tmip.width = static_cast<tjs_int>(v);
 				}
 			}
 			{
-				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("height"));
+				tTJSVariant v = sprig::krkr::tjs::GetMember(obj, SPRIG_KRKR_TJS_W("height"));
 				if (v.Type() != tvtVoid) {
 					sbip.tmip.height = static_cast<tjs_int>(v);
 				}
@@ -933,13 +915,13 @@ namespace ktl {
 			sprig::krkr::tjs::object_type obj = params->AsObjectNoAddRef();
 			sprig::dg::texture_manager_init_params tmip;
 			{
-				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("width"));
+				tTJSVariant v = sprig::krkr::tjs::GetMember(obj, SPRIG_KRKR_TJS_W("width"));
 				if (v.Type() != tvtVoid) {
 					tmip.width = static_cast<tjs_int>(v);
 				}
 			}
 			{
-				tTJSVariant v = sprig::krkr::tjs::GetMember(sprig::get_pointer(obj), SPRIG_KRKR_TJS_W("height"));
+				tTJSVariant v = sprig::krkr::tjs::GetMember(obj, SPRIG_KRKR_TJS_W("height"));
 				if (v.Type() != tvtVoid) {
 					tmip.height = static_cast<tjs_int>(v);
 				}

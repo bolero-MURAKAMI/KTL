@@ -187,6 +187,14 @@
 				RelativePath="..\..\..\src\compression\Main.cpp"
 				>
 			</File>
+			<Filter
+				Name="Projects"
+				>
+				<File
+					RelativePath=".\DLL.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="ヘッダー ファイル"

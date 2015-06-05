@@ -51,14 +51,14 @@ static void regist_ktl_tjs_engine() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:TJSEngine:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("TJSEngine"), ktl::CreateNativeClassTJSEngine());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("TJSEngine"), ktl::CreateNativeClassTJSEngine());
 	}
 }
 static void unregist_ktl_tjs_engine() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:TJSEngine:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("TJSEngine"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("TJSEngine"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_tjs_engine);

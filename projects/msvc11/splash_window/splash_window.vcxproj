@@ -108,6 +108,7 @@
     <ClCompile Include="..\..\..\src\splash_window\LayeredSplashWindow.cpp" />
     <ClCompile Include="..\..\..\src\splash_window\Main.cpp" />
     <ClCompile Include="..\..\..\src\splash_window\SplashWindow.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -112,6 +112,7 @@
     <ClCompile Include="..\..\..\src\serialization\Main.cpp" />
     <ClCompile Include="..\..\..\src\serialization\PTIndex.cpp" />
     <ClCompile Include="..\..\..\src\serialization\Serialization.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

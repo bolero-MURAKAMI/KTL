@@ -183,6 +183,14 @@
 				RelativePath="..\..\..\src\tjs_engine\TJSEngine.cpp"
 				>
 			</File>
+			<Filter
+				Name="Projects"
+				>
+				<File
+					RelativePath=".\DLL.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="ヘッダー ファイル"

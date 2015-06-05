@@ -440,132 +440,99 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(point_type const& g) {
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(g.x()));
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(g.y()));
-		return tTJSVariant(result.get(), result.get());
+		sprig::krkr::tjs::AddMember(result, 0, tTJSVariant(g.x()));
+		sprig::krkr::tjs::AddMember(result, 1, tTJSVariant(g.y()));
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(segment_type const& g) {
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, to_variant(g.first));
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, to_variant(g.second));
-		return tTJSVariant(result.get(), result.get());
+		sprig::krkr::tjs::AddMember(result, 0, to_variant(g.first));
+		sprig::krkr::tjs::AddMember(result, 1, to_variant(g.second));
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(box_type const& g) {
-		typedef sprig::krkr::tjs::object_type result_type;
-		result_type result;
-		{
-			iTJSDispatch2* result_obj = 0;
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				&result_obj, 0, 0, 0
-				);
-			result = result_type(result_obj, false);
-		}
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, to_variant(g.min_corner()));
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, to_variant(g.max_corner()));
-		return tTJSVariant(result.get(), result.get());
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
+			);
+		sprig::krkr::tjs::AddMember(result, 0, to_variant(g.min_corner()));
+		sprig::krkr::tjs::AddMember(result, 1, to_variant(g.max_corner()));
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(linestring_type const& g) {
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
+			sprig::krkr::tjs::AddMember(result, i, to_variant(g.at(i)));
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(ring_type const& g) {
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
+			sprig::krkr::tjs::AddMember(result, i, to_variant(g.at(i)));
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(polygon_type const& g) {
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
+			);
+		sprig::krkr::tjs::AddMember(result, 0, to_variant(boost::geometry::exterior_ring(g)));
+		{
+			sprig::krkr::tjs::object_type inners = sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
 				0, 0, 0
-				),
-			false
-			);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, to_variant(boost::geometry::exterior_ring(g)));
-		{
-			sprig::krkr::tjs::object_type inners(
-				sprig::krkr::tjs::CreateNewObject(
-					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-					0, 0, 0
-					),
-				false
 				);
 			for (tjs_int i = 0, size = boost::geometry::interior_rings(g).size(); i != size; ++i) {
-				sprig::krkr::tjs::AddMember(sprig::get_pointer(inners), i, to_variant(boost::geometry::interior_rings(g).at(i)));
+				sprig::krkr::tjs::AddMember(inners, i, to_variant(boost::geometry::interior_rings(g).at(i)));
 			}
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(sprig::get_pointer(inners), sprig::get_pointer(inners)));
+			sprig::krkr::tjs::AddMember(result, 1, sprig::krkr::tjs::as_object_closure_variant(inners));
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(multi_point_type const& g) {
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
+			sprig::krkr::tjs::AddMember(result, i, to_variant(g.at(i)));
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(multi_linestring_type const& g) {
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
+			sprig::krkr::tjs::AddMember(result, i, to_variant(g.at(i)));
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::to_variant(multi_polygon_type const& g) {
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		for (tjs_int i = 0, size = g.size(); i != size; ++i) {
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, to_variant(g.at(i)));
+			sprig::krkr::tjs::AddMember(result, i, to_variant(g.at(i)));
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	template<typename F>
 	KTL_INLINE typename F::result_type NativeGeometry::dispatch(F fn, tTJSVariantClosure const& g, flag_type f) {
@@ -993,51 +960,39 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::centroid(tTJSVariantClosure const& g, flag_type f) {
 		point_type p = dispatch(CentroidFunc(), g, f);
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(p.x()));
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(p.y()));
-		return tTJSVariant(result.get(), result.get());
+		sprig::krkr::tjs::AddMember(result, 0, tTJSVariant(p.x()));
+		sprig::krkr::tjs::AddMember(result, 1, tTJSVariant(p.y()));
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::envelope(tTJSVariantClosure const& g, flag_type f) {
 		box_type p = dispatch(EnvelopeFunc(), g, f);
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		{
-			sprig::krkr::tjs::object_type elem(
-				sprig::krkr::tjs::CreateNewObject(
-					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-					0, 0, 0
-					),
-				false
+			sprig::krkr::tjs::object_type elem = sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
 				);
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), 0, tTJSVariant(p.min_corner().x()));
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), 1, tTJSVariant(p.min_corner().y()));
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(sprig::get_pointer(elem), sprig::get_pointer(elem)));
+			sprig::krkr::tjs::AddMember(elem, 0, tTJSVariant(p.min_corner().x()));
+			sprig::krkr::tjs::AddMember(elem, 1, tTJSVariant(p.min_corner().y()));
+			sprig::krkr::tjs::AddMember(result, 0, sprig::krkr::tjs::as_object_closure_variant(elem));
 		}
 		{
-			sprig::krkr::tjs::object_type elem(
-				sprig::krkr::tjs::CreateNewObject(
-					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-					0, 0, 0
-					),
-				false
+			sprig::krkr::tjs::object_type elem = sprig::krkr::tjs::CreateNewObject(
+				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+				0, 0, 0
 				);
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), 0, tTJSVariant(p.max_corner().x()));
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), 1, tTJSVariant(p.max_corner().y()));
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(sprig::get_pointer(elem), sprig::get_pointer(elem)));
+			sprig::krkr::tjs::AddMember(elem, 0, tTJSVariant(p.max_corner().x()));
+			sprig::krkr::tjs::AddMember(elem, 1, tTJSVariant(p.max_corner().y()));
+			sprig::krkr::tjs::AddMember(result, 1, sprig::krkr::tjs::as_object_closure_variant(elem));
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant NativeGeometry::translate(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t) {
 		return transform(g, f, to_translate(t));

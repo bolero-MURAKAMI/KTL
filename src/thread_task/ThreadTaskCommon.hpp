@@ -72,21 +72,19 @@ namespace ktl {
 			set_processing(true);
 			set_result(tTJSVariant());
 			{
-				tTJSVariant result;
 				tTJSVariant param[] = {
-					tTJSVariant(control_.get(), control_.get())
+					sprig::krkr::tjs::as_object_closure_variant(control_)
 				};
 				tTJSVariant* p_param[] = {
 					param + 0
 				};
-				sprig::krkr::tjs::FuncObjectCall(
-					get_obj().get(),
-					&result,
-					1,
-					p_param,
-					get_obj_this().get()
+				set_result(
+					sprig::krkr::tjs::FuncObjectCall(
+						get_obj(),
+						1, p_param,
+						get_obj_this()
+						)
 					);
-				set_result(result);
 			}
 			set_processing(false);
 		}

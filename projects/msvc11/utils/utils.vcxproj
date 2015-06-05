@@ -92,14 +92,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\utils\ContinuousHandlerManager.cpp" />
-    <ClCompile Include="..\..\..\src\utils\FPSCounter.cpp" />
-    <ClCompile Include="..\..\..\src\utils\Main.cpp" />
-    <ClCompile Include="..\..\..\src\utils\PerformanceCounter.cpp" />
-    <ClCompile Include="..\..\..\src\utils\PerformanceTimer.cpp" />
-    <ClCompile Include="..\..\..\src\utils\Utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\..\ktl\rc\version.h" />
     <ClInclude Include="..\..\..\src\utils\Config.hpp" />
     <ClInclude Include="..\..\..\src\utils\ContinuousHandlerManager.hpp" />
@@ -116,6 +108,15 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\utils\ContinuousHandlerManager.cpp" />
+    <ClCompile Include="..\..\..\src\utils\FPSCounter.cpp" />
+    <ClCompile Include="..\..\..\src\utils\Main.cpp" />
+    <ClCompile Include="..\..\..\src\utils\PerformanceCounter.cpp" />
+    <ClCompile Include="..\..\..\src\utils\PerformanceTimer.cpp" />
+    <ClCompile Include="..\..\..\src\utils\Utils.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

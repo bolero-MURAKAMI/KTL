@@ -47,9 +47,7 @@ namespace ktl {
 			tTJSVariantClosure closure(on_finished.AsObjectClosureNoAddRef());
 			sprig::krkr::tjs::FuncObjectCall(
 				closure.Object,
-				0,
-				0,
-				0,
+				0, 0, 0,
 				closure.ObjThis
 				);
 		}
@@ -413,7 +411,7 @@ namespace ktl {
 			}
 			accepted_list_.pop_front();
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	//
 	//	SUMMARY: プロパティ系メソッド

@@ -92,16 +92,13 @@ static void regist_ktl_serialization() {
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
 		sprig::krkr::tjs::object_type serialization_object(ktl::CreateNativeClassSerializationObject(), false);
-		sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("SerializationObject"), tTJSVariant(serialization_object.get()));
+		sprig::krkr::tjs::AddMember(global, SPRIG_KRKR_TJS_W("SerializationObject"), tTJSVariant(serialization_object.get()));
 		{
-			sprig::krkr::tjs::object_type serialization(
-				sprig::krkr::tjs::CreateNewObject(
-					serialization_object.get(),
-					0, 0, 0
-					),
-				false
+			sprig::krkr::tjs::object_type serialization = sprig::krkr::tjs::CreateNewObject(
+				serialization_object.get(),
+				0, 0, 0
 				);
-			sprig::krkr::tjs::AddMember(global.get(), SPRIG_KRKR_TJS_W("Serialization"), tTJSVariant(serialization.get(), serialization.get()));
+			sprig::krkr::tjs::AddMember(global, SPRIG_KRKR_TJS_W("Serialization"), sprig::krkr::tjs::as_object_closure_variant(serialization));
 		}
 	}
 }
@@ -109,8 +106,8 @@ static void unregist_ktl_serialization() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Serialization:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("Serialization"));
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("SerializationObject"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("Serialization"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("SerializationObject"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_serialization);

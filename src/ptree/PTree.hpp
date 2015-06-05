@@ -212,12 +212,9 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE sprig::krkr::tjs::object_type NativePTree::createNew(tjs_int numparams, tTJSVariant** param) {
-		return sprig::krkr::tjs::object_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("PTree")),
-				numparams, param, 0
-				),
-			false
+		return sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("PTree")),
+			numparams, param, 0
 			);
 	}
 	KTL_INLINE bool NativePTree::encodeAsBuffer(

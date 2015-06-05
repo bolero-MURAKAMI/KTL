@@ -448,17 +448,14 @@ namespace ktl {
 			return tTJSVariant();
 		}
 		//	COMMENT: åãâ ê∂ê¨
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
+			0, 0, 0
 			);
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("name"), tTJSVariant(name));
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("language"), tTJSVariant(language));
-		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), SPRIG_KRKR_TJS_W("confidence"), tTJSVariant(confidence));
-		return tTJSVariant(result.get(), result.get());
+		sprig::krkr::tjs::AddMember(result, SPRIG_KRKR_TJS_W("name"), tTJSVariant(name));
+		sprig::krkr::tjs::AddMember(result, SPRIG_KRKR_TJS_W("language"), tTJSVariant(language));
+		sprig::krkr::tjs::AddMember(result, SPRIG_KRKR_TJS_W("confidence"), tTJSVariant(confidence));
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	NativeEncoding::NativeEncoding() {}
 	//
@@ -914,21 +911,18 @@ namespace ktl {
 				);
 			return tTJSVariant();
 		}
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		for (int32_t i = 0; i < num_found; ++i) {
 			tTJSVariant var = makeMatchResult(matchers[i], confidence_threshold);
 			if (var.Type() == tvtVoid) {
 				break;
 			}
-			sprig::krkr::tjs::AddMember(sprig::get_pointer(result), i, var);
+			sprig::krkr::tjs::AddMember(result, i, var);
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE bool NativeEncoding::checkDetected(
 		tjs_char const* charset_name,

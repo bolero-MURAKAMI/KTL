@@ -45,10 +45,8 @@ namespace ktl {
 				0, 0, 0
 				)
 			)
-	{
-		sprig::krkr::tjs::object_type result(result_obj_, false);
-		result_ = tTJSVariant(result_obj_, result_obj_);
-	}
+		, result_(sprig::krkr::tjs::as_object_closure_variant(result_obj_))
+	{}
 	tjs_error TJS_INTF_METHOD NativeUtils::CallbackEnumMembers::FuncCall(
 		tjs_uint32 flag,
 		tjs_char const* membername,
@@ -82,11 +80,9 @@ namespace ktl {
 				0, 0, 0
 				)
 			)
+		, result_(sprig::krkr::tjs::as_object_closure_variant(result_obj_))
 		, num_(0)
-	{
-		sprig::krkr::tjs::object_type result(result_obj_, false);
-		result_ = tTJSVariant(result_obj_, result_obj_);
-	}
+	{}
 	tjs_error TJS_INTF_METHOD NativeUtils::CallbackEnumMembersName::FuncCall(
 		tjs_uint32 flag,
 		tjs_char const* membername,

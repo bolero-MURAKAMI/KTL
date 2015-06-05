@@ -24,14 +24,14 @@ static void regist_ktl_functor() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Functor:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("FunctorClass"), new ktl::FunctorClass());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("FunctorClass"), new ktl::FunctorClass());
 	}
 }
 static void unregist_ktl_functor() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Functor:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("FunctorClass"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("FunctorClass"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_functor);

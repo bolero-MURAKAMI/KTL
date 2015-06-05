@@ -57,7 +57,7 @@ namespace ktl {
 		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
 		if (result) {
 			sprig::krkr::tjs::object_type obj = OctetBuilder::fromHex(SPRIG_KRKR_ARG_STRING(0));
-			*result = tTJSVariant(obj.get(), obj.get());
+			*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 		}
 		return TJS_S_OK;
 	}
@@ -948,14 +948,14 @@ static void regist_ktl_octet_builder() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:OctetBuilder:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("OctetBuilder"), ktl::CreateNativeClassOctetBuilder());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("OctetBuilder"), ktl::CreateNativeClassOctetBuilder());
 	}
 }
 static void unregist_ktl_octet_builder() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:OctetBuilder:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("OctetBuilder"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("OctetBuilder"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_octet_builder);

@@ -31,7 +31,7 @@ namespace ktl {
 		{
 		private:
 			tTJSVariant result_;
-			iTJSDispatch2* result_obj_;
+			sprig::krkr::tjs::object_type result_obj_;
 		public:
 			CallbackEnumMembers();
 			tjs_error TJS_INTF_METHOD FuncCall(
@@ -53,7 +53,7 @@ namespace ktl {
 		{
 		private:
 			tTJSVariant result_;
-			iTJSDispatch2* result_obj_;
+			sprig::krkr::tjs::object_type result_obj_;
 			tjs_int num_;
 		public:
 			CallbackEnumMembersName();

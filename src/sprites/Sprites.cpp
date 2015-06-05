@@ -350,7 +350,7 @@ namespace ktl {
 		SPRIG_KRKR_NUMPARAMS_CHECK(2);
 		if (result) {
 			sprig::krkr::tjs::object_type obj = this_->multiTargetHitTest(SPRIG_KRKR_ARG_VARIANT(0), SPRIG_KRKR_ARG_VARIANT(1));
-			*result = tTJSVariant(obj.get(), obj.get());
+			*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 		}
 		return TJS_S_OK;
 	}
@@ -360,7 +360,7 @@ namespace ktl {
 		TJS_GET_NATIVE_INSTANCE(this_, Sprites);
 		if (result) {
 			sprig::krkr::tjs::object_type obj = this_->multiPointHitTest(numparams, param);
-			*result = tTJSVariant(obj.get(), obj.get());
+			*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 		}
 		return TJS_S_OK;
 	}
@@ -370,7 +370,7 @@ namespace ktl {
 		TJS_GET_NATIVE_INSTANCE(this_, Sprites);
 		if (result) {
 			sprig::krkr::tjs::object_type obj = this_->multiTPHitTest(numparams, param);
-			*result = tTJSVariant(obj.get(), obj.get());
+			*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 		}
 		return TJS_S_OK;
 	}
@@ -388,7 +388,7 @@ namespace ktl {
 				SPRIG_KRKR_ARG_VARIANT(1),
 				SPRIG_KRKR_ARG_VARIANT(2)
 				);
-			*result = tTJSVariant(obj.get(), obj.get());
+			*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 		}
 		return TJS_S_OK;
 	}
@@ -403,7 +403,7 @@ namespace ktl {
 				SPRIG_KRKR_ARG_VARIANT(1),
 				SPRIG_KRKR_ARG_VARIANT(2)
 				);
-			*result = tTJSVariant(obj.get(), obj.get());
+			*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 		}
 		return TJS_S_OK;
 	}
@@ -450,14 +450,14 @@ static void regist_ktl_sprites() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Sprites:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Sprites"), ktl::CreateNativeClassSprites());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("Sprites"), ktl::CreateNativeClassSprites());
 	}
 }
 static void unregist_ktl_sprites() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Sprites:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("Sprites"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("Sprites"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_sprites);

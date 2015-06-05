@@ -185,12 +185,9 @@ namespace ktl {
 			);
 	}
 	sprig::krkr::tjs::object_type NativeSocket::createNew(tjs_int numparams, tTJSVariant** param) {
-		return sprig::krkr::tjs::object_type(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Socket")),
-				numparams, param, 0
-				),
-			false
+		return sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Socket")),
+			numparams, param, 0
 			);
 	}
 	void NativeSocket::callOnFinished() {
@@ -207,9 +204,7 @@ namespace ktl {
 			tTJSVariantClosure closure(on_finished.AsObjectClosureNoAddRef());
 			sprig::krkr::tjs::FuncObjectCall(
 				closure.Object,
-				0,
-				0,
-				0,
+				0, 0, 0,
 				closure.ObjThis
 				);
 		}
@@ -1069,26 +1064,20 @@ namespace ktl {
 		if (!resolvers_.error_code() || *resolvers_.error_code()) {
 			return tTJSVariant();
 		}
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		{
 			tjs_int index = 0;
 			for (boost::asio::ip::tcp::resolver::iterator i = *resolvers_.iterator(), last = boost::asio::ip::tcp::resolver::iterator(); i != last; ++i, ++index) {
 				boost::asio::ip::tcp::endpoint endpoint(*i);
-				sprig::krkr::tjs::object_type elem(
-					sprig::krkr::tjs::CreateNewObject(
-						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
-						0, 0, 0
-						),
-					false
+				sprig::krkr::tjs::object_type elem = sprig::krkr::tjs::CreateNewObject(
+					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
+					0, 0, 0
 					);
 				sprig::krkr::tjs::AddMember(
-					sprig::get_pointer(elem), SPRIG_KRKR_TJS_W("protocol"),
+					elem, SPRIG_KRKR_TJS_W("protocol"),
 					tTVInteger(
 						endpoint.protocol() == boost::asio::ip::tcp::v6()
 							? pfIPv6
@@ -1102,13 +1091,13 @@ namespace ktl {
 					if (error) {
 						return tTJSVariant();
 					}
-					sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), SPRIG_KRKR_TJS_W("address"), tTJSVariant(address.c_str()));
+					sprig::krkr::tjs::AddMember(elem, SPRIG_KRKR_TJS_W("address"), tTJSVariant(address.c_str()));
 				}
-				sprig::krkr::tjs::AddMember(sprig::get_pointer(elem), SPRIG_KRKR_TJS_W("port"), tTJSVariant(endpoint.port()));
-				sprig::krkr::tjs::AddMember(sprig::get_pointer(result), index, tTJSVariant(sprig::get_pointer(elem), sprig::get_pointer(elem)));
+				sprig::krkr::tjs::AddMember(elem, SPRIG_KRKR_TJS_W("port"), tTJSVariant(endpoint.port()));
+				sprig::krkr::tjs::AddMember(result, index, sprig::krkr::tjs::as_object_closure_variant(elem));
 			}
 		}
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	//
 	//	SUMMARY: ê⁄ë±ånÉÅÉ\ÉbÉh

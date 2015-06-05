@@ -102,6 +102,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\storage_stream\Main.cpp" />
     <ClCompile Include="..\..\..\src\storage_stream\StorageStream.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

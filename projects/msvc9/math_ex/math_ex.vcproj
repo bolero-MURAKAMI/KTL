@@ -176,13 +176,21 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\src\math_ex\MathEx.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\math_ex\Main.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\src\math_ex\MathEx.cpp"
+				>
+			</File>
+			<Filter
+				Name="Projects"
+				>
+				<File
+					RelativePath=".\DLL.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="ヘッダー ファイル"
@@ -190,15 +198,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\..\src\math_ex\Config.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\math_ex\MathEx.hpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\src\math_ex\MathExDecl.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\math_ex\Config.hpp"
 				>
 			</File>
 		</Filter>

@@ -38,21 +38,18 @@ namespace ktl {
 		}
 		if (sprig::str_compare(membername, SPRIG_KRKR_TJS_W("asArray")) == 0) {
 			if (result) {
-				sprig::krkr::tjs::object_type res(
-					sprig::krkr::tjs::CreateNewObject(
-						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-						0, 0, 0
-						),
-					false
+				sprig::krkr::tjs::object_type obj = sprig::krkr::tjs::CreateNewObject(
+					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+					0, 0, 0
 					);
 				{
 					tjs_int num = 0;
 					for (state_type::const_iterator it = s_->begin(), last = s_->end(); it != last; ++it) {
-						sprig::krkr::tjs::AddMember(sprig::get_pointer(res), num, tTJSVariant(*it));
+						sprig::krkr::tjs::AddMember(obj, num, tTJSVariant(*it));
 						++num;
 					}
 				}
-				*result = tTJSVariant(res.get(), res.get());
+				*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 			}
 		} else if (sprig::str_compare(membername, SPRIG_KRKR_TJS_W("count")) == 0) {
 			if (result) {
@@ -105,21 +102,18 @@ namespace ktl {
 		}
 		if (sprig::str_compare(membername, SPRIG_KRKR_TJS_W("asArray")) == 0) {
 			if (result) {
-				sprig::krkr::tjs::object_type res(
-					sprig::krkr::tjs::CreateNewObject(
-						sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-						0, 0, 0
-						),
-					false
+				sprig::krkr::tjs::object_type obj = sprig::krkr::tjs::CreateNewObject(
+					sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+					0, 0, 0
 					);
 				{
 					tjs_int num = 0;
 					for (state_type::const_iterator it = s_->begin(), last = s_->end(); it != last; ++it) {
-						sprig::krkr::tjs::AddMember(sprig::get_pointer(res), num, tTJSVariant(*it));
+						sprig::krkr::tjs::AddMember(obj, num, tTJSVariant(*it));
 						++num;
 					}
 				}
-				*result = tTJSVariant(res.get(), res.get());
+				*result = sprig::krkr::tjs::as_object_closure_variant(obj);
 			}
 		} else if (sprig::str_compare(membername, SPRIG_KRKR_TJS_W("count")) == 0) {
 			if (result) {
@@ -149,7 +143,6 @@ namespace ktl {
 	KTL_INLINE void NativeOdeint::System::operator()(state_type const& x, state_type& dxdt, time_type t) const {
 		sprig::krkr::tjs::object_type x_object(new ConstVector(&x), false);
 		sprig::krkr::tjs::object_type dxdt_object(new Vector(&dxdt), false);
-		tTJSVariant result;
 		tTJSVariant param[] = {
 			x_object.get(), dxdt_object.get(), t
 		};
@@ -158,15 +151,12 @@ namespace ktl {
 		};
 		sprig::krkr::tjs::FuncObjectCall(
 			closure_.Object,
-			&result,
-			3,
-			p_param,
+			0, 3, p_param,
 			closure_.ObjThis
 			);
 	}
 	KTL_INLINE void NativeOdeint::Observer::operator()(state_type const& state, time_type t) const {
 		sprig::krkr::tjs::object_type state_object(new ConstVector(&state), false);
-		tTJSVariant result;
 		tTJSVariant param[] = {
 			state_object.get(), t
 		};
@@ -175,9 +165,7 @@ namespace ktl {
 		};
 		sprig::krkr::tjs::FuncObjectCall(
 			closure_.Object,
-			&result,
-			2,
-			p_param,
+			0, 2, p_param,
 			closure_.ObjThis
 			);
 	}

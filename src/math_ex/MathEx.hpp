@@ -142,32 +142,13 @@ namespace ktl {
 	KTL_INLINE tTJSVariant NativeMathEx::modf(tTVReal x) {
 		tTVReal i_part;
 		tTVReal f_part = boost::math::modf(x, &i_part);
-		sprig::krkr::tjs::object_type obj(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type obj = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
-		{
-			tTJSVariant param = i_part;
-			sprig::krkr::tjs::PropSetByNum(
-				obj.get(),
-				TJS_MEMBERENSURE,
-				0,
-				&param,
-				obj.get()
-				);
-			param = f_part;
-			sprig::krkr::tjs::PropSetByNum(
-				obj.get(),
-				TJS_MEMBERENSURE,
-				1,
-				&param,
-				obj.get()
-				);
-		}
-		return tTJSVariant(obj.get(), obj.get());
+		sprig::krkr::tjs::AddMember(obj, 0, tTJSVariant(i_part));
+		sprig::krkr::tjs::AddMember(obj, 1, tTJSVariant(f_part));
+		return sprig::krkr::tjs::as_object_closure_variant(obj);
 	}
 	KTL_INLINE tTVReal NativeMathEx::fpart(tTVReal x) {
 		return x - boost::math::trunc(x);
@@ -178,32 +159,13 @@ namespace ktl {
 	KTL_INLINE tTJSVariant NativeMathEx::frexp(tTVReal x) {
 		int exponent;
 		tTVReal mantissa = std::frexp(x, &exponent);
-		sprig::krkr::tjs::object_type obj(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type obj = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
-		{
-			tTJSVariant param = mantissa;
-			sprig::krkr::tjs::PropSetByNum(
-				obj.get(),
-				TJS_MEMBERENSURE,
-				0,
-				&param,
-				obj.get()
-				);
-			param = exponent;
-			sprig::krkr::tjs::PropSetByNum(
-				obj.get(),
-				TJS_MEMBERENSURE,
-				1,
-				&param,
-				obj.get()
-				);
-		}
-		return tTJSVariant(obj.get(), obj.get());
+		sprig::krkr::tjs::AddMember(obj, 0, tTJSVariant(mantissa));
+		sprig::krkr::tjs::AddMember(obj, 1, tTJSVariant(exponent));
+		return sprig::krkr::tjs::as_object_closure_variant(obj);
 	}
 	//
 	//	SUMMARY: 浮動小数点数比較系メソッド
@@ -461,32 +423,13 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant NativeMathEx::sphericalHarmonic(unsigned n, int m, tTVReal theta, tTVReal phi) {
 		std::complex<tTVReal> result(boost::math::spherical_harmonic(n, m, theta, phi));
-		sprig::krkr::tjs::object_type obj(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type obj = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
-		{
-			tTJSVariant param = result.real();
-			sprig::krkr::tjs::PropSetByNum(
-				obj.get(),
-				TJS_MEMBERENSURE,
-				0,
-				&param,
-				obj.get()
-				);
-			param = result.imag();
-			sprig::krkr::tjs::PropSetByNum(
-				obj.get(),
-				TJS_MEMBERENSURE,
-				1,
-				&param,
-				obj.get()
-				);
-		}
-		return tTJSVariant(obj.get(), obj.get());
+		sprig::krkr::tjs::AddMember(obj, 0, tTJSVariant(result.real()));
+		sprig::krkr::tjs::AddMember(obj, 1, tTJSVariant(result.imag()));
+		return sprig::krkr::tjs::as_object_closure_variant(obj);
 	}
 	KTL_INLINE tTVReal NativeMathEx::sphericalHarmonicR(unsigned n, int m, tTVReal theta, tTVReal phi) {
 		return boost::math::spherical_harmonic_r(n, m, theta, phi);
@@ -1146,55 +1089,43 @@ namespace ktl {
 	//
 	KTL_INLINE tTJSVariant MathEx::cylHankel1(tTVReal v, tTVReal x) {
 		std::complex<tTVReal> t(NativeMathEx::cylHankel1(v, x));
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t.real()));
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t.imag()));
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant MathEx::cylHankel2(tTVReal v, tTVReal x) {
 		std::complex<tTVReal> t(NativeMathEx::cylHankel2(v, x));
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t.real()));
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t.imag()));
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant MathEx::sphHankel1(tTVReal v, tTVReal x) {
 		std::complex<tTVReal> t(NativeMathEx::sphHankel1(v, x));
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t.real()));
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t.imag()));
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTJSVariant MathEx::sphHankel2(tTVReal v, tTVReal x) {
 		std::complex<tTVReal> t(NativeMathEx::sphHankel2(v, x));
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t.real()));
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t.imag()));
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	//
 	//	SUMMARY: エアリー関数系メソッド
@@ -1282,17 +1213,14 @@ namespace ktl {
 	//
 	KTL_INLINE tTJSVariant MathEx::jacobiElliptic(tTVReal k, tTVReal u) {
 		boost::array<tTVReal, 3> t(NativeMathEx::jacobiElliptic(k, u));
-		sprig::krkr::tjs::object_type result(
-			sprig::krkr::tjs::CreateNewObject(
-				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
-				0, 0, 0
-				),
-			false
+		sprig::krkr::tjs::object_type result = sprig::krkr::tjs::CreateNewObject(
+			sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
+			0, 0, 0
 			);
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 0, tTJSVariant(t[0]));
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 1, tTJSVariant(t[1]));
 		sprig::krkr::tjs::AddMember(sprig::get_pointer(result), 2, tTJSVariant(t[2]));
-		return tTJSVariant(result.get(), result.get());
+		return sprig::krkr::tjs::as_object_closure_variant(result);
 	}
 	KTL_INLINE tTVReal MathEx::jacobiCd(tTVReal k, tTVReal u) {
 		return NativeMathEx::jacobiCd(k, u);

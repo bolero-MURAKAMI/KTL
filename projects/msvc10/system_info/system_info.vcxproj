@@ -99,6 +99,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\system_info\Main.cpp" />
     <ClCompile Include="..\..\..\src\system_info\SystemInfo.cpp" />
+    <ClCompile Include="DLL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\ktl\rc\version.rc" />

@@ -148,7 +148,7 @@ static void regist_ktl_network() {
 #endif
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Network"), ktl::CreateNativeClassNetwork());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("Network"), ktl::CreateNativeClassNetwork());
 	}
 }
 static void unregist_ktl_network() {
@@ -158,7 +158,7 @@ static void unregist_ktl_network() {
 #endif
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("Network"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("Network"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_network);

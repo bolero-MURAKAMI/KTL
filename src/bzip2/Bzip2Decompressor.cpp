@@ -223,14 +223,14 @@ static void regist_ktl_inflate() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Bzip2Decompressor:regist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::AddNewMember(global.get(), SPRIG_KRKR_TJS_W("Bzip2Decompressor"), ktl::CreateNativeClassBzip2Decompressor());
+		sprig::krkr::tjs::AddNewMember(global, SPRIG_KRKR_TJS_W("Bzip2Decompressor"), ktl::CreateNativeClassBzip2Decompressor());
 	}
 }
 static void unregist_ktl_inflate() {
 	SPRIG_KRKR_SECTION(SPRIG_KRKR_TJS_W("KTL:Bzip2Decompressor:unregist"), SPRIG_KRKR_LOG_LEVEL_NOTIFICATION);
 	sprig::krkr::tjs::object_type global(::TVPGetScriptDispatch(), false);
 	if (global) {
-		sprig::krkr::tjs::DeleteMember(global.get(), SPRIG_KRKR_TJS_W("Bzip2Decompressor"));
+		sprig::krkr::tjs::DeleteMember(global, SPRIG_KRKR_TJS_W("Bzip2Decompressor"));
 	}
 }
 NCB_POST_REGIST_CALLBACK(regist_ktl_inflate);
