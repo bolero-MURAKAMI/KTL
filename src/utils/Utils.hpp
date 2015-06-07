@@ -15,8 +15,10 @@
 #include <sstream>
 #include <boost/numeric/conversion/cast.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
+#include <boost/optional/optional.hpp>
 #include <sprig/external/tp_stub.hpp>
 #include <sprig/external/ncbind/ncbind.hpp>
+#include <sprig/numeric/conversion/cast.hpp>
 #include <sprig/str_length.hpp>
 #include <sprig/com_ptr.hpp>
 #include <sprig/com_ptr/unknown.hpp>
@@ -38,7 +40,7 @@ namespace ktl {
 	//
 	// NativeUtils::CallbackEnumMembers
 	//
-	NativeUtils::CallbackEnumMembers::CallbackEnumMembers()
+	KTL_INLINE NativeUtils::CallbackEnumMembers::CallbackEnumMembers()
 		: result_obj_(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Dictionary")),
@@ -67,13 +69,13 @@ namespace ktl {
 		}
 		return TJS_S_OK;
 	}
-	tTJSVariant const& NativeUtils::CallbackEnumMembers::result() const {
+	KTL_INLINE tTJSVariant const& NativeUtils::CallbackEnumMembers::result() const {
 		return result_;
 	}
 	//
 	// NativeUtils::CallbackEnumMembersName
 	//
-	NativeUtils::CallbackEnumMembersName::CallbackEnumMembersName()
+	KTL_INLINE NativeUtils::CallbackEnumMembersName::CallbackEnumMembersName()
 		: result_obj_(
 			sprig::krkr::tjs::CreateNewObject(
 				sprig::krkr::tjs::GetTJSClassNoAddRef(SPRIG_KRKR_TJS_W("Array")),
@@ -103,8 +105,202 @@ namespace ktl {
 		}
 		return TJS_S_OK;
 	}
-	tTJSVariant const& NativeUtils::CallbackEnumMembersName::result() const {
+	KTL_INLINE tTJSVariant const& NativeUtils::CallbackEnumMembersName::result() const {
 		return result_;
+	}
+	//
+	// NativeUtils::CallbackEnumMembersSaveStruct
+	//
+	template<typename Writer>
+	KTL_INLINE NativeUtils::CallbackEnumMembersSaveStruct<Writer>::CallbackEnumMembersSaveStruct(Writer& w, object_stack_type& stack)
+		: writer_(&w)
+		, obj_stack_(&stack)
+		, is_not_first_(false)
+	{}
+	template<typename Writer>
+	tjs_error TJS_INTF_METHOD NativeUtils::CallbackEnumMembersSaveStruct<Writer>::FuncCall(
+		tjs_uint32 flag,
+		tjs_char const* membername,
+		tjs_uint32* hint,
+		tTJSVariant* result,
+		tjs_int numparams,
+		tTJSVariant** param,
+		iTJSDispatch2* objthis)
+	{
+		if (numparams < 3) {
+			return TJS_E_BADPARAMCOUNT;
+		}
+		if (param[1]->AsInteger() != 0) {
+			return TJS_S_OK;
+		}
+		if (is_not_first_) {
+			writer_->write(SPRIG_KRKR_TJS_W(","));
+		} else {
+			is_not_first_ = true;
+		}
+		writer_->newline();
+		writer_->write(::TJSVariantToExpressionString(*param[0]).c_str());
+		writer_->write(SPRIG_KRKR_TJS_W(" => "));
+		return writeSaveStructString(*writer_, *param[2], *obj_stack_);
+	}
+	template<typename Writer>
+	KTL_INLINE Writer& NativeUtils::CallbackEnumMembersSaveStruct<Writer>::writer() const {
+		return *writer_;
+	}
+	//
+	// SaveStructStringWriter
+	//
+	KTL_INLINE NativeUtils::SaveStructStringWriter::SaveStructStringWriter(
+		flag_type flag,
+		tjs_char indent_char,
+		size_type indent_count
+		)
+		: flag_(flag)
+		, indent_char_(indent_char)
+		, indent_count_(indent_count)
+		, indent_()
+		, oss_()
+	{}
+	KTL_INLINE void NativeUtils::SaveStructStringWriter::write(tjs_string_type const& s) {
+		oss_ << s;
+	}
+	KTL_INLINE void NativeUtils::SaveStructStringWriter::write(tjs_char const* s) {
+		oss_ << s;
+	}
+	KTL_INLINE void NativeUtils::SaveStructStringWriter::write(tjs_char c) {
+		oss_ << c;
+	}
+	KTL_INLINE void NativeUtils::SaveStructStringWriter::newline() {
+		oss_ << SPRIG_KRKR_TJS_W("\r\n") << indent_;
+	}
+	KTL_INLINE void NativeUtils::SaveStructStringWriter::push_indent() {
+		indent_.append(indent_count_, indent_char_);
+	}
+	KTL_INLINE void NativeUtils::SaveStructStringWriter::pop_indent() {
+		indent_.erase(indent_.size() - indent_count_);
+	}
+	KTL_INLINE void NativeUtils::SaveStructStringWriter::write_const() {
+		if (!(flag_ & sfNoConstQualifier)) {
+			oss_ << SPRIG_KRKR_TJS_W("(const) ");
+		}
+	}
+	KTL_INLINE NativeUtils::tjs_string_type NativeUtils::SaveStructStringWriter::result() const {
+		return oss_.str();
+	}
+
+	template<typename Writer>
+	KTL_INLINE tjs_error NativeUtils::writeSaveStructString(Writer& writer, tTJSVariant const& v, object_stack_type& stack) {
+		switch (v.Type()) {
+		case tvtVoid:
+		case tvtString:
+		case tvtInteger:
+		case tvtReal:
+		case tvtOctet:
+			writer.write(::TJSVariantToExpressionString(v).c_str());
+			break;
+		case tvtObject:
+			{
+				tTJSVariantClosure const& closure = v.AsObjectClosureNoAddRef();
+				if (!closure.Object) {
+					writer.write(SPRIG_KRKR_TJS_W("null"));
+					break;
+				}
+				if (closure.ObjThis && sprig::krkr::tjs::IsInstanceObjectOf(closure.Object, SPRIG_KRKR_TJS_W("Array"))) {
+					if (std::find(stack.begin(), stack.end(), closure.Object) != stack.end()) {
+						writer.write(SPRIG_KRKR_TJS_W("null /* object recursion detected */"));
+						break;
+					}
+					stack.push_back(closure.Object);
+					writer.write_const();
+					writer.write(SPRIG_KRKR_TJS_W("["));
+					writer.push_indent();
+					tjs_error error = TJS_S_OK;
+					{
+						tjs_int count = sprig::krkr::tjs::GetPropValue<tjs_int>(closure.Object, SPRIG_KRKR_TJS_W("count"));
+						if (count) {
+							writer.newline();
+							error = writeSaveStructString(writer, sprig::krkr::tjs::GetPropValue<tTJSVariant>(closure.Object, 0), stack);
+							if (!TJS_FAILED(error)) {
+								for (tjs_int i = 1; i != count; ++i) {
+									writer.write(SPRIG_KRKR_TJS_W(","));
+									writer.newline();
+									error = writeSaveStructString(writer, sprig::krkr::tjs::GetPropValue<tTJSVariant>(closure.Object, i), stack);
+									if (TJS_FAILED(error)) {
+										break;
+									}
+								}
+							}
+						}
+					}
+					writer.pop_indent();
+					writer.newline();
+					writer.write(SPRIG_KRKR_TJS_W("]"));
+					stack.pop_back();
+					if (TJS_FAILED(error)) {
+						return error;
+					}
+				} else if (closure.ObjThis && sprig::krkr::tjs::IsInstanceObjectOf(closure.Object, SPRIG_KRKR_TJS_W("Dictionary"))) {
+					if (std::find(stack.begin(), stack.end(), closure.Object) != stack.end()) {
+						writer.write(SPRIG_KRKR_TJS_W("null /* object recursion detected */"));
+						break;
+					}
+					stack.push_back(closure.Object);
+					writer.write_const();
+					writer.write(SPRIG_KRKR_TJS_W("%["));
+					writer.push_indent();
+					tjs_error error = TJS_S_OK;
+					{
+						CallbackEnumMembersSaveStruct<Writer> callback(writer, stack);
+						tTJSVariantClosure caller(&callback);
+						error = closure.Object->EnumMembers(0, &caller, closure.Object);
+					}
+					writer.pop_indent();
+					writer.newline();
+					writer.write(SPRIG_KRKR_TJS_W("]"));
+					stack.pop_back();
+					if (TJS_FAILED(error)) {
+						return error;
+					}
+				} else {
+					writer.write(SPRIG_KRKR_TJS_W("null /* (object) \""));
+					writer.write(sprig::krkr::tjs::escape_c(tTJSString(v)).c_str());
+					writer.write(SPRIG_KRKR_TJS_W("\" */"));
+				}
+			}
+			break;
+		default:
+			return TJS_E_INVALIDPARAM;
+		}
+		return TJS_S_OK;
+	}
+	KTL_INLINE NativeUtils::int_type NativeUtils::saveStorage(
+		tjs_char const* storage,
+		void const* data,
+		ULONG length
+		)
+	{
+		sprig::com_ptr<IStream> out(::TVPCreateIStream(storage, TJS_BS_WRITE));
+		if (!out) {
+			KTL_ERROR(
+				KTL_ERROR_SECTION,
+				tTJSString(SPRIG_KRKR_TJS_W("ファイルオープンに失敗しました: ")) + storage,
+				sprig::krkr::internal_error
+				);
+			return -1;
+		}
+		if (!length) {
+			return length;
+		}
+		ULONG io_size = 0;
+		if (FAILED(out->Write(data, length, &io_size))) {
+			KTL_ERROR(
+				KTL_ERROR_SECTION,
+				SPRIG_KRKR_TJS_W("ファイル書込に失敗しました"),
+				sprig::krkr::internal_error
+				);
+			return io_size;
+		}
+		return io_size;
 	}
 	NativeUtils::NativeUtils() {}
 	//
@@ -199,6 +395,9 @@ namespace ktl {
 	KTL_INLINE tTJSVariant NativeUtils::toReadableString(tTJSVariant const* v, size_type max_size) {
 		return ::TJSVariantToReadableString(*v, max_size);
 	}
+	KTL_INLINE tTJSVariant NativeUtils::toExpressionString(tTJSVariant const* v) {
+		return ::TJSVariantToExpressionString(*v);
+	}
 	//
 	//	SUMMARY: ストレージ系メソッド
 	//
@@ -254,27 +453,7 @@ namespace ktl {
 			);
 	}
 	KTL_INLINE NativeUtils::size_type NativeUtils::saveStorageFromOctet(tjs_char const* storage, tTJSVariantOctet const* octet) {
-		sprig::com_ptr<IStream> out(::TVPCreateIStream(storage, TJS_BS_WRITE));
-		if (!out) {
-			KTL_ERROR(
-				KTL_ERROR_SECTION,
-				tTJSString(SPRIG_KRKR_TJS_W("ファイルオープンに失敗しました")) + storage,
-				sprig::krkr::internal_error
-				);
-			return -1;
-		}
-		tjs_uint8 const* data = sprig::krkr::tjs::octet_data(octet);
-		tjs_uint const length = sprig::krkr::tjs::octet_length(octet);
-		ULONG io_size = 0;
-		if (FAILED(out->Write(data, length, &io_size))) {
-			KTL_ERROR(
-				KTL_ERROR_SECTION,
-				tTJSString(SPRIG_KRKR_TJS_W("ファイル書込に失敗しました")) + storage,
-				sprig::krkr::internal_error
-				);
-			return -1;
-		}
-		return io_size;
+		return saveStorage(storage, sprig::krkr::tjs::octet_data(octet), sprig::krkr::tjs::octet_length(octet));
 	}
 	//
 	//	SUMMARY: 列挙系メソッド
@@ -300,6 +479,48 @@ namespace ktl {
 			return tTJSVariant();
 		}
 		return callback.result();
+	}
+	//
+	//	SUMMARY: セーブ系メソッド
+	//
+	KTL_INLINE tTJSVariant NativeUtils::saveStructString(
+		tTJSVariant const* v,
+		flag_type flag,
+		boost::optional<tjs_char> indent_char,
+		boost::optional<size_type> indent_count
+		)
+	{
+		SaveStructStringWriter writer(
+			flag,
+			indent_char ? *indent_char : SPRIG_KRKR_TJS_W(' '),
+			indent_count ? *indent_count : 1
+			);
+		object_stack_type stack;
+		if (TJS_FAILED(writeSaveStructString(writer, *v, stack))) {
+			return tTJSVariant();
+		}
+		return writer.result().c_str();
+	}
+	KTL_INLINE NativeUtils::int_type NativeUtils::saveStruct(
+		tjs_char const* storage,
+		tTJSVariant const* v,
+		flag_type flag,
+		boost::optional<tjs_char> indent_char,
+		boost::optional<size_type> indent_count
+		)
+	{
+		SaveStructStringWriter writer(
+			flag,
+			indent_char ? *indent_char : SPRIG_KRKR_TJS_W(' '),
+			indent_count ? *indent_count : 1
+			);
+		object_stack_type stack;
+		writer.write(SPRIG_KRKR_TJS_W('\xFEFF'));
+		if (TJS_FAILED(writeSaveStructString(writer, *v, stack))) {
+			return tTJSVariant();
+		}
+		tjs_string_type s = writer.result();
+		return saveStorage(storage, s.c_str(), s.size() * sizeof(tjs_char));
 	}
 
 	//
@@ -403,6 +624,9 @@ namespace ktl {
 			boost::numeric_cast<NativeUtils::size_type>(max_size)
 			);
 	}
+	KTL_INLINE tTJSVariant Utils::toExpressionString(tTJSVariant const* v) {
+		return NativeUtils::toExpressionString(v);
+	}
 	//
 	//	SUMMARY: ストレージ系メソッド
 	//
@@ -425,6 +649,49 @@ namespace ktl {
 	}
 	KTL_INLINE tTJSVariant Utils::enumMembersName(tTJSVariantClosure const& closure) {
 		return NativeUtils::enumMembersName(closure);
+	}
+	//
+	//	SUMMARY: セーブ系メソッド
+	//
+	KTL_INLINE tTJSVariant Utils::saveStructString(
+		tTJSVariant const* v,
+		tTVInteger flag,
+		boost::optional<tTVInteger> indent_char,
+		boost::optional<tTVInteger> indent_count
+		)
+	{
+		return NativeUtils::saveStructString(
+			v,
+			sprig::numeric::bit_cast<NativeUtils::flag_type>(flag),
+			indent_char
+				? boost::optional<tjs_char>(boost::numeric_cast<tjs_char>(*indent_char))
+				: boost::none
+				,
+			indent_count
+				? boost::optional<NativeUtils::size_type>(boost::numeric_cast<NativeUtils::size_type>(*indent_count))
+				: boost::none
+			);
+	}
+	KTL_INLINE tTVInteger Utils::saveStruct(
+		tTJSVariantString const* storage,
+		tTJSVariant const* v,
+		tTVInteger flag,
+		boost::optional<tTVInteger> indent_char,
+		boost::optional<tTVInteger> indent_count
+		)
+	{
+		return NativeUtils::saveStruct(
+			sprig::krkr::tjs::as_c_str(storage),
+			v,
+			sprig::numeric::bit_cast<NativeUtils::flag_type>(flag),
+			indent_char
+				? boost::optional<tjs_char>(boost::numeric_cast<tjs_char>(*indent_char))
+				: boost::none
+				,
+			indent_count
+				? boost::optional<NativeUtils::size_type>(boost::numeric_cast<NativeUtils::size_type>(*indent_count))
+				: boost::none
+			);
 	}
 }	// namespace ktl
 

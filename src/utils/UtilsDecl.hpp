@@ -9,8 +9,12 @@
 #define SRC_UTILS_UTILS_DECL_HPP
 
 #include <cstddef>
+#include <string>
+#include <vector>
+#include <sstream>
 #include <boost/cstdint.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/optional/optional.hpp>
 #include <sprig/external/tp_stub.hpp>
 
 namespace ktl {
@@ -22,6 +26,9 @@ namespace ktl {
 		typedef boost::int_fast32_t int_type;
 		typedef std::size_t size_type;
 		typedef tjs_uint8 byte_type;
+		typedef boost::uint_fast32_t flag_type;
+		typedef std::basic_string<tjs_char> tjs_string_type;
+		typedef std::vector<iTJSDispatch2*> object_stack_type;
 	public:
 		//
 		// CallbackEnumMembers
@@ -68,9 +75,71 @@ namespace ktl {
 				);
 			tTJSVariant const& result() const;
 		};
+		//
+		// CallbackEnumMembersSaveStruct
+		//
+		template<typename Writer>
+		class CallbackEnumMembersSaveStruct
+			: public tTJSDispatch
+		{
+		private:
+			Writer* writer_;
+			object_stack_type* obj_stack_;
+			bool is_not_first_;
+		public:
+			CallbackEnumMembersSaveStruct(Writer& w, object_stack_type& stack);
+			tjs_error TJS_INTF_METHOD FuncCall(
+				tjs_uint32 flag,
+				tjs_char const* membername,
+				tjs_uint32* hint,
+				tTJSVariant* result,
+				tjs_int numparams,
+				tTJSVariant** param,
+				iTJSDispatch2* objthis
+				);
+			Writer& writer() const;
+		};
+		//
+		// SaveStructStringWriter
+		//
+		class SaveStructStringWriter {
+		private:
+			flag_type flag_;
+			tjs_char indent_char_;
+			size_type indent_count_;
+			tjs_string_type indent_;
+			std::basic_ostringstream<tjs_char> oss_;
+		public:
+			explicit SaveStructStringWriter(
+				flag_type flag = 0,
+				tjs_char indent_char = SPRIG_KRKR_TJS_W(' '),
+				size_type indent_count = 1
+				);
+			void write(tjs_string_type const& s);
+			void write(tjs_char const* s);
+			void write(tjs_char c);
+			void newline();
+			void write_indent();
+			void push_indent();
+			void pop_indent();
+			void write_const();
+			tjs_string_type result() const;
+		};
+	private:
+		template<typename Writer>
+		static tjs_error writeSaveStructString(Writer& writer, tTJSVariant const& v, object_stack_type& stack);
+		static int_type saveStorage(
+			tjs_char const* storage,
+			void const* data,
+			ULONG length
+			);
 	public:
 		NativeUtils();
 	public:
+		//
+		//	SUMMARY: セーブ系フラグ
+		//
+		static flag_type const sfNoConstQualifier = 0x00000001;
 		//
 		//	SUMMARY: 定数系プロパティ
 		//
@@ -104,6 +173,7 @@ namespace ktl {
 		static tTJSVariant toString(tTJSVariant const* v);
 		static tTJSVariant toReadableString(tTJSVariant const* v);
 		static tTJSVariant toReadableString(tTJSVariant const* v, size_type max_size);
+		static tTJSVariant toExpressionString(tTJSVariant const* v);
 		//
 		//	SUMMARY: ストレージ系メソッド
 		//
@@ -114,6 +184,22 @@ namespace ktl {
 		//
 		static tTJSVariant enumMembers(tTJSVariantClosure const& closure);
 		static tTJSVariant enumMembersName(tTJSVariantClosure const& closure);
+		//
+		//	SUMMARY: セーブ系メソッド
+		//
+		static tTJSVariant saveStructString(
+			tTJSVariant const* v,
+			flag_type flag = 0x00000000,
+			boost::optional<tjs_char> indent_char = boost::none,
+			boost::optional<size_type> indent_count = boost::none
+			);
+		static int_type saveStruct(
+			tjs_char const* storage,
+			tTJSVariant const* v,
+			flag_type flag = 0x00000000,
+			boost::optional<tjs_char> indent_char = boost::none,
+			boost::optional<size_type> indent_count = boost::none
+			);
 	};
 
 	//
@@ -133,6 +219,10 @@ namespace ktl {
 			);
 		void TJS_INTF_METHOD Invalidate();
 	public:
+		//
+		//	SUMMARY: セーブ系フラグ
+		//
+		static tTVInteger const sfNoConstQualifier = NativeUtils::sfNoConstQualifier;
 		//
 		//	SUMMARY: 定数系プロパティ
 		//
@@ -166,6 +256,7 @@ namespace ktl {
 		static tTJSVariant toString(tTJSVariant const* v);
 		static tTJSVariant toReadableString(tTJSVariant const* v);
 		static tTJSVariant toReadableString(tTJSVariant const* v, tTVInteger max_size);
+		static tTJSVariant toExpressionString(tTJSVariant const* v);
 		//
 		//	SUMMARY: ストレージ系メソッド
 		//
@@ -176,6 +267,22 @@ namespace ktl {
 		//
 		static tTJSVariant enumMembers(tTJSVariantClosure const& closure);
 		static tTJSVariant enumMembersName(tTJSVariantClosure const& closure);
+		//
+		//	SUMMARY: セーブ系メソッド
+		//
+		static tTJSVariant saveStructString(
+			tTJSVariant const* v,
+			tTVInteger flag = 0x00000000,
+			boost::optional<tTVInteger> indent_char = boost::none,
+			boost::optional<tTVInteger> indent_count = boost::none
+			);
+		static tTVInteger saveStruct(
+			tTJSVariantString const* storage,
+			tTJSVariant const* v,
+			tTVInteger flag = 0x00000000,
+			boost::optional<tTVInteger> indent_char = boost::none,
+			boost::optional<tTVInteger> indent_count = boost::none
+			);
 	};
 }	// namespace ktl
 

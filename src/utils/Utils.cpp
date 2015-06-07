@@ -24,6 +24,10 @@ namespace ktl {
 #define TJS_NATIVE_CLASSID_NAME UtilsClassID
 	SPRIG_KRKR_BEGIN_CREATE_NATIVE_CLASS(CreateNativeClassUtils, Utils, Utils)
 	//
+	//	SUMMARY: セーブ系フラグ
+	//
+	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(sfNoConstQualifier, Utils::sfNoConstQualifier);
+	//
 	//	SUMMARY: 定数系プロパティ
 	//
 	SPRIG_KRKR_NATIVE_CONSTANT_PROP_DECL(sizeofWChar, Utils::sizeofWChar);
@@ -182,6 +186,15 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(toReadableString);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(toExpressionString)
+	{
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
+		SPRIG_KRKR_RESULT_SET(
+			Utils::toExpressionString(SPRIG_KRKR_ARG(0))
+			);
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(toExpressionString);
 	//
 	//	SUMMARY: ストレージ系メソッド
 	//
@@ -229,6 +242,68 @@ namespace ktl {
 		return TJS_S_OK;
 	}
 	SPRIG_KRKR_END_NATIVE_METHOD_DECL(enumMembersName);
+	//
+	//	SUMMARY: セーブ系メソッド
+	//
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(saveStructString)
+	{
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(1);
+		if (numparams >= 2) {
+			SPRIG_KRKR_TYPE_CHECK(1, tvtInteger);
+			SPRIG_KRKR_RESULT_SET(
+				Utils::saveStructString(
+					SPRIG_KRKR_ARG(0),
+					SPRIG_KRKR_ARG_VARIANT(1),
+					SPRIG_KRKR_ENABLE_ARG(2)
+						? boost::optional<tTVInteger>(SPRIG_KRKR_ARG_VARIANT(2))
+						: boost::none
+						,
+					SPRIG_KRKR_ENABLE_ARG(3)
+						? boost::optional<tTVInteger>(SPRIG_KRKR_ARG_VARIANT(3))
+						: boost::none
+					)
+				);
+		} else {
+			SPRIG_KRKR_RESULT_SET(
+				Utils::saveStructString(
+					SPRIG_KRKR_ARG(0)
+					)
+				);
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(saveStructString);
+	SPRIG_KRKR_BEGIN_NATIVE_METHOD_DECL(saveStruct)
+	{
+		SPRIG_KRKR_NUMPARAMS_EASY_CHECK(2);
+		SPRIG_KRKR_TYPE_CHECK(0, tvtString);
+		if (numparams >= 3) {
+			SPRIG_KRKR_TYPE_CHECK(2, tvtInteger);
+			SPRIG_KRKR_RESULT_SET(
+				Utils::saveStruct(
+					SPRIG_KRKR_ARG_STRING(0),
+					SPRIG_KRKR_ARG(1),
+					SPRIG_KRKR_ARG_VARIANT(2),
+					SPRIG_KRKR_ENABLE_ARG(3)
+						? boost::optional<tTVInteger>(SPRIG_KRKR_ARG_VARIANT(3))
+						: boost::none
+						,
+					SPRIG_KRKR_ENABLE_ARG(4)
+						? boost::optional<tTVInteger>(SPRIG_KRKR_ARG_VARIANT(4))
+						: boost::none
+					)
+				);
+		} else {
+			SPRIG_KRKR_RESULT_SET(
+				Utils::saveStruct(
+					SPRIG_KRKR_ARG_STRING(0),
+					SPRIG_KRKR_ARG(1)
+					)
+				);
+		}
+		return TJS_S_OK;
+	}
+	SPRIG_KRKR_END_NATIVE_METHOD_DECL(saveStruct);
 
 	SPRIG_KRKR_END_CREATE_NATIVE_CLASS();
 #undef TJS_NATIVE_CLASSID_NAME
