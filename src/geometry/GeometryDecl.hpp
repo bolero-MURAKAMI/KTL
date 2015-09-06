@@ -8,8 +8,13 @@
 #ifndef SRC_GEOMETRY_GEOMETRY_DECL_HPP
 #define SRC_GEOMETRY_GEOMETRY_DECL_HPP
 
+#include <cstddef>
+#include <string>
+#include <vector>
+#include <ostream>
 #include <boost/cstdint.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/tti/has_static_member_data.hpp>
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/segment.hpp>
@@ -30,7 +35,10 @@ namespace ktl {
 	//
 	class NativeGeometry {
 	public:
+		typedef boost::int_fast32_t int_type;
 		typedef boost::uint_fast32_t flag_type;
+		typedef std::vector<tjs_uint8> binary_type;
+		typedef std::size_t size_type;
 		typedef tTVReal element_type;
 		typedef boost::geometry::model::d2::point_xy<element_type> point_type;
 		typedef boost::geometry::model::segment<point_type> segment_type;
@@ -56,13 +64,18 @@ namespace ktl {
 		class Intersects1Dispatch;
 		template<typename G>
 		class Touches1Dispatch;
+		template<typename G>
+		class ConvexHullDispatch;
 		template<typename G0, typename G1>
 		class DisjointDispatch;
 		template<typename G0, typename G1>
 		class TouchesDispatch;
 		template<typename G0, typename G1>
 		class CrossesDispatch;
+		template<typename G0, typename G1>
+		class RelateDispatch;
 
+		class IsEmptyFunc;
 		class IsValidFunc;
 		class IsSimpleFunc;
 		class Intersects1Func;
@@ -72,6 +85,9 @@ namespace ktl {
 		class AreaFunc;
 		class CentroidFunc;
 		class EnvelopeFunc;
+		class ConvexHullFunc;
+		class CorrectFunc;
+		class SimplifyFunc;
 
 		class DisjointFunc;
 		class IntersectsFunc;
@@ -81,7 +97,10 @@ namespace ktl {
 		class OverlapsFunc;
 		class TouchesFunc;
 		class CrossesFunc;
+		class RelateFunc;
 		class DistanceFunc;
+		class RelationFunc;
+		class ExpandFunc;
 	private:
 		static point_type to_point(tTJSVariantClosure const& g);
 		static segment_type to_segment(tTJSVariantClosure const& g);
@@ -111,15 +130,42 @@ namespace ktl {
 
 		template<typename F>
 		static typename F::result_type dispatch(F fn, tTJSVariantClosure const& g, flag_type f);
+		template<typename F, typename P0>
+		static typename F::result_type dispatch(F fn, tTJSVariantClosure const& g, flag_type f, P0 const& p0);
 		template<typename F>
 		static typename F::result_type dispatch(F fn, tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
+		template<typename F, typename P0>
+		static typename F::result_type dispatch(F fn, tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1, P0 const& p0);
 
+		template<typename R, typename G>
+		static R return_convex_hull(G const& g);
+		template<typename G>
+		static G return_correct(G const& g);
+		template<typename G, typename D>
+		static G return_simplify(G const& g, D const& d);
 		template<typename G, typename S>
 		static G return_transform(G const& g, S const& s);
 		template<typename S>
 		static tTJSVariant transform(tTJSVariantClosure const& g, flag_type f, S const& s);
 		template<typename S>
 		static tTJSVariant transform(tTJSVariantClosure const& g, flag_type f, S const& s, tTJSVariant const& o);
+		template<typename G1, typename G2>
+		static G1 return_expand(G1 const& g1, G2 const& g2);
+
+		template<typename G>
+		static G read_wkt(std::string const& s);
+		template<typename Elem, typename Traits>
+		static void write_wkt(std::basic_ostream<Elem, Traits>& os, tTJSVariantClosure const& g, flag_type f);
+
+		static bool loadStorage(
+			binary_type& binary,
+			tjs_char const* storage
+			);
+		static int_type saveStorage(
+			tjs_char const* storage,
+			void const* data,
+			ULONG length
+			);
 	public:
 		NativeGeometry();
 	public:
@@ -139,6 +185,7 @@ namespace ktl {
 		//
 		//	SUMMARY: 単項系メソッド
 		//
+		static bool isEmpty(tTJSVariantClosure const& g, flag_type f);
 		static bool isValid(tTJSVariantClosure const& g, flag_type f);
 		static bool isSimple(tTJSVariantClosure const& g, flag_type f);
 		static bool intersects(tTJSVariantClosure const& g, flag_type f);
@@ -148,6 +195,9 @@ namespace ktl {
 		static element_type area(tTJSVariantClosure const& g, flag_type f);
 		static tTJSVariant centroid(tTJSVariantClosure const& g, flag_type f);
 		static tTJSVariant envelope(tTJSVariantClosure const& g, flag_type f);
+		static tTJSVariant convexHull(tTJSVariantClosure const& g, flag_type f);
+		static tTJSVariant correct(tTJSVariantClosure const& g, flag_type f);
+		static tTJSVariant simplify(tTJSVariantClosure const& g, flag_type f, element_type const& d);
 		static tTJSVariant translate(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t);
 		static tTJSVariant scale(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t);
 		static tTJSVariant scale(tTJSVariantClosure const& g, flag_type f, tTJSVariant const& t, tTJSVariant const& o);
@@ -165,7 +215,17 @@ namespace ktl {
 		static bool overlaps(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static bool touches(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
 		static bool crosses(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
+		static bool relate(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1, char const* t);
 		static element_type distance(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
+		static tTJSVariant relation(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
+		static tTJSVariant expand(tTJSVariantClosure const& g0, flag_type f0, tTJSVariantClosure const& g1, flag_type f1);
+		//
+		//	SUMMARY: IO系メソッド
+		//
+		static tTJSVariant readWKT(tjs_char const* source, flag_type f);
+		static tTJSVariant readStorageWKT(tjs_char const* storage, flag_type f);
+		static tTJSVariant writeWKTToString(tTJSVariantClosure const& g, flag_type f);
+		static int_type writeStorageWKT(tjs_char const* storage, tTJSVariantClosure const& g, flag_type f);
 	};
 
 	//
@@ -201,6 +261,7 @@ namespace ktl {
 		//
 		//	SUMMARY: 単項系メソッド
 		//
+		static bool isEmpty(tTJSVariantClosure const& g, tTVInteger f);
 		static bool isValid(tTJSVariantClosure const& g, tTVInteger f);
 		static bool isSimple(tTJSVariantClosure const& g, tTVInteger f);
 		static bool intersects(tTJSVariantClosure const& g, tTVInteger f);
@@ -210,6 +271,9 @@ namespace ktl {
 		static tTVReal area(tTJSVariantClosure const& g, tTVInteger f);
 		static tTJSVariant centroid(tTJSVariantClosure const& g, tTVInteger f);
 		static tTJSVariant envelope(tTJSVariantClosure const& g, tTVInteger f);
+		static tTJSVariant convexHull(tTJSVariantClosure const& g, tTVInteger f);
+		static tTJSVariant correct(tTJSVariantClosure const& g, tTVInteger f);
+		static tTJSVariant simplify(tTJSVariantClosure const& g, tTVInteger f, tTVReal d);
 		static tTJSVariant translate(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t);
 		static tTJSVariant scale(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t);
 		static tTJSVariant scale(tTJSVariantClosure const& g, tTVInteger f, tTJSVariant const& t, tTJSVariant const& o);
@@ -227,7 +291,17 @@ namespace ktl {
 		static bool overlaps(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static bool touches(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
 		static bool crosses(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
+		static bool relate(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1, tTJSVariantString const* t);
 		static tTVReal distance(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
+		static tTJSVariant relation(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
+		static tTJSVariant expand(tTJSVariantClosure const& g0, tTVInteger f0, tTJSVariantClosure const& g1, tTVInteger f1);
+		//
+		//	SUMMARY: IO系メソッド
+		//
+		static tTJSVariant readWKT(tTJSVariantString const* source, tTVInteger f);
+		static tTJSVariant readStorageWKT(tTJSVariantString const* storage, tTVInteger f);
+		static tTJSVariant writeWKTToString(tTJSVariantClosure const& g, tTVInteger f);
+		static tTVInteger writeStorageWKT(tTJSVariantString const* storage, tTJSVariantClosure const& g, tTVInteger f);
 	};
 }	// namespace ktl
 

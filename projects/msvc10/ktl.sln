@@ -41,6 +41,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sprite_coord", "sprite_coor
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "functor", "functor\functor.vcxproj", "{E2EADA1C-76CE-4D8D-9D09-B3622692A5B4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "definition", "definition\definition.vcxproj", "{AFDCAEA4-F165-4D64-BCC9-B4DB006C94E2}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sprites", "sprites\sprites.vcxproj", "{9DC91DC3-485C-4742-B69E-3BE8679192CE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "os_version", "os_version\os_version.vcxproj", "{3CA0805E-CA7D-4A2A-A447-C22D160587AA}"
@@ -139,6 +141,10 @@ Global
 		{E2EADA1C-76CE-4D8D-9D09-B3622692A5B4}.Debug|Win32.Build.0 = Debug|Win32
 		{E2EADA1C-76CE-4D8D-9D09-B3622692A5B4}.Release|Win32.ActiveCfg = Release|Win32
 		{E2EADA1C-76CE-4D8D-9D09-B3622692A5B4}.Release|Win32.Build.0 = Release|Win32
+		{AFDCAEA4-F165-4D64-BCC9-B4DB006C94E2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFDCAEA4-F165-4D64-BCC9-B4DB006C94E2}.Debug|Win32.Build.0 = Debug|Win32
+		{AFDCAEA4-F165-4D64-BCC9-B4DB006C94E2}.Release|Win32.ActiveCfg = Release|Win32
+		{AFDCAEA4-F165-4D64-BCC9-B4DB006C94E2}.Release|Win32.Build.0 = Release|Win32
 		{9DC91DC3-485C-4742-B69E-3BE8679192CE}.Debug|Win32.ActiveCfg = Debug|Win32
 		{9DC91DC3-485C-4742-B69E-3BE8679192CE}.Debug|Win32.Build.0 = Debug|Win32
 		{9DC91DC3-485C-4742-B69E-3BE8679192CE}.Release|Win32.ActiveCfg = Release|Win32

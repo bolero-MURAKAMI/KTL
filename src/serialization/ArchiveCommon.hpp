@@ -111,10 +111,10 @@ namespace ktl {
 				v = value_;
 				break;
 			case tvtBaseObject:
-				SPRIG_ASSERT_EXCEPTION(0 && "case tvtBaseObject: in function "__FUNCTION__);
+				SPRIG_ASSERT_EXCEPTION(0 && "case tvtBaseObject: in function " __FUNCTION__);
 				break;
 			default:
-				SPRIG_ASSERT_EXCEPTION(0 && "default: in function "__FUNCTION__);
+				SPRIG_ASSERT_EXCEPTION(0 && "default: in function " __FUNCTION__);
 			}
 		}
 	private:
@@ -163,7 +163,7 @@ namespace ktl {
 				}
 				break;
 			default:
-				SPRIG_ASSERT_EXCEPTION(0 && "default: in function "__FUNCTION__);
+				SPRIG_ASSERT_EXCEPTION(0 && "default: in function " __FUNCTION__);
 			}
 		}
 		template<typename Archive>
@@ -217,7 +217,7 @@ namespace ktl {
 				}
 				break;
 			default:
-				SPRIG_ASSERT_EXCEPTION(0 && "default: in function "__FUNCTION__);
+				SPRIG_ASSERT_EXCEPTION(0 && "default: in function " __FUNCTION__);
 			}
 		}
 	private:
@@ -282,7 +282,7 @@ namespace ktl {
 				}
 				break;
 			default:
-				SPRIG_ASSERT_EXCEPTION(0 && "default: in function "__FUNCTION__);
+				SPRIG_ASSERT_EXCEPTION(0 && "default: in function " __FUNCTION__);
 			}
 		}
 		template<typename Ptree>
@@ -347,7 +347,7 @@ namespace ktl {
 				}
 				break;
 			default:
-				SPRIG_ASSERT_EXCEPTION(0 && "default: in function "__FUNCTION__);
+				SPRIG_ASSERT_EXCEPTION(0 && "default: in function " __FUNCTION__);
 			}
 
 			boost::swap(type_, new_type);

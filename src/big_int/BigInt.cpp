@@ -36,8 +36,7 @@ namespace ktl {
 	{ \
 		SPRIG_KRKR_NUMPARAMS_CHECK(2); \
 		if (result) { \
-			sprig::krkr::tjs::object_type obj = BigInt::FUNC_NAME(numparams, param); \
-			*result = sprig::krkr::tjs::as_object_closure_variant(obj); \
+			*result = sprig::krkr::tjs::as_object_closure_variant(BigInt::FUNC_NAME(numparams, param)); \
 		} \
 		return TJS_S_OK; \
 	} \
@@ -86,8 +85,7 @@ namespace ktl {
 	{ \
 		SPRIG_KRKR_NUMPARAMS_CHECK(1); \
 		if (result) { \
-			sprig::krkr::tjs::object_type obj = BigInt::FUNC_NAME(SPRIG_KRKR_ARG_VARIANT(0)); \
-			*result = sprig::krkr::tjs::as_object_closure_variant(obj); \
+			*result = sprig::krkr::tjs::as_object_closure_variant(BigInt::FUNC_NAME(SPRIG_KRKR_ARG_VARIANT(0))); \
 		} \
 		return TJS_S_OK; \
 	} \
@@ -100,11 +98,12 @@ namespace ktl {
 	{ \
 		SPRIG_KRKR_NUMPARAMS_CHECK(2); \
 		if (result) { \
-			sprig::krkr::tjs::object_type obj = BigInt::FUNC_NAME( \
-				SPRIG_KRKR_ARG_VARIANT(0), \
-				SPRIG_KRKR_ARG_VARIANT(1) \
+			*result = sprig::krkr::tjs::as_object_closure_variant( \
+				BigInt::FUNC_NAME( \
+					SPRIG_KRKR_ARG_VARIANT(0), \
+					SPRIG_KRKR_ARG_VARIANT(1) \
+					) \
 				); \
-			*result = sprig::krkr::tjs::as_object_closure_variant(obj); \
 		} \
 		return TJS_S_OK; \
 	} \

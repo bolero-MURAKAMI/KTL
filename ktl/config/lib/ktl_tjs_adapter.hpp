@@ -60,7 +60,7 @@
 #ifdef SPRIG_HAS_PRAGMA_MESSAGE
 #	pragma message("ktl/tjs_adapter.hpp")
 #	ifdef KTL_LIB_TJS_ADAPTER_BINARY
-#		pragma message("    lib="BOOST_PP_STRINGIZE(KTL_LIB_TJS_ADAPTER_BINARY))
+#		pragma message("    lib=" BOOST_PP_STRINGIZE(KTL_LIB_TJS_ADAPTER_BINARY))
 #	endif	// #ifdef KTL_LIB_TJS_ADAPTER_BINARY
 #endif	// #ifdef SPRIG_HAS_PRAGMA_MESSAGE
 

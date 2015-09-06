@@ -13,4 +13,4 @@
 //	CONFIG: user config
 #define SPRIG_CONFIG_LIB_USERCONFIG
 
-#endif	// #ifndef SRC_UTILS_CONFIG_HPP
+#endif	// #ifndef SRC_FUNCTOR_CONFIG_HPP

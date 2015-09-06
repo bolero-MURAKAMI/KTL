@@ -10,6 +10,7 @@
 
 #include <cstddef>
 #include <string>
+#include <vector>
 #include <functional>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/optional/optional.hpp>
